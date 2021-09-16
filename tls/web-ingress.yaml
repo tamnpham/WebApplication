@@ -1,18 +1,19 @@
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: minikube-tls-ingress
+  name: web-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    #nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   tls:
   - hosts:
-    - tamdevops.tk
-    secretName: minikube-tls-secret
+    - web.tamdevops.tk
+    secretName: web-tls-secret
   rules:
-  - host: tamdevops.tk
+  - host: web.tamdevops.tk
     http:
       paths:
       - path: /
@@ -22,13 +23,3 @@ spec:
             name: web
             port:
               number: 8080
-  - host: gocd.tamdevops.tk
-    http:
-      paths: 
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: tamnpham-gocd-server
-            port:
-              number: 8153
