@@ -7,3 +7,5 @@ Frontend: https://frontend.tamdevops.tk
 Database: 
 
 CI/CD: https://cicd.tamdevops.tk
+
+Monitoring: https://grafana.tamdevops.tk
