@@ -3,7 +3,7 @@ Reactjs + Python (Django) Project
 
 Python: 3.9.7
 
-Django: 
+Django: 3.2.7
 
 
 # URL in use:
