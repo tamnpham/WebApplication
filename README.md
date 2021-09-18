@@ -1,6 +1,11 @@
 # WebApplication
 Reactjs + Python (Django) Project
 
+Python: 3.9.7
+
+Django: 
+
+
 # URL in use:
 Frontend: https://frontend.tamdevops.tk
 ![image](https://user-images.githubusercontent.com/90249100/133552753-79d6e094-6e8f-45c9-8c7c-f40fa598dc90.png)
