@@ -20,6 +20,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'categories', views.CategoryViewSet)
+router.register(r'questions', views.QuestionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

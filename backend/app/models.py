@@ -3,7 +3,7 @@ from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 
-class Users(models.Model):
+class User(models.Model):
     name = models.CharField(null=False,blank=False, max_length=512)
     username = models.CharField(null=False,blank=False, max_length=512, unique=True)
     email = models.EmailField(null=False,blank=False, max_length=512, unique=True)
@@ -11,14 +11,14 @@ class Users(models.Model):
     status = models.CharField(null=True,blank=True, max_length=512)
     role = models.IntegerField(null=False, blank=False, default=1)
 
-class Categories(models.Model):
+class Category(models.Model):
     title = models.TextField(null=False, blank=False)
     description = models.TextField(null=False, blank=False)
  
-class Questions(models.Model):
+class Question(models.Model):
     title = models.TextField(null=False, blank=False)
     description = models.TextField(null=False, blank=False)
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     choices = ArrayField(models.TextField(blank=True))
     answer = models.TextField(null=False,blank=False)
     level = models.IntegerField(null=True, blank=True)
