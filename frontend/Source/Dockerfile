@@ -1,8 +1,5 @@
 FROM ubuntu:latest
 
-ARG myvar=testval
-ENV ENV_VAR "value"
-
 WORKDIR /root
 
 USER root
@@ -14,7 +11,6 @@ RUN apt-get install -y nodejs
 RUN npm install -g yarn -y
 
 COPY . .
-RUN ls
 RUN npm install -f
 
 ENTRYPOINT npm start
