@@ -1,0 +1,1 @@
+<Suspense> component that lets you "wait" for some code to load and declaratively specify a loading state (like a spinner) while we’re waiting
