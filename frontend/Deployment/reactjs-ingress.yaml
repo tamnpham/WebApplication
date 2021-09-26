@@ -5,14 +5,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     #nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: letsencrypt-production
+    cert-manager.io/cluster-issuer: letsencrypt-staging
 spec:
   tls:
   - hosts:
-    - frontend.tamdevops.tk
+    - frontend.local
     secretName: frontend-tls-secret
   rules:
-  - host: frontend.tamdevops.tk
+  - host: frontend.local
     http:
       paths:
       - path: /

@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - cicd.tamdevops.tk
+    - gocd.local
     secretName: gocd-tls-secret
   rules:
-  - host: cicd.tamdevops.tk
+  - host: gocd.local
     http:
       paths:
       - path: /
