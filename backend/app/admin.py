@@ -1,8 +1,8 @@
 from django.contrib import admin
-from app.models import Users, Categories, Questions
+from app.models import User, Category, Question
 
 # Register your models here.
 
-admin.site.register(Users)
-admin.site.register(Categories)
-admin.site.register(Questions)
+admin.site.register(User)
+admin.site.register(Category)
+admin.site.register(Question)

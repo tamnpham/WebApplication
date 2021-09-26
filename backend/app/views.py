@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import viewsets
-from app.models import Users, Categories, Questions
+from app.models import User, Category, Question
 from app.serializers import UserSerializer, QuestionSerializer,  CategorySerializer
 
 from django.shortcuts import get_object_or_404
@@ -15,7 +15,7 @@ from django.shortcuts import get_object_or_404
 class ListUsersAPIView(APIView):
 
     def get(self, request):
-        listUser = Users.objects.all()
+        listUser = User.objects.all()
         info = UserSerializer(listUser, many = True)
         return Response(data = info.data, status = status.HTTP_200_OK)
 
@@ -30,7 +30,7 @@ class DetailUsersAPIView(APIView):
     
     def get(self,request, id):
         try: 
-            user = get_object_or_404(Users, pk=id)
+            user = get_object_or_404(User, pk=id)
             data = UserSerializer(user).data
             return Response(data, status = status.HTTP_200_OK)
         except:
@@ -46,4 +46,8 @@ class DetailUsersAPIView(APIView):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    queryset = Categories.objects.all()
+    queryset = Category.objects.all()
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
