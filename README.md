@@ -8,7 +8,8 @@ Django: 3.2.7
 
 # URL in use:
 Frontend: https://frontend.tamdevops.tk
-![image](https://user-images.githubusercontent.com/90249100/133552753-79d6e094-6e8f-45c9-8c7c-f40fa598dc90.png)
+![image](https://user-images.githubusercontent.com/90249100/134755366-997b0de9-4e86-4880-8a29-dd3bea8c2799.png)
+
 
 Database: 
 
