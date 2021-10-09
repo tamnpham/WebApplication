@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
-RUN mkdir /argon-dashboard
-WORKDIR /argon-dashboard/
+RUN mkdir /dashboard
+WORKDIR /dashboard/
 
 USER root
 
