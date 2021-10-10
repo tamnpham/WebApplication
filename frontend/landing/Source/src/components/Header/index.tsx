@@ -16,7 +16,7 @@ import {
   Span,
 } from "./styles";
 
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const Header = ({ t }: any) => {
   const [visible, setVisibility] = useState(false);
@@ -30,13 +30,13 @@ const Header = ({ t }: any) => {
   };
 
   const MenuItem = () => {
-    const scrollTo = (id: string) => {
-      const element = document.getElementById(id) as HTMLDivElement;
-      element.scrollIntoView({
-        behavior: "smooth",
-      });
-      setVisibility(false);
-    };
+    // const scrollTo = (id: string) => {
+    //   const element = document.getElementById(id) as HTMLDivElement;
+    //   element.scrollIntoView({
+    //     behavior: "smooth",
+    //   });
+    //   setVisibility(false);
+    // };
     return (
       <>
         {/* <CustomNavLinkSmall onClick={() => scrollTo("about")}>
@@ -62,7 +62,7 @@ const Header = ({ t }: any) => {
           // onClick={() => scrollTo("contact")}
         >
           <Span>
-            <Link to="/signin"><Button>Login</Button></Link>
+            <Link to="/login"><Button>Login</Button></Link>
           </Span>
         </CustomNavLinkSmall>
       </>

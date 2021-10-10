@@ -5,14 +5,24 @@ const routes = [
     component: "Home",
   },
   {
-    path: ["/login"],
+    path: ["/dashboard"],
     exact: true,
-    component: "Login",
+    component: "Dashboard",
   },
   {
-    path: ["/signin"],
+    path: ["/login"],
     exact: true,
-    component: "Signin",
+    component: "Auth",
+  },
+  {
+    path: ["/profile"],
+    exact: true,
+    component: "Profile",
+  },
+  {
+    path: ["/users/*"],
+    exact: true,
+    component: "detail",
   },
 ];
 

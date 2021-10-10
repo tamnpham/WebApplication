@@ -6,3 +6,4 @@ const Container = ({ border, children }: ContainerProps) => (
 );
 
 export default Container;
+
