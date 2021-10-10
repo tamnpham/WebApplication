@@ -16,9 +16,3 @@ Docker image: tamnpham/frontend-reactjs:v0.1
 
 
 Database: 
-
-CI/CD: https://cicd.tamdevops.tk
-![image](https://user-images.githubusercontent.com/90249100/133552776-936107af-de1a-496e-be75-9ac2ae67d89b.png)
-
-Monitoring: https://grafana.tamdevops.tk
-![image](https://user-images.githubusercontent.com/90249100/133552727-2a4d8931-f582-49cc-84a7-c106a5738fd3.png)
