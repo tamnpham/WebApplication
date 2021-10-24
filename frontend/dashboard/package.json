@@ -65,7 +65,14 @@
     "simplebar": "^5.3.5",
     "simplebar-react": "^2.3.5",
     "web-vitals": "^2.1.0",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "styled-components": "^5.3.1",
+    "antd": "^4.10.3",
+    "react-i18next": "^11.8.5",
+    "react-awesome-reveal": "^3.7.1",
+    "@ant-design/icons": "^4.7.0",
+    "i18next": "^19.8.4",
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
