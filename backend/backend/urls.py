@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from app import views
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = DefaultRouter()
 router.register(r'categories', views.CategoryViewSet)
@@ -24,7 +25,10 @@ router.register(r'questions', views.QuestionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', views.ListUsersAPIView.as_view()),
-    path('users/<int:id>/', views.DetailUsersAPIView.as_view()),
+    # path('users/', views.ListUsersAPIView.as_view()),
+    # path('users/<int:id>/', views.DetailUsersAPIView.as_view()),
     path('', include(router.urls)),
+    path('auth/register/', views.RegistrationAPIView.as_view(), name='register'),
+    path('auth/login/', TokenObtainPairView.as_view(), name='login'),
+    path('auth/refresh-token', TokenRefreshView.as_view(), name='refreshtoken'),
 ]
