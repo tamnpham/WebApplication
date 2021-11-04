@@ -155,7 +155,7 @@ export default function User() {
             onFilterName={handleFilterByName}
           />
 
-          <Scrollbar>
+          {/* <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
@@ -232,9 +232,9 @@ export default function User() {
                 )}
               </Table>
             </TableContainer>
-          </Scrollbar>
+          </Scrollbar> */}
 
-          <TablePagination
+          {/* <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={USERLIST.length}
@@ -242,7 +242,7 @@ export default function User() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Card>
       </Container>
     </Page>

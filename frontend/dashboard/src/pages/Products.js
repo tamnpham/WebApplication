@@ -53,7 +53,7 @@ export default function EcommerceShop() {
           Products
         </Typography>
 
-        <Stack
+        {/* <Stack
           direction="row"
           flexWrap="wrap-reverse"
           alignItems="center"
@@ -73,7 +73,7 @@ export default function EcommerceShop() {
         </Stack>
 
         <ProductList products={PRODUCTS} />
-        <ProductCartWidget />
+        <ProductCartWidget /> */}
       </Container>
     </Page>
   );

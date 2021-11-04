@@ -1,7 +1,8 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
+import { AuthContext } from '../../../store/auth-context';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
@@ -23,6 +24,8 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
+  const authCtx = useContext(AuthContext);
+
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required')
@@ -35,8 +38,54 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: (values) => {
+
+      
+      console.log(values.email);
+      console.log(values.password);
+
+      let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAjyNQx0JeGtAkOlJDhQADGBo2OIjcfLM0';
+      
+      fetch(
+        //URL
+        url,
+        //payload
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+            returnSecureToken: true
+        }),
+        //header
+        headers: {
+          'Content-Type': 'application/json'
+        }
+  
+      // HTTP response
+      }).then((response) => {
+        // if 200 OK
+        if (response.ok) {
+          //success
+          console.log(response);
+          return response.json(); 
+        } else {
+          //fail
+          return response.json().then(data => {
+            //show error
+            let errorMessage = 'Authentication failed!';         
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        authCtx.login(data.idToken);
+        // console.log(authCtx.isLoggedIn);
+        navigate('/dashboard/app', { replace: true });
+      })
+      .catch((err) => {
+        alert(err.message);
+      })
     }
   });
 
