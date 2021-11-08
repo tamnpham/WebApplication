@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
+import CenteredTabs from '../components/scoreboard/CenterTab';
 import {
   ProductSort,
   ProductList,
@@ -49,10 +50,14 @@ export default function EcommerceShop() {
   return (
     <Page title="Dashboard: Products | Minimal-UI">
       <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Products
-        </Typography>
+        {/* <Typography variant="h4" sx={{ mb: 5 }}>
+          Bảng điểm
+        </Typography> */}
 
+        <Container>
+          <CenteredTabs />
+          
+        </Container>
         
       </Container>
     </Page>

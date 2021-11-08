@@ -5,6 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
+import ActionAreaCard from '../components/blog/PostCard'
 import { BlogPostCard, BlogPostsSort, BlogPostsSearch } from '../components/_dashboard/blog';
 //
 import POSTS from '../_mocks_/blog';
@@ -36,6 +37,8 @@ export default function Blog() {
             New Post
           </Button>
         </Stack>
+      
+      <ActionAreaCard />
 
         {/* <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between">
           <BlogPostsSearch posts={POSTS} />
