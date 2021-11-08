@@ -12,7 +12,7 @@ RUN npm install -g yarn -y
 
 COPY . .
 RUN npm install -f
-
+  
 ENTRYPOINT powershell.exe npm start
 
 EXPOSE 3000
