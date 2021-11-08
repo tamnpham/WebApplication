@@ -10,6 +10,7 @@ import Products from "./pages/Products";
 import Blog from "./pages/Blog";
 import User from "./pages/User";
 import NotFound from "./pages/Page404";
+import Admin from "./pages/Admin"
 
 import { useContext } from "react";
 import { AuthContext } from "./store/auth-context";
@@ -36,6 +37,7 @@ export default function Router() {
           <Route path="user" element={<User />} />
           <Route path="products" element={<Products />} />
           <Route path="blog" element={<Blog />} />
+          <Route path="admin" element={<Admin />} />
         </Route>
       )}
 
@@ -43,6 +45,7 @@ export default function Router() {
 
     </Routes>
   );
+  
   // return useRoutes([
   //   {
   //     path: '/dashboard',
