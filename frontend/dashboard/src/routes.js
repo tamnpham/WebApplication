@@ -40,7 +40,7 @@ export default function Router() {
             <Route path="blog" element={<Blog />} />
             <Route path="admin" element={<Admin />} />
           </Route>
-          <Route path="quiz"> <Quiz /> </Route>
+          <Route path="quiz" element={<Quiz />} />
         </Routes>
       )}
 
