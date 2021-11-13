@@ -16,7 +16,7 @@ export default function Admin() {
   return (
     <Page title="Admin Page">
       <Container>
-      
+        
       </Container>
     </Page>
   );
