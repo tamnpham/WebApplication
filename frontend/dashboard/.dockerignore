@@ -1,0 +1,3 @@
+# Ignore modules and packages spawned from the installation of npm 
+package-lock.json
+**node_modules/
