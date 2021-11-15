@@ -44,8 +44,9 @@ export default function LoginForm() {
       console.log(values.email);
       console.log(values.password);
 
-      let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAjyNQx0JeGtAkOlJDhQADGBo2OIjcfLM0';
-      
+      // let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAjyNQx0JeGtAkOlJDhQADGBo2OIjcfLM0';
+      let url = 'http://34.72.189.169:8080/api/user/login';
+
       fetch(
         //URL
         url,
@@ -79,7 +80,7 @@ export default function LoginForm() {
         }
       })
       .then((data) => {
-        authCtx.login(data.idToken);
+        authCtx.login(data.access);
         // console.log(authCtx.isLoggedIn);
         navigate('/dashboard/app', { replace: true });
       })
