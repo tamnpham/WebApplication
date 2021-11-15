@@ -32,7 +32,6 @@ export default function Router() {
       <Route path="/register" element={<Register />} />
 
       {authCtx.isLoggedIn && (
-       <>
         <Routes>
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route path="app" element={<DashboardApp />} />
@@ -43,7 +42,6 @@ export default function Router() {
           </Route>
           <Route path="quiz" element={<Quiz />} />
         </Routes>
-      <>
       )}
 
       <Route path="/*" element={<NotFound />} />
