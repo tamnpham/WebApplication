@@ -11,5 +11,5 @@ RUN apt-get install -y nodejs
 
 COPY ./package.json .
 RUN npm install -f
-
+COPY . .
 EXPOSE 3000

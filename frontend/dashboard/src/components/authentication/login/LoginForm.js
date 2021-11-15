@@ -80,7 +80,7 @@ export default function LoginForm() {
         }
       })
       .then((data) => {
-        authCtx.login(data.access);
+        authCtx.login(data.data.access);
         // console.log(authCtx.isLoggedIn);
         navigate('/dashboard/app', { replace: true });
       })

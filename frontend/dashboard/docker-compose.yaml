@@ -3,8 +3,6 @@ version: "3.9"
 services:
   frontend:
     build: .
-    command: ls
-    volumes:
-      - .:/code
+    command: npm start
     ports:
       - "3000:3000"
