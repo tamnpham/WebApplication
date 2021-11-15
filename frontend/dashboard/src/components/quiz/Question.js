@@ -20,6 +20,10 @@ import {
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 
+// Redux 
+import { useSelector } from "react-redux";
+import { selectQuestionOptions } from "../../redux/store/questionSlice";
+import Clock from "./Clock";
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -45,7 +49,8 @@ const useStyles = makeStyles({
 
 export default function Question() {
   const classes = useStyles();
-
+  const questionOptions = useSelector(selectQuestionOptions);
+  console.log(questionOptions);
   return (
     <Container>
         <Box>
@@ -57,7 +62,7 @@ export default function Question() {
               </Typography>
             </Grid>
             <Grid item xs={6}>
-              {/* <Clock initTime={formValues.time}></Clock> */}
+              <Clock initTime={questionOptions.time}></Clock>
             </Grid>
           </Grid>
         </Box>

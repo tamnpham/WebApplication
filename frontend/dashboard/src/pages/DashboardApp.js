@@ -24,6 +24,10 @@ import { useNavigate } from "react-router-dom";
 // components
 import Page from "../components/Page";
 
+// Redux
+import { useDispatch } from "react-redux";
+import { getQuestionOptions } from "../redux/store/questionSlice";
+
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -59,6 +63,7 @@ export default function DashboardApp() {
   const [error, setError] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const classes = useStyles();
   const defaultValues = {
@@ -66,41 +71,39 @@ export default function DashboardApp() {
     numberQuestions: 0,
     time: 0,
   };
-  const [formValues, setFormValues] = useState(defaultValues);
+  const [questionOptions, setQuestionOptions] = useState(defaultValues);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
+    setQuestionOptions({
+      ...questionOptions,
       [name]: value,
     });
   };
   const handleSliderChange = (name) => (e, value) => {
-    setFormValues({
-      ...formValues,
+    setQuestionOptions({
+      ...questionOptions,
       [name]: value,
     });
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
     if (
-      formValues.time === 0 ||
-      formValues.numberQuestions === 0 ||
-      formValues.categories === ""
+      questionOptions.time === 0 ||
+      questionOptions.numberQuestions === 0 ||
+      questionOptions.categories === ""
     ) {
       setError(true);
       console.log("error");
       return;
     } else {
-      setError(false);
-      // fetchQuestions(category, difficulty);
+      dispatch(getQuestionOptions(questionOptions))
       navigate("/quiz");
     }
   };
 
   const makeQuizHandler = () => {
     setIsQuiz(true);
-    console.log(formValues.time);
+    console.log(questionOptions.time);
   };
 
   return (
@@ -125,7 +128,7 @@ export default function DashboardApp() {
                   <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
                   <Select
                     name="categories"
-                    value={formValues.categories}
+                    value={questionOptions.categories}
                     onChange={handleInputChange}
                   >
                     {categories.map((category) => (
@@ -141,7 +144,7 @@ export default function DashboardApp() {
                 <div style={{ width: "500px", textAlign: "center" }}>
                   Number Questions
                   <Slider
-                    value={formValues.numberQuestions}
+                    value={questionOptions.numberQuestions}
                     onChange={handleSliderChange("numberQuestions")}
                     defaultValue={1}
                     step={1}
@@ -155,7 +158,7 @@ export default function DashboardApp() {
                 <div style={{ width: "500px", textAlign: "center" }}>
                   Time (minutes)
                   <Slider
-                    value={formValues.time}
+                    value={questionOptions.time}
                     onChange={handleSliderChange("time")}
                     defaultValue={1}
                     step={1}
