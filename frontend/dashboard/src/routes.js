@@ -32,6 +32,7 @@ export default function Router() {
       <Route path="/register" element={<Register />} />
 
       {authCtx.isLoggedIn && (
+       <>
         <Routes>
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route path="app" element={<DashboardApp />} />
@@ -42,35 +43,10 @@ export default function Router() {
           </Route>
           <Route path="quiz" element={<Quiz />} />
         </Routes>
+      <>
       )}
 
       <Route path="/*" element={<NotFound />} />
     </Routes>
   );
-
-  // return useRoutes([
-  //   {
-  //     path: '/dashboard',
-  //     element: <DashboardLayout />,
-  //     children: [
-  //       { element: <Navigate to="/dashboard/app" replace /> },
-  //       { path: 'app', element: <DashboardApp /> },
-  //       { path: 'user', element: <User /> },
-  //       { path: 'products', element: <Products /> },
-  //       { path: 'blog', element: <Blog /> }
-  //     ]
-  //   },
-  //   {
-  //     path: '/',
-  //     element: <LogoOnlyLayout />,
-  //     children: [
-  //       { path: 'login', element: <Login /> },
-  //       { path: 'register', element: <Register /> },
-  //       { path: '404', element: <NotFound /> },
-  //       { path: '/', element: <Navigate to="/login" /> },
-  //       { path: '*', element: <Navigate to="/404" /> }
-  //     ]
-  //   },
-  //   { path: '*', element: <Navigate to="/404" replace /> }
-  // ]);
 }
