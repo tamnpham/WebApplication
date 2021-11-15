@@ -1,0 +1,10 @@
+version: "3.9"
+   
+services:
+  frontend:
+    build: .
+    command: sh -c "npm start"
+    volumes:
+      - .:/code
+    ports:
+      - "3000:3000"
