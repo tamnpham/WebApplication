@@ -1,10 +1,15 @@
-FROM node:16-alpine
+FROM ubuntu:latest
 
-WORKDIR /code/
-
+WORKDIR /code
 USER root
 
-COPY package.json .
+RUN apt update 
+
+RUN apt install curl -y
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+
+COPY ./package.json .
 RUN npm install -f
 
 EXPOSE 3000

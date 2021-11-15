@@ -3,7 +3,7 @@ version: "3.9"
 services:
   frontend:
     build: .
-    command: sh -c "npm start"
+    command: ls
     volumes:
       - .:/code
     ports:
