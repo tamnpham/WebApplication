@@ -176,4 +176,7 @@ SIMPLE_JWT = {
 # CORS
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://localhost:8080',
+    'http://34.72.189.169:3000',
+    'http://34.72.189.169:8080',
 )
