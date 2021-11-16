@@ -39,8 +39,9 @@ export default function Router() {
             <Route path="products" element={<Products />} />
             <Route path="blog" element={<Blog />} />
             <Route path="admin" element={<Admin />} />
+            <Route path="quiz" element={<Quiz />} />
           </Route>
-           <Route path="quiz" element={<Quiz />} />
+           
         </Routes>
       )}
 
