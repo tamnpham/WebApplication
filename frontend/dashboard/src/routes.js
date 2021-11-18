@@ -31,7 +31,7 @@ export default function Router() {
       )}
 
       {authCtx.isLoggedIn && (
-        <Routes>
+        <Route>
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route path="app" element={<DashboardApp />} />
             <Route path="user" element={<User />} />
@@ -40,7 +40,7 @@ export default function Router() {
             <Route path="admin" element={<Admin />} />
           </Route>
           <Route path="quiz" element={<Quiz />} />
-        </Routes>
+        </Route>
       )}
 
       <Route path="/*" element={<NotFound />} />
