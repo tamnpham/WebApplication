@@ -8,7 +8,10 @@ import { useNavigate } from 'react-router-dom';
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
@@ -30,25 +33,88 @@ export default function RegisterForm() {
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
+      password: '',
+      role: ''
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: (values, actions) => {
+      actions.setSubmitting(true);
+      console.log(values.firstName);
+      console.log(values.lastName);
+      console.log(values.email);
+      console.log(values.password);
+      console.log(values.role);
+      
+      // let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAjyNQx0JeGtAkOlJDhQADGBo2OIjcfLM0';
+      let url = 'http://34.72.189.169:8080/api/user/create';
+
+      fetch(
+        //URL
+        url,
+        //payload
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            role: values.role,
+        }),
+        //header
+        headers: {
+          'Content-Type': 'application/json'
+        }
+  
+      // HTTP response
+      }).then((response) => {
+        // if 200 OK
+        if (response.ok) {
+          //success
+          console.log(response);
+          return response.json(); 
+        } else {
+          //fail
+          return response.json().then(data => {
+            //show error
+            let errorMessage = 'Register failed!';         
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        console.log(data.status)
+        // eslint-disable-next-line eqeqeq
+        if (data.status == "Success") {
+          
+          alert("Register successfully! Please login and take an exam :)")
+          navigate('/', { replace: true });
+        } else {
+          let errorMessage = 'Something went wrong! Try again!';         
+          throw new Error(errorMessage);
+        }
+        // console.log(authCtx.isLoggedIn);
+        
+      })
+      .catch((err) => {
+        alert(err.message);
+      })
+
+      actions.setSubmitting(false);
     }
   });
-
+  
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
             <TextField
               fullWidth
               label="First name"
-              {...getFieldProps('firstName')}
+              {...getFieldProps("firstName")}
               error={Boolean(touched.firstName && errors.firstName)}
               helperText={touched.firstName && errors.firstName}
             />
@@ -56,7 +122,7 @@ export default function RegisterForm() {
             <TextField
               fullWidth
               label="Last name"
-              {...getFieldProps('lastName')}
+              {...getFieldProps("lastName")}
               error={Boolean(touched.lastName && errors.lastName)}
               helperText={touched.lastName && errors.lastName}
             />
@@ -67,7 +133,7 @@ export default function RegisterForm() {
             autoComplete="username"
             type="email"
             label="Email address"
-            {...getFieldProps('email')}
+            {...getFieldProps("email")}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
@@ -75,21 +141,38 @@ export default function RegisterForm() {
           <TextField
             fullWidth
             autoComplete="current-password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             label="Password"
-            {...getFieldProps('password')}
+            {...getFieldProps("password")}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
+                  <IconButton
+                    edge="end"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
                     <Icon icon={showPassword ? eyeFill : eyeOffFill} />
                   </IconButton>
                 </InputAdornment>
-              )
+              ),
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
+
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Role"
+              placeholder="Student"
+              {...getFieldProps("role")}
+            >
+              <MenuItem value={'Student'}>Student</MenuItem>
+              <MenuItem value={'Teacher'}>Teacher</MenuItem>
+            </Select>
+          </FormControl>
 
           <LoadingButton
             fullWidth
