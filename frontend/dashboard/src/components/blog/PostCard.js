@@ -66,8 +66,8 @@ export default function ActionAreaCard() {
         <Grid container>
         {posts.map((post) => (
           <Grid item xl={4}>
-            <Item>
-              <Card sx={{ maxWidth: 345 }}>
+            <Item sx={{backgroundColor: '#161d31'}}>
+              <Card sx={{ maxWidth: 345}}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -75,7 +75,7 @@ export default function ActionAreaCard() {
                     image={post.imgLink}
                     alt=""
                   />
-                  <CardContent sx={{backgroundColor: '#D5F5E3'}}>
+                  <CardContent sx={{backgroundColor: '#161d31', color: 'white'}}>
                     <Typography gutterBottom variant="h5" component="div">
                       {post.title}
                     </Typography>
