@@ -47,6 +47,9 @@ const useStyles = makeStyles({
     backgroundColor: "#ABEBC6",
     color: "#145A32",
   },
+  inputSelect: {
+    color: 'white'
+  }
 });
 
 const categories = [
@@ -130,6 +133,7 @@ export default function DashboardApp() {
                     name="categories"
                     value={questionOptions.categories}
                     onChange={handleInputChange}
+                    inputProps={{className: classes.inputSelect}}
                   >
                     {categories.map((category) => (
                       <MenuItem key={category} value={category}>

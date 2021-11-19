@@ -33,8 +33,8 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     minHeight: APPBAR_DESKTOP,
     padding: theme.spacing(0, 5),
-    //backgroundImage: `url("https://c4.wallpaperflare.com/wallpaper/39/346/426/digital-art-men-city-futuristic-night-hd-wallpaper-thumb.jpg")`,
-    backgroundColor: '#161d31',
+    backgroundImage: `url("https://cdnb.artstation.com/p/assets/images/images/024/538/827/original/pixel-jeff-clipa-s.gif?1582740711")`,
+    // backgroundColor: '#161d31',
   }
 }));
 

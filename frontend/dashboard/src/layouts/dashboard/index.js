@@ -15,7 +15,9 @@ const RootStyle = styled('div')({
   display: 'flex',
   minHeight: '100%',
   overflow: 'hidden',
-  backgroundColor: '#161d31'
+  backgroundColor: '#161d31',
+  // backgroundImage: `url("https://cdnb.artstation.com/p/assets/images/images/024/538/827/original/pixel-jeff-clipa-s.gif?1582740711")`,
+  // backgroundSize: "cover"
 });
 
 const MainStyle = styled('div')(({ theme }) => ({
