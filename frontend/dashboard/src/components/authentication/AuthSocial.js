@@ -26,7 +26,7 @@ export default function AuthSocial() {
 
       <Divider sx={{ my: 3 }}>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          OR
+          {/* OR */}
         </Typography>
       </Divider>
     </>
