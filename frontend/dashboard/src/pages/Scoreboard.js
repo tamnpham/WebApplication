@@ -1,5 +1,3 @@
-import { useFormik } from 'formik';
-import { useState } from 'react';
 // material
 import { Container } from '@mui/material';
 // components
@@ -9,10 +7,10 @@ import CenteredTabs from '../components/scoreboard/CenterTab';
 
 // ----------------------------------------------------------------------
 
-export default function EcommerceShop() {
+export default function Scoreboard() {
 
   return (
-    <Page title="Dashboard: Products | Minimal-UI">
+    <Page title="LSExam | Scoreboard">
       <Container>
         {/* <Typography variant="h4" sx={{ mb: 5 }}>
           Bảng điểm

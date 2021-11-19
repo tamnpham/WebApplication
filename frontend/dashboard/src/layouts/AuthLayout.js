@@ -23,7 +23,8 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     alignItems: 'flex-start',
     padding: theme.spacing(7, 5, 0, 7)
-  }
+  },
+  color: 'white',
 }));
 
 // ----------------------------------------------------------------------

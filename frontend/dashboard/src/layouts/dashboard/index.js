@@ -14,10 +14,12 @@ const APP_BAR_DESKTOP = 92;
 const RootStyle = styled('div')({
   display: 'flex',
   minHeight: '100%',
-  overflow: 'hidden'
+  overflow: 'hidden',
+  backgroundColor: '#161d31'
 });
 
 const MainStyle = styled('div')(({ theme }) => ({
+  color: 'white',
   flexGrow: 1,
   overflow: 'auto',
   minHeight: '100%',

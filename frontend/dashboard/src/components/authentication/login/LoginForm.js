@@ -6,6 +6,7 @@ import { AuthContext } from '../../../store/auth-context';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import { makeStyles } from "@material-ui/core/styles";
 // material
 import {
   Link,
@@ -19,6 +20,12 @@ import {
 import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  input: {
+    color: "white"
+  }
+});
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -38,7 +45,7 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, actions) => {
 
       
       console.log(values.email);
@@ -87,6 +94,7 @@ export default function LoginForm() {
       .catch((err) => {
         alert(err.message);
       })
+      actions.setSubmitting(false);
     }
   });
 
@@ -96,6 +104,7 @@ export default function LoginForm() {
     setShowPassword((show) => !show);
   };
 
+  const classes = useStyles();
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -108,6 +117,7 @@ export default function LoginForm() {
             {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
+            inputProps={{className: classes.input}}
           />
 
           <TextField
@@ -117,6 +127,7 @@ export default function LoginForm() {
             label="Password"
             {...getFieldProps('password')}
             InputProps={{
+              className: classes.input,
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleShowPassword} edge="end">

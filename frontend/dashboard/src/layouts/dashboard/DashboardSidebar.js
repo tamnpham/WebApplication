@@ -21,7 +21,8 @@ const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     flexShrink: 0,
     width: DRAWER_WIDTH
-  }
+  },
+  color: 'white',
 }));
 
 const AccountStyle = styled('div')(({ theme }) => ({
@@ -29,7 +30,8 @@ const AccountStyle = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(2, 2.5),
   borderRadius: theme.shape.borderRadiusSm,
-  backgroundColor: theme.palette.grey[200]
+  backgroundColor: '#161d31',
+  color: 'white',
 }));
 
 // ----------------------------------------------------------------------
@@ -52,12 +54,17 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const renderContent = (
     <Scrollbar
       sx={{
-        height: '100%',
-        '& .simplebar-content': { height: '100%', display: 'flex', flexDirection: 'column' }
+        backgroundColor: "#161d31",
+        height: "100%",
+        "& .simplebar-content": {
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+        },
       }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
-        <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
+        <Box component={RouterLink} to="/" sx={{ display: "inline-flex" }}>
           <Logo />
         </Box>
       </Box>
@@ -67,10 +74,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           <AccountStyle>
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              <Typography variant="subtitle2" sx={{ color: "white" }}>
                 {account.displayName}
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              <Typography variant="body2" sx={{ color: "white" }}>
                 {account.role}
               </Typography>
             </Box>
@@ -82,7 +89,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
+      <Typography variant="body2" sx={{ color: "white", textAlign: "center", pb: 3 }}>
+        Copyright by TamTriLong
+      </Typography>
+      {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack
           alignItems="center"
           spacing={3}
@@ -95,7 +105,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           }}
         >
         </Stack>
-      </Box>
+      </Box> */}
     </Scrollbar>
   );
 

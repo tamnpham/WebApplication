@@ -61,7 +61,7 @@ export default function User() {
   const [isEditMode, setEditMode] = useState(false);
 
   return (
-    <Page title="User | Minimal-UI">
+    <Page title="LSExam | Profile">
     
     {!isEditMode && (
       <Container>
@@ -72,7 +72,7 @@ export default function User() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Hồ sơ
+            Profile
           </Typography>
         </Stack>
 
@@ -131,7 +131,7 @@ export default function User() {
             color="success"
             className={classes.buttonEdit}
           >
-            Chỉnh sửa hồ sơ
+            Edit profile
           </Button>
         </Box>
 

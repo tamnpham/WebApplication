@@ -6,7 +6,7 @@ import LogoOnlyLayout from "./layouts/LogoOnlyLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardApp from "./pages/DashboardApp";
-import Products from "./pages/Products";
+import Scoreboard from "./pages/Scoreboard";
 import Blog from "./pages/Blog";
 import User from "./pages/User";
 import NotFound from "./pages/Page404";
@@ -35,7 +35,7 @@ export default function Router() {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route path="app" element={<DashboardApp />} />
             <Route path="user" element={<User />} />
-            <Route path="products" element={<Products />} />
+            <Route path="products" element={<Scoreboard />} />
             <Route path="blog" element={<Blog />} />
             <Route path="admin" element={<Admin />} />
           </Route>

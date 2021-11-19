@@ -5,6 +5,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useNavigate } from 'react-router-dom';
+import { makeStyles } from "@material-ui/core/styles";
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -12,7 +13,14 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+
 // ----------------------------------------------------------------------
+
+const useStyles = makeStyles({
+  input: {
+    color: "white"
+  }
+});
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -104,6 +112,7 @@ export default function RegisterForm() {
     }
   });
   
+  const classes = useStyles();
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
@@ -111,12 +120,13 @@ export default function RegisterForm() {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-            <TextField
+            <TextField 
               fullWidth
               label="First name"
               {...getFieldProps("firstName")}
-              error={Boolean(touched.firstName && errors.firstName)}
-              helperText={touched.firstName && errors.firstName}
+              // error={Boolean(touched.firstName && errors.firstName)}
+              // helperText={touched.firstName && errors.firstName}
+              inputProps={{ className: classes.input}}
             />
 
             <TextField
@@ -125,6 +135,7 @@ export default function RegisterForm() {
               {...getFieldProps("lastName")}
               error={Boolean(touched.lastName && errors.lastName)}
               helperText={touched.lastName && errors.lastName}
+              inputProps={{ className: classes.input}}
             />
           </Stack>
 
@@ -136,6 +147,7 @@ export default function RegisterForm() {
             {...getFieldProps("email")}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
+            inputProps={{ className: classes.input}}
           />
 
           <TextField
@@ -158,6 +170,7 @@ export default function RegisterForm() {
             }}
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
+            inputProps={{ className: classes.input}}
           />
 
           <FormControl fullWidth>
@@ -168,6 +181,7 @@ export default function RegisterForm() {
               label="Role"
               placeholder="Student"
               {...getFieldProps("role")}
+              inputProps={{ className: classes.input}}
             >
               <MenuItem value={'Student'}>Student</MenuItem>
               <MenuItem value={'Teacher'}>Teacher</MenuItem>
