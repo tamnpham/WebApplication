@@ -20,9 +20,9 @@ import {
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 
-// Redux 
+// Redux
 import { useSelector } from "react-redux";
-import { selectQuestionOptions } from "../../redux/store/questionSlice";
+import { selectQuestionOptions } from "../../redux/store/questionOptionSlice";
 import Clock from "./Clock";
 // ----------------------------------------------------------------------
 
@@ -43,84 +43,83 @@ const useStyles = makeStyles({
     backgroundColor: "#ABEBC6",
     color: "#145A32",
   },
+  chooseAnswer: {
+    backgroundColor: "#145A32",
+    color: "white",
+  },
 });
 
 // ----------------------------------------------------------------------
 
-export default function Question() {
+export default function Question({ question, index, answerIndex, chooseAnswer}) {
   const classes = useStyles();
   const questionOptions = useSelector(selectQuestionOptions);
-  console.log(questionOptions);
+
   return (
     <Container>
-        <Box>
-          <Grid container rowSpacing={1}>
-            <Grid item xs={6} sx={{ textAlign: "center" }}>
-              <Typography variant="h4" sx={{ p: 7 }}>
-                {" "}
-                Câu hỏi 1{" "}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Clock initTime={questionOptions.time}></Clock>
-            </Grid>
+      <Box>
+        <Grid container rowSpacing={1}>
+          <Grid item xs={6} sx={{ textAlign: "center" }}>
+            <Typography variant="h4" sx={{ p: 7 }}>
+              Câu hỏi {index}
+            </Typography>
           </Grid>
-        </Box>
-        <Box
+          <Grid item xs={6}>
+            <Clock initTime={questionOptions.time}></Clock>
+          </Grid>
+        </Grid>
+      </Box>
+      <Box
+        sx={{
+          border: 1,
+          borderRadius: 2,
+          m: 1,
+          p: 2,
+          backgroundColor: "#ABEBC6",
+        }}
+      >
+        <Typography
+          variant="paragraph"
           sx={{
-            border: 1,
-            borderRadius: 2,
-            m: 1,
             p: 2,
-            backgroundColor: "#ABEBC6",
+            m: 2,
+            fontWeight: "Bold",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "justify",
+            color: "#145A32",
           }}
         >
-          <Typography
-            variant="paragraph"
-            sx={{
-              p: 2,
-              m: 2,
-              fontWeight: "Bold",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "justify",
-              color: "#145A32",
-            }}
-          >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </Typography>
-        </Box>
-        <Stack spacing={2} sx={{ m: 1, minWidth: 500 }}>
-          <Button variant="outlined" className={classes.answer}>
-            A. It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
-          </Button>
-          <Button variant="outlined" className={classes.answer}>
-            B. It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
-          </Button>
-          <Button variant="outlined" className={classes.answer}>
-            C. It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
-          </Button>
-          <Button variant="outlined" className={classes.answer}>
-            D. It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
-          </Button>
-        </Stack>
-        <Box sx={{ textAlign: "center" }}>
-          <Button variant="contained" color="primary" type="submit">
-            Submit
-          </Button>
-        </Box>
+          {question.question}
+        </Typography>
+      </Box>
+      <Stack spacing={2} sx={{ m: 1, minWidth: 500 }}>
+        {question.answers.map((answer, iterator) => {
+          return (
+            <Button
+              variant="outlined"
+              className={
+                iterator === answerIndex ? classes.chooseAnswer : classes.answer
+              }
+              onClick={() => chooseAnswer(index-1, iterator)}
+            >
+              {answer}
+            </Button>
+          );
+        })}
+        {/* <Button variant="outlined" className={classes.chooseAnswer}>
+          {question.answers[0]}
+        </Button>
+        <Button variant="outlined" className={classes.answer}>
+          {question.answers[1]}
+        </Button>
+        <Button variant="outlined" className={classes.answer}>
+          {question.answers[2]}
+        </Button>
+        <Button variant="outlined" className={classes.answer}>
+          {question.answers[3]}
+        </Button> */}
+      </Stack>
     </Container>
   );
 }

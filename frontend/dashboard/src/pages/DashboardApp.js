@@ -26,7 +26,7 @@ import Page from "../components/Page";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { getQuestionOptions } from "../redux/store/questionSlice";
+import { getQuestionOptions } from "../redux/store/questionOptionSlice";
 
 // ----------------------------------------------------------------------
 
@@ -71,7 +71,9 @@ export default function DashboardApp() {
     numberQuestions: 0,
     time: 0,
   };
+  
   const [questionOptions, setQuestionOptions] = useState(defaultValues);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setQuestionOptions({
