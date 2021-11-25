@@ -1,12 +1,10 @@
 import uuid
-from django.conf import settings
-from django.contrib.auth.models import User
-
 import factory
 
 from . import models
 
 DEFAULT_PASSWORD = "LSExam123!"
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     """Factory for generate test User instance"""
@@ -30,9 +28,11 @@ class UserFactory(factory.django.DjangoModelFactory):
             f"lsexam.com"
         )
 
+
 class StudentFactory(UserFactory):
     """Factory for generating User instance with student role"""
     role = models.User.STUDENT
+
 
 class TeacherFactory(UserFactory):
     """Factory for generating User instance with teacher role"""

@@ -38,7 +38,7 @@ class UserAdmin(DjangoUserAdmin):
             "fields": (
                 "first_name",
                 "last_name",
-                # "avatar",
+                "avatar",
                 "phone"
             ),
         }),
