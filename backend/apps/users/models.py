@@ -86,12 +86,19 @@ class User(
     #         "quality": 100,
     #     },
     # )
+
     # avatar_thumbnail = imagekitmodels.ImageSpecField(
     #     source="avatar",
     #     processors=[
     #         ResizeToFill(50, 50),
     #     ],
     # )
+
+    avatar = models.ImageField(
+        verbose_name=_("Avatar image"),
+        null=True,
+        blank=True,
+    )
 
     email = models.CharField(
         verbose_name=_("Email address"),

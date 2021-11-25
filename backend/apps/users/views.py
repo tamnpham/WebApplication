@@ -59,7 +59,7 @@ class UserLoginAPI(TokenObtainPairView):
 
 class UserAPI(RetrieveUpdateAPIView):
     serializer_class = UserSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = (IsAdminUser,)
 
     def get_object(self, pk=None):
         if pk:

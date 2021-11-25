@@ -8,6 +8,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password', 'role')
+        # read_only_fields
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
