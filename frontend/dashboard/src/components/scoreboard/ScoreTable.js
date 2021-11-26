@@ -29,22 +29,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(rank, name, score) {
-  return { rank, name, score};
-}
+export default function ScoreTable(props) {
 
-const rows = [
-  createData(1, 'Phạm Ngọc Tâm', 3000),
-  createData(2, 'Huỳnh Minh Trí', 3000),
-  createData(3, 'Long', 3000),
-  createData(4, 'Long', 3000),
-  createData(2, 'Huỳnh Minh Trí', 3000),
-  createData(2, 'Huỳnh Minh Trí', 3000),
-  createData(2, 'Huỳnh Minh Trí', 3000),
-  createData(2, 'Huỳnh Minh Trí', 3000),
-];
+  const data = props.data
 
-export default function ScoreTable() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -56,7 +44,7 @@ export default function ScoreTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((row) => (
             <StyledTableRow>
               <StyledTableCell component="th" scope="row" style={{width: '10%', textAlign: 'center'}}>
                 {row.rank}

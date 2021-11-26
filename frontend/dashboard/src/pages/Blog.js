@@ -28,14 +28,14 @@ export default function Blog() {
           <Typography variant="h4" gutterBottom>
             Blog
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             component={RouterLink}
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
             New Post
-          </Button>
+          </Button> */}
         </Stack>
       
       <ActionAreaCard />

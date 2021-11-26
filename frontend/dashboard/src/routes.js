@@ -10,6 +10,7 @@ import Scoreboard from "./pages/Scoreboard";
 import Blog from "./pages/Blog";
 import User from "./pages/User";
 import NotFound from "./pages/Page404";
+import NotAuthorized from "./pages/PageNotLogin.js";
 import Admin from "./pages/Admin";
 import Quiz from "./pages/Quiz";
 
@@ -27,6 +28,7 @@ export default function Router() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/*" element={<NotAuthorized />} />
         </>
       )}
 
@@ -40,10 +42,13 @@ export default function Router() {
             <Route path="admin" element={<Admin />} />
           </Route>
           <Route path="quiz" element={<Quiz />} />
+          
         </Route>
+
       )}
 
       <Route path="/*" element={<NotFound />} />
+      
     </Routes>
   );
 }

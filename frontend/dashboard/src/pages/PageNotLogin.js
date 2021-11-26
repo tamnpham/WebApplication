@@ -21,7 +21,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Page404() {
+export default function Page404_login() {
   return (
     <RootStyle title="404 Page Not Found | Minimal-UI">
       <Container>
@@ -45,8 +45,8 @@ export default function Page404() {
               />
             </motion.div>
 
-            <Button to="/dashboard/app" size="large" variant="contained" component={RouterLink}>
-              Go to Home
+            <Button to="/register" size="large" variant="contained" component={RouterLink}>
+              Register
             </Button>
           </Box>
         </MotionContainer>

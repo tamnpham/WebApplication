@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 // components
 import Page from "../components/Page";
+import { BaseOptionChart } from "../components/charts/index"
 //
 import USERLIST from "../_mocks_/user";
 
@@ -80,59 +81,127 @@ export default function User() {
           </Stack>
 
           <Grid container spacing={2}>
-            <Grid item xs={2}>
-              <AvatarImage
-                alt="Remy Sharp"
-                src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
-                sx={{ width: 150, height: 150 }}
-              />
+            <Grid item xs={12} sm={2}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <AvatarImage
+                  alt="Remy Sharp"
+                  src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
+                  sx={{ width: 150, height: 150 }}
+                />
+              </Box>
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={12} sm={5}>
               <Item sx={{ height: "100%" }}>
                 <Typography variant="h4">Phạm Ngọc Tâm</Typography>
 
-                <Typography variant="body2">
-                  <strong>Age:</strong> 21 tuổi
-                </Typography>
-
-                <Typography variant="body2">
-                  <strong>Address:</strong>: Hoà Long, TP.Bà Rịa, Tỉnh Bà Rịa -
-                  Vũng Tàu
-                </Typography>
-
-                <Typography variant="body2">
+                <Typography variant="body1">
                   <strong>Email:</strong> phamngoctam2405it@gmail.com
                 </Typography>
 
-                <Typography variant="body2">
+                <Typography variant="body1">
                   <strong>Phone:</strong> 0795541213
                 </Typography>
 
-                <Typography variant="body2">
-                  <strong>Job:</strong> sinh viên
+                <Typography variant="body1">
+                  <strong>Major:</strong> sinh viên
+                </Typography>
+
+                <Typography variant="body1">
+                  <strong>School:</strong> Trường Đại học Công Nghệ Thông Tin -
+                  HCMC
                 </Typography>
               </Item>
             </Grid>
-            <Grid item xs={5}>
-              <Item>
-                <Box sx={{ textAlign: "center", alignItems: "center" }}>
-                  <Typography variant="h4">
-                    <strong>Badges</strong>
-                  </Typography>
-                  <img
-                    src="https://cdn3.iconfinder.com/data/icons/flat-actions-icons-9/792/Tick_Mark_Dark-512.png"
-                    width="130px"
-                    height="130px"
+            <Grid item xs={12} sm={5}>
+              <Item sx={{ height: "100%" }}>
+                <Typography variant="h4" sx={{ textAlign: "center" }}>
+                  Max Score
+                </Typography>
+                <Typography
+                  variant="h1"
+                  sx={{ textAlign: "center", color: "green" }}
+                >
+                  300
+                </Typography>
+              </Item>
+            </Grid>
+
+            <Grid item xs={12} sm={12}>
+              <Item sx={{ height: "100%" }}>
+                <Typography variant="h4" sx={{ textAlign: "center" }}>
+                  Best Subject
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    pt: "1%",
+                  }}
+                >
+                  <AvatarImage
+                    alt="Remy Sharp"
+                    src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
+                    sx={{
+                      width: 130,
+                      height: 130,
+                      ml: "10%",
+                      mr: "10%",
+                      mb: "3%",
+                    }}
+                  />
+                  <AvatarImage
+                    alt="Remy Sharp"
+                    src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
+                    sx={{
+                      width: 130,
+                      height: 130,
+                      ml: "10%",
+                      mr: "10%",
+                      mb: "3%",
+                    }}
+                  />
+                  <AvatarImage
+                    alt="Remy Sharp"
+                    src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
+                    sx={{
+                      width: 130,
+                      height: 130,
+                      ml: "10%",
+                      mr: "10%",
+                      mb: "3%",
+                    }}
                   />
                 </Box>
               </Item>
             </Grid>
 
-            <Grid item xs={7}>
-              <Item sx={{ height: "200px" }}>hello</Item>
-            </Grid>
-            <Grid item xs={5}>
-              <Item sx={{ height: "200px" }}>hello</Item>
+            <Grid item xs={12} sm={12}>
+              <Item sx={{ height: "100%" }}>
+                <Typography variant="h4" sx={{ textAlign: "center" }}>
+                  Badges
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    pt: "1%",
+                  }}
+                >
+                  <AvatarImage
+                    alt="Remy Sharp"
+                    src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
+                    sx={{ width: 130, height: 130 }}
+                  />
+                </Box>
+              </Item>
             </Grid>
           </Grid>
 
@@ -152,7 +221,7 @@ export default function User() {
       {isEditMode && (
         <Container>
           <Grid container spacing={2}>
-            <Grid item xs={3} sx={{textAlign: 'center'}}>
+            <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
               <AvatarImage
                 alt="Remy Sharp"
                 src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
@@ -162,7 +231,7 @@ export default function User() {
                   marginLeft: "auto",
                   marginRight: "auto",
                   marginTop: "100px",
-                  marginBottom: "50px"
+                  marginBottom: "50px",
                 }}
               />
               <Button variant="contained" component="label">
@@ -170,7 +239,7 @@ export default function User() {
                 <input type="file" hidden />
               </Button>
             </Grid>
-            <Grid item xs={9} sx={{ textAlign: "center" }}>
+            <Grid item xs={12} sm={9} sx={{ textAlign: "center" }}>
               <Typography variant="h3" sx={{ pb: 5 }}>
                 <strong>Update profile</strong>
               </Typography>
@@ -195,7 +264,7 @@ export default function User() {
                   {/* <label>Address</label> */}
                   <TextField
                     id="outlined-basic"
-                    label="Age"
+                    label="Major"
                     variant="outlined"
                     sx={{ pb: 2 }}
                   />
@@ -203,7 +272,7 @@ export default function User() {
                   {/* <label>Phone</label> */}
                   <TextField
                     id="outlined-basic"
-                    label="Address"
+                    label="School"
                     variant="outlined"
                     sx={{ pb: 2 }}
                   />

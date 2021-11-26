@@ -65,7 +65,7 @@ export default function ActionAreaCard() {
       <>
         <Grid container>
         {posts.map((post) => (
-          <Grid item xl={4}>
+          <Grid item xs={12} sm={4} xl={4}>
             <Item sx={{backgroundColor: '#161d31'}}>
               <Card sx={{ maxWidth: 345}}>
                 <CardActionArea>
