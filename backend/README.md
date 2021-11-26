@@ -6,6 +6,7 @@
   - [Note](#note)
   - [User](#user)
   - [Question](#question)
+  - [Category](#category)
   - [Blog](#blog)
 
 ## Note
@@ -150,6 +151,49 @@
 }
 ```
 
+## Category
+
+/api/category/
+
+**Method**: GET
+
+**Response**:
+```json
+[
+  {
+    "id": <int>,
+    "created": <str>,
+    "modified": <str>,
+    "name": <str>,
+    "level": <int>,
+    "code": <str>
+  },
+  ...
+]
+```
+
+**Expected status**: 200 OK
+
+<hr>
+
+/api/category/\<int:category_id\>
+
+**Method**: GET
+
+**Response**:
+```json
+{
+    "id": <int>,
+    "created": <str>,
+    "modified": <str>,
+    "name": <str>,
+    "level": <int>,
+    "code": <str>
+    }
+```
+
+**Expected status**: 200 OK
+
 ## Blog
 
 /api/blog/
@@ -200,7 +244,7 @@
 
 <hr>
 
-**/api/blog/1**
+/api/blog/\<int:blog_id\>
 
 **Method**: GET
 
@@ -216,4 +260,6 @@
     "category": <int>,
 }
 ```
+
+
 
