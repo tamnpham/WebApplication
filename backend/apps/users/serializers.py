@@ -8,10 +8,28 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password', 'role')
-        # read_only_fields
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'phone', 'email', 'role')
+        fields = (
+            'first_name',
+            'last_name',
+            'phone',
+            'avatar',
+            'school',
+            'major',
+
+            'email',
+            'role',
+        )
+        read_only_fields = (
+            "email",
+            "role",
+        )
+        extra_kwargs = {
+            "email": {
+                "required": False,
+            },
+        }

@@ -8,6 +8,7 @@ from apps.users.factories import (
     StudentFactory,
     TeacherFactory,
 )
+from apps.blogs.factories import BlogFactory
 
 
 class Command(BaseCommand):
@@ -17,6 +18,7 @@ class Command(BaseCommand):
         "teacher": TeacherFactory,
         "category": CategoryFactory,
         "question": QuestionFactory,
+        "blog": BlogFactory,
     }
 
     def add_arguments(self, parser):

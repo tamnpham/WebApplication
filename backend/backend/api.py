@@ -8,6 +8,7 @@ urlpatterns = [
     # API URLS
     path("user/", include("apps.users.urls")),
     path("question/", include("apps.questions.urls")),
+    path("blog/", include("apps.blogs.urls")),
 ]
 
 urlpatterns += category_urlpatterns
