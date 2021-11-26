@@ -1,7 +1,7 @@
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -48,9 +48,17 @@ class UserLoginAPI(TokenObtainPairView):
             user.last_login = timezone.now()
             user.save()
 
-            return responses.client_success(
-                serializer.validated_data,
-            )
+            avatar = user.avatar.url if user.avatar else ""
+            data = {
+                "token": serializer.validated_data,
+                "user": {
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "role": user.role,
+                    "avatar": avatar,
+                }
+            }
+            return responses.client_success(data)
         else:
             raise responses.client_error({
                 "errors": serializer.errors,
@@ -59,7 +67,9 @@ class UserLoginAPI(TokenObtainPairView):
 
 class UserAPI(RetrieveUpdateAPIView):
     serializer_class = UserSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (
+        IsAuthenticated,
+    )
 
     def get_object(self, pk=None):
         if pk:
@@ -69,10 +79,30 @@ class UserAPI(RetrieveUpdateAPIView):
         return user
 
     def retrieve(self, request, *args, **kwargs):
-        user = self.get_object(kwargs["user_id"])
+        user_id = request.user.id
+        user = self.get_object(user_id)
         data_response = {}
 
         if user:
             data_response["user"] = self.serializer_class(user).data
 
         return responses.client_success(data_response)
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.user.id
+        user = self.get_object(user_id)
+        fields = (
+            "first_name",
+            "last_name",
+            "phone",
+            "avatar",
+            "school",
+            "major",
+        )
+        for field in fields:
+            value = request.data.get(field)
+            if value:
+                setattr(user, field, value)
+
+        user.save()
+        return responses.client_success(data=None)

@@ -11,9 +11,10 @@
 
 ## Note
 - Except login and register, other features require JWT token to proceed.
+- Only teacher can create new questions.
 
 ## User
-/api/user/\<int:user_id\>/get
+/api/user/profile/
 
 **Method**: GET
 
@@ -23,14 +24,38 @@
   "status": <str:status_message>,
   "data": {
     "user": {
-      "id": <int>,
-      "first_name": <str>,
-      "last_name": <str>,
-      "phone": <str>,
-      "email": <str>,
-      "role": <str>,
+        "id": <int>,
+        "first_name": <str>,
+        "last_name": <str>,
+        "phone": <str>,
+        "email": <str>,
+        "role": <str>,
+        "school": <str>,
+        "major": <str>
     }
   }
+}
+```
+
+**Method**: POST
+
+**Request**: All field are *optional*
+```json
+{
+    "first_name": <str>,
+    "last_name": <str>,
+    "phone": <str>,
+    "avatar": <file>,   // using file upload
+    "school": <str>,
+    "major": <str>
+}
+```
+
+**Response**:
+```json
+{
+    "status": <str:status_message>,
+    "data": null
 }
 ```
 
@@ -51,11 +76,19 @@
 **Response**:
 ```json
 {
-  "status": <str:status_message>,
-  "data": {
-    "refresh": <str>,
-    "access": <str>
-  }
+    "status": <str:status_message>,
+    "data": {
+        "token": {
+            "refresh": <str>,
+            "access": <str>
+        },
+        "user": {
+            "first_name": <str>,
+            "last_name": <str>,
+            "role": <str>,
+            "avatar": <str:url_path>
+        }
+    }
 }
 ```
 
@@ -105,12 +138,56 @@
             <str>,
             <str>
         ],
+        "trueAnswer": <int>,
         "image": <str:url>,
         "category": <int>
     },
     ...
 ]
 ```
+
+**Method**: POST
+
+**Request**:
+```json
+{
+    "category": <int>,
+    "title": <str>,
+    "content": <str>,
+    "answers": [
+        <str>,
+        <str>,
+        <str>,
+        <str>
+    ],
+    "trueAnswer": <int>,
+    "image": (optional) <file>,
+    "code": (optional) <str>
+}
+```
+
+**Response**:
+```json
+{
+    "id": <int>,
+    "created": <str:timestamp>,
+    "modified": <str:timestamp>,
+    "code": <str>,
+    "title": <str>,
+    "content": <str>,
+    "answers": [
+        <str>,
+        <str>,
+        <str>,
+        <str>
+    ],
+    "true": <int>,
+    "image": <str:url>,
+    "category": <int>
+},
+```
+
+**Expected status**: 201 Created
 
 <hr>
 
@@ -261,5 +338,27 @@
 }
 ```
 
+<hr>
+
+/api/blog/\<int:blog_id\>/update/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+    "title": <str>,
+    "content": <str>,
+    "category": (optional) <int>
+}
+```
+
+**Response**
+```json
+{
+    "status": <str:status_message>,
+    "data": null
+}
+```
 
 

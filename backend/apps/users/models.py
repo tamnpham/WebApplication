@@ -122,6 +122,29 @@ class User(
         null=True,
     )
 
+    school = models.CharField(
+        verbose_name=_("School"),
+        max_length=255,
+        blank=True,
+        null=True,
+    )
+
+    INFORMATION_SECURITY = "Information Security"
+    COMPUTER_SCIENCE = "Computer Science"
+    NETWORK_COMMUNICATION = "Computer Networks and Data Communications"
+    MAJORS = (
+        (INFORMATION_SECURITY, "Information Security"),
+        (NETWORK_COMMUNICATION, "Computer Networks and Data Communications"),
+        (COMPUTER_SCIENCE, "Computer Science"),
+    )
+
+    major = models.CharField(
+        verbose_name=_("Major"),
+        max_length=255,
+        choices=MAJORS,
+        default=INFORMATION_SECURITY,
+    )
+
     @property
     def full_name(self):
         """Return user's full name
