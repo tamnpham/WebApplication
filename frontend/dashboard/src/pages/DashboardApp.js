@@ -18,7 +18,7 @@ import {
   Stack,
 } from "@mui/material";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 // components
@@ -26,7 +26,7 @@ import Page from "../components/Page";
 
 // Redux
 import { useDispatch } from "react-redux";
-import { getQuestionOptions } from "../redux/store/questionOptionSlice";
+import { getQuestionOptions } from "../redux/store/questionSlice";
 
 // ----------------------------------------------------------------------
 
@@ -48,8 +48,8 @@ const useStyles = makeStyles({
     color: "#145A32",
   },
   inputSelect: {
-    color: 'white'
-  }
+    color: "white",
+  },
 });
 
 const categories = [
@@ -70,11 +70,11 @@ export default function DashboardApp() {
 
   const classes = useStyles();
   const defaultValues = {
-    categories: "",
-    numberQuestions: 0,
+    categoryId: "",
+    numberQuestion: 0,
     time: 0,
   };
-  
+
   const [questionOptions, setQuestionOptions] = useState(defaultValues);
 
   const handleInputChange = (e) => {
@@ -94,14 +94,14 @@ export default function DashboardApp() {
     event.preventDefault();
     if (
       questionOptions.time === 0 ||
-      questionOptions.numberQuestions === 0 ||
-      questionOptions.categories === ""
+      questionOptions.numberQuestion === 0 ||
+      questionOptions.categoryId === ""
     ) {
       setError(true);
       console.log("error");
       return;
     } else {
-      dispatch(getQuestionOptions(questionOptions))
+      dispatch(getQuestionOptions(questionOptions));
       navigate("/quiz");
     }
   };
@@ -111,6 +111,27 @@ export default function DashboardApp() {
     console.log(questionOptions.time);
   };
 
+  const [options, setOptions] = useState(null);
+  
+  useEffect(() => {
+    const apiUrl = `http://34.72.189.169:8080/api/category`;
+    const auth = localStorage.getItem("token");
+    const requestOption = {
+      method: 'GET',
+       headers:{
+         Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': "Bearer " + auth,
+          },
+    }
+    fetch(apiUrl, requestOption)
+      .then((res) => res.json())
+      .then((response) => {
+        setOptions(response);
+      });
+  }, [setOptions]);
+
+  
   return (
     <Page title="Dashboard | LSExam">
       <Container maxWidth="xl">
@@ -132,17 +153,23 @@ export default function DashboardApp() {
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 500 }}>
                   <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
                   <Select
-                    name="categories"
-                    value={questionOptions.categories}
+                    name="categoryId"
+                    value={questionOptions.categoryId}
                     onChange={handleInputChange}
-                    inputProps={{className: classes.inputSelect}}
+                    inputProps={{ className: classes.inputSelect }}
                   >
-                    {categories.map((category) => (
+                    {/* {categories.map((category) => (
                       <MenuItem key={category} value={category}>
                         {category}
                       </MenuItem>
-                    ))}
-                    ;
+                    ))} */}
+                    {options &&
+                      options.length &&
+                      options.map((option) => (
+                        <MenuItem value={option.id} key={option.id}>
+                          {option.name}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -150,8 +177,8 @@ export default function DashboardApp() {
                 <div style={{ width: "500px", textAlign: "center" }}>
                   Number Questions
                   <Slider
-                    value={questionOptions.numberQuestions}
-                    onChange={handleSliderChange("numberQuestions")}
+                    value={questionOptions.numberQuestion}
+                    onChange={handleSliderChange("numberQuestion")}
                     defaultValue={1}
                     step={1}
                     min={1}
