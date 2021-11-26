@@ -146,11 +146,12 @@ export default function User() {
                   }}
                 >
                   <AvatarImage
+                    xs={12}
                     alt="Remy Sharp"
                     src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
                     sx={{
-                      width: 130,
-                      height: 130,
+                      width: '10%',
+                      height: '10%',
                       ml: "10%",
                       mr: "10%",
                       mb: "3%",
@@ -160,8 +161,8 @@ export default function User() {
                     alt="Remy Sharp"
                     src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
                     sx={{
-                      width: 130,
-                      height: 130,
+                      width: '10%',
+                      height: '10%',
                       ml: "10%",
                       mr: "10%",
                       mb: "3%",
@@ -171,8 +172,8 @@ export default function User() {
                     alt="Remy Sharp"
                     src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
                     sx={{
-                      width: 130,
-                      height: 130,
+                      width: '10%',
+                      height: '10%',
                       ml: "10%",
                       mr: "10%",
                       mb: "3%",
