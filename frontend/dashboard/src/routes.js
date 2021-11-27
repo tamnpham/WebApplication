@@ -10,9 +10,10 @@ import Scoreboard from "./pages/Scoreboard";
 import Blog from "./pages/Blog";
 import User from "./pages/User";
 import NotFound from "./pages/Page404";
-import NotAuthorized from "./pages/PageNotLogin.js";
+import NotAuthorized from "./pages/PageNotLogin";
 import Admin from "./pages/Admin";
 import Quiz from "./pages/Quiz";
+import Post from "./pages/Post";
 
 import { useContext } from "react";
 import { AuthContext } from "./store/auth-context";
@@ -29,6 +30,7 @@ export default function Router() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/*" element={<NotAuthorized />} />
+          
         </>
       )}
 
@@ -41,6 +43,7 @@ export default function Router() {
             <Route path="blog" element={<Blog />} />
             <Route path="admin" element={<Admin />} />
           </Route>
+          <Route path="post/:id" element={<Post />} />
           <Route path="quiz" element={<Quiz />} />
           
         </Route>

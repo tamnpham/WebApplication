@@ -3,6 +3,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
+
 // material
 import {
   Stack,
@@ -13,26 +14,20 @@ import {
   Avatar,
   Button,
   Box,
-  LinearProgress,
   TextField,
   FormControl,
-  Input,
-  InputLabel,
 } from "@mui/material";
 // components
 import Page from "../components/Page";
-import { BaseOptionChart } from "../components/charts/index"
-//
-import USERLIST from "../_mocks_/user";
 
 // -----------------------------Variable and State--------------------------
 
 
 // -----------------------------CSS-----------------------------------------
+
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  // textAlign: "center",
   color: "white",
   backgroundColor: "#292f45",
 }));
@@ -48,16 +43,25 @@ const useStyles = makeStyles({
     backgroundColor: "#ABEBC6",
   },
   formEdit: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
-    paddingLeft: '10%',
-    paddingRight: '10%',
+    paddingLeft: "10%",
+    paddingRight: "10%",
     // width: '70%',
   },
   badgeBlock: {
-    backgroundColor: '#292f45'
-  }
+    backgroundColor: "#292f45",
+  },
+  badgeImage: {
+    width: "20%",
+    height: "20%",
+  },
+  badgeBox: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 
@@ -125,7 +129,7 @@ export default function User() {
                 </Typography>
                 <Typography
                   variant="h1"
-                  sx={{ textAlign: "center", color: "green" }}
+                  sx={{ textAlign: "center", color: "#43b581" }}
                 >
                   300
                 </Typography>
@@ -137,49 +141,57 @@ export default function User() {
                 <Typography variant="h4" sx={{ textAlign: "center" }}>
                   Best Subject
                 </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    pt: "1%",
-                  }}
-                >
-                  <AvatarImage
-                    xs={12}
-                    alt="Remy Sharp"
-                    src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
-                    sx={{
-                      width: '10%',
-                      height: '10%',
-                      ml: "10%",
-                      mr: "10%",
-                      mb: "3%",
-                    }}
-                  />
-                  <AvatarImage
-                    alt="Remy Sharp"
-                    src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
-                    sx={{
-                      width: '10%',
-                      height: '10%',
-                      ml: "10%",
-                      mr: "10%",
-                      mb: "3%",
-                    }}
-                  />
-                  <AvatarImage
-                    alt="Remy Sharp"
-                    src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
-                    sx={{
-                      width: '10%',
-                      height: '10%',
-                      ml: "10%",
-                      mr: "10%",
-                      mb: "3%",
-                    }}
-                  />
-                </Box>
+
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={4}>
+                    <Item>
+                      <Box className={classes.badgeBox}>
+                        <img
+                          src="https://www.clipartmax.com/png/middle/123-1232870_logo-subject-clip-art-subject-logo.png"
+                          className={classes.badgeImage}
+                        />
+                      </Box>
+                      <Typography
+                        variant="h4"
+                        sx={{ textAlign: "center", color: "#43b581", pt: '1%' }}
+                      >
+                        Math
+                      </Typography>
+                    </Item>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Item>
+                      <Box className={classes.badgeBox}>
+                        <img
+                          src="https://freesvg.org/img/1529989446.png"
+                          className={classes.badgeImage}
+                        />
+                      </Box>
+                      <Typography
+                        variant="h4"
+                        sx={{ textAlign: "center", color: "#43b581", pt: '1%' }}
+                      >
+                        English
+                      </Typography>
+                    </Item>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <Item>
+                      <Box className={classes.badgeBox}>
+                        <img
+                          src="https://www.pinclipart.com/picdir/big/11-112061_content-png-pinterest-clip-art-svg-file-gold.png"
+                          className={classes.badgeImage}
+                        />
+                      </Box>
+                      <Typography
+                        variant="h4"
+                        sx={{ textAlign: "center", color: "#43b581", pt: '1%' }}
+                      >
+                        History
+                      </Typography>
+                    </Item>
+                  </Grid>
+                </Grid>
               </Item>
             </Grid>
 

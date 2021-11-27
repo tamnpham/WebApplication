@@ -19,18 +19,18 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: homeFill,
-    linkTo: '/'
+    linkTo: '/dashboard/app'
   },
   {
     label: 'Profile',
     icon: personFill,
-    linkTo: '#'
+    linkTo: '/dashboard/user'
   },
-  {
-    label: 'Settings',
-    icon: settings2Fill,
-    linkTo: '#'
-  }
+  // {
+  //   label: 'Settings',
+  //   icon: settings2Fill,
+  //   linkTo: '/dashboard/'
+  // }
 ];
 
 // ----------------------------------------------------------------------
