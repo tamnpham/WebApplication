@@ -1,7 +1,6 @@
 from django.urls import include, path
 
 from apps.questions.urls import category_urlpatterns
-from apps.quizzes.urls import result_urlpatterns
 
 app_name = "api"
 
@@ -14,4 +13,3 @@ urlpatterns = [
 ]
 
 urlpatterns += category_urlpatterns
-urlpatterns += result_urlpatterns

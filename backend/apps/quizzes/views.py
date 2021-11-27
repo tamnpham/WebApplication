@@ -106,18 +106,28 @@ class QuizScoringAPI(GenericAPIView):
         result.save()
 
         return responses.client_success(
-            ResultSerializer(result).data,
+            self.serializer_class(result).data,
         )
 
 
-class ResultViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.ListModelMixin,
-    GenericViewSet,
-):
-    """ViewSet for viewing results."""
-    queryset = Result.objects.all()
+class ResultViewAPI(GenericAPIView):
+    """ViewSet for viewing result."""
     serializer_class = ResultSerializer
     permission_classes = (
         IsAuthenticated,
     )
+    http_method_names = (
+        "get",
+    )
+
+    def get(self, request, *args, **kwargs):
+        """Get results related to current user."""
+        user = request.user
+        results = Result.objects.filter(user=user)
+
+        return responses.client_success(
+            [
+                self.serializer_class(result).data
+                for result in results
+            ],
+        )

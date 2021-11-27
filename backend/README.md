@@ -9,7 +9,6 @@
   - [Category](#category)
   - [Blog](#blog)
   - [Quiz](#quiz)
-  - [Result](#result)
 
 ## Note
 - Except login and register, other features require JWT token to proceed.
@@ -405,44 +404,28 @@
 }
 ```
 
-## Result
-
-/api/result/
-
-**Method**: GET
-
-**Response**:
-```json
-[
-  {
-    "id": <int>,    // result's id
-    "duration": <str>,
-    "score": <str>,
-    "n_corrects": <str>,
-    "n_questions": <str>,
-    "user": <int>,
-    "category": (optional) <int>,
-    "quiz": <int>   // quiz's id
-  }
-]
-```
-
 <hr>
 
-/api/result/\<int:result_id\>
+/api/quiz/result/
 
 **Method**: GET
 
 **Response**:
 ```json
 {
-    "id": <int>,    // result's id
-    "duration": <str>,
-    "score": <str>,
-    "n_corrects": <str>,
-    "n_questions": <str>,
-    "user": <int>,
-    "category": (optional) <int>,
-    "quiz": <int>   // quiz's id
+  "status": "Success",
+  "data": [
+    {
+        "id": <int>,    // result's id
+        "duration": <str>,
+        "score": <str>,
+        "n_corrects": <int>,
+        "n_questions": <int>,
+        "user": <int>,  // user's id
+        "category": (optional) <int>,  // category's id
+        "quiz": <int>   // quiz's id
+    },
+    ...
+  ]
 }
 ```
