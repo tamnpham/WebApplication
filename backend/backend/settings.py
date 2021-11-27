@@ -1,4 +1,5 @@
 import os
+import uuid
 from datetime import timedelta
 from pathlib import Path
 
@@ -42,6 +43,7 @@ LOCAL_APPS = [
     'apps.users',
     'apps.questions',
     'apps.blogs',
+    'apps.quizzes',
 ]
 
 INSTALLED_APPS += THIRD_PARTY + LOCAL_APPS
@@ -86,11 +88,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '34.72.189.169',
-        'PORT': '5432',
+        'NAME': 'longnguyen',
+        'USER': 'longnguyen',
+        'PASSWORD': 'longnguyen',
+        'HOST': 'localhost',
+        'PORT': '15432',
     }
 }
 
@@ -182,3 +184,27 @@ CORS_ALLOW_METHODS = (
     "DELETE",
     "OPTIONS",
 )
+
+
+# CSRF token
+# Temporary disabled for testing
+# CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_HTTPONLY = True
+# SESSION_COOKIE_SECURE = True
+
+# Paths
+def _default_media_path(model_instance, filename):
+    """Function for generation of upload path for Django model instance.
+
+    Generates upload path that contain instance"s model app, model name,
+    object"s ID, salt and file name.
+    """
+    components = model_instance._meta.label_lower.split(".")
+    # components.append(str(model_instance.id))
+    components.append(str(uuid.uuid4()))
+    components.append(filename)
+
+    return os.path.join(*components)
+
+
+DEFAULT_MEDIA_PATH = _default_media_path

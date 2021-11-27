@@ -9,7 +9,7 @@ from apps.core import responses
 from apps.core.permissions import IsTeacherUser
 
 from .models import Category, Question
-from .serializers import CategorySerializer, QuestionSerializer, QuizSerializer
+from .serializers import CategorySerializer, QuestionSerializer
 
 
 class QuestionViewSet(
@@ -24,14 +24,15 @@ class QuestionViewSet(
             IsAuthenticated,
         ),
         "create": (
-            IsTeacherUser,
+            # IsTeacherUser,
+            IsAuthenticated,
         ),
     }
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    permission_classes = (
-        IsAuthenticated,
-    )
+    # permission_classes = (
+    #     IsAuthenticated,
+    # )
 
     #
     def get_permissions(self):
@@ -72,33 +73,3 @@ class CategoryViewSet(
     permission_classes = (
         IsAuthenticated,
     )
-
-
-class QuizCreationAPI(GenericAPIView):
-    """APIView for handling quiz creation."""
-    serializer_class = QuizSerializer
-    permission_classes = (
-        IsAuthenticated,
-    )
-
-    def post(self, request, *args, **kwargs):
-        """Return set of questions related to given category."""
-        n_questions = request.data.get("numberQuestions")
-        category_id = request.data.get("categoryId")
-        if not n_questions or not category_id:
-            return Response(
-                data={"error": "Invalid category or number of questions."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # order_by("?") randomize queryset
-        # https://stackoverflow.com/a/47618345
-        questions = Question.objects.filter(
-            category=category_id,
-        ).order_by("?")
-        n_questions = int(n_questions)
-        questions = questions[:n_questions]
-        data = [
-            QuestionSerializer(quest).data for quest in questions
-        ]
-        return responses.client_success(data)
