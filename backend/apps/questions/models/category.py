@@ -23,7 +23,7 @@ class Category(BaseModel):
 
     class Meta:
         verbose_name = _("Category")
-        verbose_name_plural = _("Category")
+        verbose_name_plural = _("Categories")
 
     def __str__(self) -> str:
         return self.name

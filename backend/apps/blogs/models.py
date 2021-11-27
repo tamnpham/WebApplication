@@ -28,8 +28,8 @@ class Blog(BaseModel):
     )
 
     class Meta:
-        verbose_name = _("Result")
-        verbose_name_plural = _("Result")
+        verbose_name = _("Blog")
+        verbose_name_plural = _("Blogs")
 
     def __str__(self) -> str:
         return self.title

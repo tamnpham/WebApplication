@@ -8,6 +8,8 @@
   - [Question](#question)
   - [Category](#category)
   - [Blog](#blog)
+  - [Quiz](#quiz)
+  - [Result](#result)
 
 ## Note
 - Except login and register, other features require JWT token to proceed.
@@ -189,45 +191,6 @@
 
 **Expected status**: 201 Created
 
-<hr>
-
-/api/question/quiz/
-
-**Method**: POST
-
-**Request**:
-```json
-{
-    "categoryId": <int>,
-    "numberQuestions": <int>
-}
-```
-
-**Response**
-```json
-{
-    "status": <str:status_message>,
-    "data": [
-        {
-            "id": <int>,
-            "created": <str:timestamp>,
-            "modified": <str:timestamp>,
-            "code": <str>,
-            "title": <str>,
-            "content": <str>,
-            "answers": [
-                <str>,
-                <str>,
-                <str>,
-                <str>
-            ],
-            "image": <str:url>,
-            "category": <int>
-        }
-    ]
-}
-```
-
 ## Category
 
 /api/category/
@@ -361,4 +324,125 @@
 }
 ```
 
+## Quiz
 
+/api/quiz/create/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+    "categoryId": <int>,
+    "numberQuestions": <int>
+}
+```
+
+**Response**
+```json
+{
+    "status": <str:status_message>,
+    "data": {
+        "id": <int>,
+        "owner": <int>,
+        "questions": [
+            {
+                "id": <int>,
+                "created": <str:timestamp>,
+                "modified": <str:timestamp>,
+                "code": <str>,
+                "title": <str>,
+                "content": <str>,
+                "answers": [
+                    <str>,
+                    <str>,
+                    <str>,
+                    <str>
+                ],
+                "image": <str:url>,
+                "category": <int>
+            },
+            ...
+        ]
+    }
+}
+```
+
+<hr>
+
+/api/quiz/score/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+    "quizId": <int>,
+    "duration": <str>,     // format: "hour:minute:second", e.g., "00:30:04"
+    "answers": [
+        {
+            "questionId": <int>,
+            "answer": <int>     // 0->A, 1->B, 2->C, 3->D
+        },
+        ...
+    ]
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": {
+    "id": <int>,    // result's id
+    "duration": <str>,
+    "score": <str>,
+    "n_corrects": <int>,
+    "n_questions": <int>,
+    "user": <int>,      // user's id
+    "category": (optional) <int>    // category relevant to the result
+  }
+}
+```
+
+## Result
+
+/api/result/
+
+**Method**: GET
+
+**Response**:
+```json
+[
+  {
+    "id": <int>,    // result's id
+    "duration": <str>,
+    "score": <str>,
+    "n_corrects": <str>,
+    "n_questions": <str>,
+    "user": <int>,
+    "category": (optional) <int>,
+    "quiz": <int>   // quiz's id
+  }
+]
+```
+
+<hr>
+
+/api/result/\<int:result_id\>
+
+**Method**: GET
+
+**Response**:
+```json
+{
+    "id": <int>,    // result's id
+    "duration": <str>,
+    "score": <str>,
+    "n_corrects": <str>,
+    "n_questions": <str>,
+    "user": <int>,
+    "category": (optional) <int>,
+    "quiz": <int>   // quiz's id
+}
+```

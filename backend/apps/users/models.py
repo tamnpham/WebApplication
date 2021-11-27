@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import UserManager as DjangoUserManager
 from django.core import validators
@@ -75,29 +76,11 @@ class User(
         help_text="Designates whether this user should be treated as active.",
     )
 
-    # avatar = imagekitmodels.ProcessedImageField(
-    #     verbose_name=_("Avatar"),
-    #     blank=True,
-    #     null=True,
-    #     upload_to=settings.DEFAULT_MEDIA_PATH,
-    #     max_length=512,
-    #     processors=[Transpose()],
-    #     options={
-    #         "quality": 100,
-    #     },
-    # )
-
-    # avatar_thumbnail = imagekitmodels.ImageSpecField(
-    #     source="avatar",
-    #     processors=[
-    #         ResizeToFill(50, 50),
-    #     ],
-    # )
-
     avatar = models.ImageField(
         verbose_name=_("Avatar image"),
         null=True,
         blank=True,
+        upload_to=settings.DEFAULT_MEDIA_PATH,
     )
 
     email = models.CharField(
