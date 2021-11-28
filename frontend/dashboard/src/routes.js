@@ -13,6 +13,7 @@ import NotFound from "./pages/Page404";
 import NotAuthorized from "./pages/PageNotLogin.js";
 import Admin from "./pages/Admin";
 import Quiz from "./pages/Quiz";
+import Result from "./pages/Result";
 
 import { useContext } from "react";
 import { AuthContext } from "./store/auth-context";
@@ -42,7 +43,7 @@ export default function Router() {
             <Route path="admin" element={<Admin />} />
           </Route>
           <Route path="quiz" element={<Quiz />} />
-          
+          <Route path="result" element={<Result />} />
         </Route>
 
       )}

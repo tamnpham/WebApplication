@@ -52,8 +52,9 @@ export default function Question({
   index,
   answerIndex,
   chooseAnswer,
+  chooseSelectedAnswer
 }) {
-  
+
   const classes = useStyles();
 
   return (
@@ -84,7 +85,7 @@ export default function Question({
             color: "#145A32",
           }}
         >
-          {question.question}
+          {question.content}
         </Typography>
       </Box>
       <Box>
@@ -98,7 +99,10 @@ export default function Question({
                     ? classes.chooseAnswer
                     : classes.answer
                 }
-                onClick={() => chooseAnswer(index - 1, iterator)}
+                onClick={() => {
+                  chooseSelectedAnswer(index - 1, iterator);
+                  chooseAnswer(index - 1, iterator);
+                }}
               >
                 {answer}
               </Button>

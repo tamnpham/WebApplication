@@ -7,7 +7,7 @@ import {
 
 // ----------------------------------------------------------------
 
-export default function Timer(initTime,submitHandler) {
+export default function Timer(initTime, submitHandler) {
   
   // Time
   const Ref = useRef(null);

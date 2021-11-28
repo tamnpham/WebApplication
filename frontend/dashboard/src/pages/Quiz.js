@@ -25,8 +25,9 @@ import Page from "../components/Page";
 import { Question, Timer } from "../components/quiz/";
 
 // Redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectQuestionOptions } from "../redux/store/questionSlice";
+import { setSubmitAnswers, setQuizId, setResultQuestions } from "../redux/store/answersSlice";
 import Clock from "../components/quiz/Clock";
 
 // ----------------------------------------------------------------------
@@ -50,72 +51,15 @@ const useStyles = makeStyles({
   },
 });
 
-const questions = [
-  {
-    questionId: 1,
-    question: "Where does it come from?",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-  {
-    questionId: 2,
-    question:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-  {
-    questionId: 3,
-    question: "Where can I get some?",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-  {
-    questionId: 4,
-    question:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-  {
-    questionId: 5,
-    question:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.z",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-];
-
-const answers = Array.apply(null, Array(questions.length)).map(function () {
-  return -1;
-});
-
 // ----------------------------------------------------------------------
 
 export default function Quiz() {
   const classes = useStyles();
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const next = () => {
     setCurrentQuestion((currentQuestion) => currentQuestion + 1);
@@ -125,101 +69,142 @@ export default function Quiz() {
   };
 
   const questionOptions = useSelector(selectQuestionOptions);
+  const [answers, setAnswers] = useState([]);
+  const [questions, setQuestions] = useState([]);
 
-  const [answer, setAnswer] = useState(answers);
+  // Set up for Result
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [quiz, setQuiz] = useState(0);
+  const [trueAnswers, setTrueAnswers] = useState([]);
+
+  // const [timer, setTimer] = useState("00:00:00");
 
   const chooseAnswer = (index, value) => {
-    const newAnswer = answer.slice();
+    const newAnswer = answers.slice();
     newAnswer[index] = value;
-    setAnswer(newAnswer);
+    setAnswers(newAnswer);
   };
 
-  const [options, setOptions] = useState(null);
-  console.log(questionOptions)
   useEffect(() => {
-    // const apiUrl = `https://opentdb.com/api.php?amount=${questionOptions.numberQuestion}&category=${questionOptions.categoryId}`;
-    // console.log(apiUrl)
-    // fetch(apiUrl)
-    //   .then((res) => res.json())
-    //   .then((response) => {
-    //     setOptions(response.results);
-    //     // setAnswer(Array.apply(null, Array(response.results.length)).map(function () {
-    //     //   return -1;
-    //     // }))
-    //   });
-    const apiUrl = `http://34.72.189.169:8080/api/question/quiz`;
+    const apiUrl = `http://34.72.189.169:8080/api/quiz/create/`;
     const auth = localStorage.getItem("token");
     const requestOption = {
-      method: 'POST',
-       headers:{
-         Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer " + auth,
-        },
-        body: JSON.stringify({
-          category_id: questionOptions.categoryId,
-          n_questions: questionOptions.numberQuestion
-        })
-    }
-    fetch(apiUrl, requestOption)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response.data);
-        setOptions(response);
-      });
-  }, [setOptions]);
-  // console.log(answer.length)
-  console.log(options)
-  // SubmitHandler
-  const submitHandler = () => {
-    console.log(answer);
-    navigate("/dashboard/app");
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+      body: JSON.stringify({
+        categoryId: questionOptions.categoryId,
+        numberQuestions: questionOptions.numberQuestion,
+      }),
+    };
+    const fetchData = async () => {
+      await fetch(apiUrl, requestOption)
+        .then((res) => res.json())
+        .then((response) => {
+          // console.log(response.data);
+          setQuestions(response.data.questions);
+          setQuiz(response.data.id);
+        });
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const initValue = questions.map((question) => {
+      return { questionId: question.id, answer: null };
+    });
+    setSelectedAnswers(initValue);
+  }, [questions]);
+
+  useEffect(() => {
+    const initValue = questions.map((question) => {
+      return { questionId: question.id, trueAnswer: question.trueAnswer };
+    });
+    setTrueAnswers(initValue);
+  }, [questions]);
+
+  const chooseSelectedAnswer = (index, value) => {
+    const newAnswers = selectedAnswers.slice();
+    newAnswers[index].answer = value;
+    setAnswers(newAnswers);
   };
 
-  return (
-    <Page title="Quiz">
-      <Container>
-        <Clock initTime={questionOptions.time}></Clock>
-        <Timer initTime={questionOptions.time} submitHandler={submitHandler}></Timer>
-        <Question
-          question={questions[currentQuestion]}
-          index={currentQuestion + 1}
-          answerIndex={answer[currentQuestion]}
-          chooseAnswer={chooseAnswer}
-        ></Question>
+  console.log(selectedAnswers);
 
-        <Box sx={{ textAlign: "center" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            sx={{ m: 2, width: 100 }}
-            onClick={previous}
-            disabled={currentQuestion === 0}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            sx={{ m: 2 }}
-            onClick={submitHandler}
-          >
-            Submit
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            sx={{ m: 2, width: 100 }}
-            onClick={next}
-            disabled={currentQuestion + 1 === questions.length}
-          >
-            Next
-          </Button>
-        </Box>
-      </Container>
-    </Page>
-  );
+  // SubmitHandler
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(setSubmitAnswers(selectedAnswers));
+    dispatch(setQuizId(quiz));
+    dispatch(setResultQuestions(questions));
+    navigate("/result");
+  };
+
+  if (questions.length > 0) {
+    return (
+      <Page
+        title="Quiz"
+        sx={{
+          p: "5%",
+          backgroundColor: "#161d31",
+          color: "white",
+          height: "100%",
+        }}
+      >
+        <Container>
+          {/* <Clock initTime={questionOptions.time}></Clock> */}
+          <Timer
+            initTime={questionOptions.time}
+            submitHandler={submitHandler}
+            // timer={timer}
+            // setTimer={setTimer}
+          ></Timer>
+          <Question
+            question={questions[currentQuestion]}
+            index={currentQuestion + 1}
+            answerIndex={answers[currentQuestion]}
+            chooseAnswer={chooseAnswer}
+            chooseSelectedAnswer={chooseSelectedAnswer}
+          ></Question>
+
+          <Box sx={{ textAlign: "center" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              sx={{ m: 2, width: 100 }}
+              onClick={previous}
+              disabled={currentQuestion === 0}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              sx={{ m: 2 }}
+              onClick={submitHandler}
+            >
+              Submit
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              sx={{ m: 2, width: 100 }}
+              onClick={next}
+              disabled={currentQuestion + 1 === questions.length}
+            >
+              Next
+            </Button>
+          </Box>
+        </Container>
+      </Page>
+    );
+  } else {
+    return <Typography variant="h2">Loading...</Typography>;
+  }
 }
