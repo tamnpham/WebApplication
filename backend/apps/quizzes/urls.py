@@ -18,4 +18,9 @@ urlpatterns = [
         views.ResultViewAPI.as_view(),
         name="quiz-result-view",
     ),
+    path(
+        "scoreboard/",
+        views.ScoreboardViewAPI.as_view(),
+        name="quiz-scoreboard",
+    ),
 ]

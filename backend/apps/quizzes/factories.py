@@ -5,6 +5,7 @@ from apps.users.factories import UserFactory
 
 from . import models
 
+from datetime import timedelta
 
 class QuizFactory(factory.django.DjangoModelFactory):
     """Factory for generating test Quiz instances."""
@@ -26,3 +27,35 @@ class QuizFactory(factory.django.DjangoModelFactory):
             )
             for quest in questions:
                 obj.questions.add(quest)
+
+
+# For small scale testing only
+class ResultFactory(factory.django.DjangoModelFactory):
+    """Factory for generating test Result instances."""
+    class Meta:
+        model = models.Result
+    
+    duration = factory.Faker("time_delta")
+    score = factory.Faker(
+        "pyfloat",
+        left_digits=5,
+        right_digits=2,
+        min_value=0.00,
+        max_value=10000.00,
+    )
+    n_corrects = factory.Faker(
+        "pyint",
+        min_value=1,
+        max_value=100,
+    )
+    n_questions = factory.Faker(
+        "pyint",
+        min_value=1,
+        max_value=100,
+    )
+    category = ...
+    quiz = ...
+    user = ...
+
+
+
