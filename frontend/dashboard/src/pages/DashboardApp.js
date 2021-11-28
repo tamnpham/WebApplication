@@ -127,11 +127,12 @@ export default function DashboardApp() {
     fetch(apiUrl, requestOption)
       .then((res) => res.json())
       .then((response) => {
+        console.log(response);
         setOptions(response);
       });
   }, [setOptions]);
 
-  
+
   return (
     <Page title="Dashboard | LSExam">
       <Container maxWidth="xl">
@@ -150,7 +151,7 @@ export default function DashboardApp() {
               direction="column"
             >
               <Grid item>
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 500 }}>
+                <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
                   <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
                   <Select
                     name="categoryId"
@@ -158,11 +159,6 @@ export default function DashboardApp() {
                     onChange={handleInputChange}
                     inputProps={{ className: classes.inputSelect }}
                   >
-                    {/* {categories.map((category) => (
-                      <MenuItem key={category} value={category}>
-                        {category}
-                      </MenuItem>
-                    ))} */}
                     {options &&
                       options.length &&
                       options.map((option) => (
@@ -174,7 +170,7 @@ export default function DashboardApp() {
                 </FormControl>
               </Grid>
               <Grid item>
-                <div style={{ width: "500px", textAlign: "center" }}>
+                <div style={{ textAlign: "center", minWidth: '200px' }}>
                   Number Questions
                   <Slider
                     value={questionOptions.numberQuestion}
@@ -188,7 +184,7 @@ export default function DashboardApp() {
                 </div>
               </Grid>
               <Grid item>
-                <div style={{ width: "500px", textAlign: "center" }}>
+                <div style={{textAlign: "center", minWidth: '200px' }}>
                   Time (minutes)
                   <Slider
                     value={questionOptions.time}
