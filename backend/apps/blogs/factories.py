@@ -6,7 +6,7 @@ from . import models
 
 
 class BlogFactory(factory.django.DjangoModelFactory):
-    """Factory for generating test Blog isntance."""
+    """Factory for generating test Blog instances."""
     class Meta:
         model = models.Blog
 

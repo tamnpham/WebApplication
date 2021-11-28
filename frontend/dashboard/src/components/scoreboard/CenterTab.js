@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import ScoreTable from './ScoreTable';
 import FormControl from '@mui/material/FormControl';
@@ -8,7 +9,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { makeStyles } from "@material-ui/core/styles";
 import { useFormik, Form, FormikProvider } from 'formik';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const useStyles = makeStyles({
   input: {
@@ -23,21 +23,13 @@ function sleepFor(sleepDuration){
 
 export default function CenteredTab() {
   const classes = useStyles();
-  let rows;
+  const [scoreData, setScoreData] = useState([]);
+  
   function createData(rank, name, score) {
     return { rank, name, score};
   }
 
-  rows = [
-      createData(1, "Phạm Ngọc Tâm", 4000),
-      createData(2, "Huỳnh Minh Trí", 3000),
-      createData(3, "Long", 3000),
-      createData(4, "Long", 3000),
-      createData(2, "Huỳnh Minh Trí", 3000),
-      createData(2, "Huỳnh Minh Trí", 3000),
-      createData(2, "Huỳnh Minh Trí", 3000),
-      createData(2, "Huỳnh Minh Trí", 3000),
-    ];
+  
 
   const formik = useFormik({
     initialValues: {
@@ -49,6 +41,19 @@ export default function CenteredTab() {
       // sleepFor(5000);
       console.log(values.category);
       //fetch data
+      const rows = [
+        createData(1, "Phạm Ngọc Tâm", 4000),
+        createData(2, "Huỳnh Minh Trí", 3000),
+        createData(3, "Long", 3000),
+        createData(4, "Long", 3000),
+        createData(2, "Huỳnh Minh Trí", 3000),
+        createData(2, "Huỳnh Minh Trí", 3000),
+        createData(2, "Huỳnh Minh Trí", 3000),
+        createData(2, "Huỳnh Minh Trí", 3000),
+    ];
+
+      setScoreData(rows);
+      console.log(scoreData)
       // eslint-disable-next-line no-const-assign
       actions.setSubmitting(false);
     }
@@ -91,7 +96,7 @@ export default function CenteredTab() {
           </FormikProvider>
         </Box>
 
-        <ScoreTable data={rows}/>
+        <ScoreTable data={scoreData}/>
       </Box>
     </>
   );

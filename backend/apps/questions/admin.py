@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Question, Result
+from .models import Category, Question
 
 
 @admin.register(Question)
@@ -29,24 +29,6 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "level",
-    )
-    readonly_fields = (
-        "created",
-        "modified",
-    )
-
-
-@admin.register(Result)
-class ResultAdmin(admin.ModelAdmin):
-    """Management UI for Result model."""
-    ordering = ("-created", )
-    list_display = (
-        "user",
-        "category",
-        "duration",
-        "score",
-        "n_corrects",
-        "n_questions",
     )
     readonly_fields = (
         "created",

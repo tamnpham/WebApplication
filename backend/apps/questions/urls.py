@@ -9,9 +9,7 @@ router.register(
     views.QuestionViewSet,
     basename="question",
 )
-urlpatterns = [
-    path("quiz/", views.QuizCreationAPI.as_view(), name="quiz-create"),
-]
+urlpatterns = []
 urlpatterns += router.urls
 
 # Extra router and url pattern for Category

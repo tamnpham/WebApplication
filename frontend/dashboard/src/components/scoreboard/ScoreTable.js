@@ -38,23 +38,23 @@ export default function ScoreTable(props) {
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell style={{width: '30%', textAlign: 'center'}}>Hạng</StyledTableCell>
-            <StyledTableCell style={{width: '30%', textAlign: 'center'}}>Username</StyledTableCell>
-            <StyledTableCell style={{width: '30%', textAlign: 'center'}}>Score</StyledTableCell>
+            <StyledTableCell style={{width: '1%', textAlign: 'center'}}>Hạng</StyledTableCell>
+            <StyledTableCell style={{width: '1%', textAlign: 'center'}}>Username</StyledTableCell>
+            <StyledTableCell style={{width: '1%', textAlign: 'center'}}>Score</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((row) => (
             <StyledTableRow>
-              <StyledTableCell component="th" scope="row" style={{width: '10%', textAlign: 'center'}}>
+              <StyledTableCell component="th" scope="row" style={{width: '1%', textAlign: 'center'}}>
                 {row.rank}
               </StyledTableCell>
 
-              <StyledTableCell component="th" scope="row" style={{width: '30%', textAlign: 'center'}}>
+              <StyledTableCell component="th" scope="row" style={{width: '1%', textAlign: 'center'}}>
                 {row.name}
               </StyledTableCell>
             
-              <StyledTableCell component="th" scope="row" style={{width: '30%', textAlign: 'center'}}>
+              <StyledTableCell component="th" scope="row" style={{width: '1%', textAlign: 'center'}}>
                 {row.score}
               </StyledTableCell>
               

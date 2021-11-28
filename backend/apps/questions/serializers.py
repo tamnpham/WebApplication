@@ -3,15 +3,6 @@ from rest_framework import serializers
 from .models import Category, Question
 
 
-class QuizSerializer(serializers.ModelSerializer):
-    """Serializer for representing `Question`."""
-
-    class Meta:
-        model = Question
-        exclude = (
-            "trueAnswer",
-        )
-
 class QuestionSerializer(serializers.ModelSerializer):
     """Serializer for representing `Question`."""
 
@@ -26,4 +17,3 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
-
