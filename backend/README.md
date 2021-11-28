@@ -340,29 +340,30 @@
 **Response**
 ```json
 {
-    "status": <str:status_message>,
-    "data": {
-        "id": <int>,
-        "owner": <int>,
-        "questions": [
-            {
-                "id": <int>,
-                "created": <str:timestamp>,
-                "modified": <str:timestamp>,
-                "code": <str>,
-                "title": <str>,
-                "content": <str>,
-                "answers": [
-                    <str>,
-                    <str>,
-                    <str>,
-                    <str>
-                ],
-                "image": <str:url>,
-                "category": <int>
-            },
-            ...
-        ]
+  "status": <str:status_message>,
+  "data": {
+    "quizId": <int>,
+    "owner": <int>,
+    "n_questions": <int>,
+    "questions": [
+        {
+            "id": <int>,
+            "created": <str:timestamp>,
+            "modified": <str:timestamp>,
+            "code": <str>,
+            "title": <str>,
+            "content": <str>,
+            "answers": [
+                <str>,
+                <str>,
+                <str>,
+                <str>
+            ],
+            "image": <str:url>,
+            "category": <int>
+        },
+        ...
+      ]
     }
 }
 ```

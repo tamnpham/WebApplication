@@ -52,8 +52,11 @@ class QuizCreationAPI(GenericAPIView):
             quiz.questions.add(quest)
         quiz.save()
 
+        data = self.serializer_class(quiz).data
+        # Rename key for quiz ID
+        data["quizId"] = data.pop("id")
         return responses.client_success(
-            self.serializer_class(quiz).data,
+            data,
         )
 
 
