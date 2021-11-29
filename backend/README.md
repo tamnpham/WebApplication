@@ -87,7 +87,7 @@
             "first_name": <str>,
             "last_name": <str>,
             "role": <str>,
-            "avatar": <str:url_path>
+            "avatar": <str:url>
         }
     }
 }
@@ -250,6 +250,7 @@
     "content": <str>,
     "author": <int>,
     "category": <int>,
+    "image": (optional) <str:url>
   },
   ...
 ]
@@ -263,7 +264,8 @@
     "title": <str>,
     "content": <str>,
     "author": <int>,
-    "category": (optional) <int>
+    "category": (optional) <int>,
+    "image": (optional) <file>
 }
 ```
 
@@ -277,6 +279,7 @@
     "content": <str>,
     "author": <int>,
     "category": <int>,
+    "image": <str:url>
 }
 ```
 **Expected status**: 201 Created
@@ -297,6 +300,7 @@
     "content": <str>,
     "author": <int>,
     "category": <int>,
+    "image": <str:url>
 }
 ```
 
