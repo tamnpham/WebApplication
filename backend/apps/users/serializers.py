@@ -41,7 +41,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         """Customize image serialization method."""
         request = self.context.get("request")
         image_url = None
-        if instance.image and instance.image.url:
-            image_url = instance.image.url
+        if instance.avatar and instance.avatar.url:
+            image_url = instance.avatar.url
             image_url = request.build_absolute_uri(image_url)
         return image_url
