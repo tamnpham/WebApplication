@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+from django.db.models import Q
+from django.db.models.aggregates import Max
 from rest_framework import mixins, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -7,10 +9,13 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from apps.core import responses
-from apps.questions.models import Question
+from apps.questions.models import Category, Question
+from apps.users.models import User
 
 from .models import Quiz, Result
 from .serializers import QuizSerializer, ResultSerializer
+
+BASE_SCORE = 1
 
 
 class QuizCreationAPI(GenericAPIView):
@@ -47,8 +52,11 @@ class QuizCreationAPI(GenericAPIView):
             quiz.questions.add(quest)
         quiz.save()
 
+        data = self.serializer_class(quiz).data
+        # Rename key for quiz ID
+        data["quizId"] = data.pop("id")
         return responses.client_success(
-            self.serializer_class(quiz).data,
+            data,
         )
 
 
@@ -80,10 +88,14 @@ class QuizScoringAPI(GenericAPIView):
             request.data.get("duration"),
             "%H:%M:%S",
         )
-        duration = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second)
+        duration = timedelta(
+            hours=t.hour,
+            minutes=t.minute,
+            seconds=t.second,
+        )
         result = Result(
             user=request.user,
-            category=None,      # handle later
+            category=quiz.questions.first().category,      # handle later
             duration=duration,
             quiz=quiz,
             n_questions=quiz.n_questions,
@@ -98,7 +110,7 @@ class QuizScoringAPI(GenericAPIView):
 
             question = Question.objects.get(pk=question_id)
             if question.trueAnswer == answer_id:
-                score += 1      # X point / 1 correct answer
+                score += BASE_SCORE      # X point / 1 correct answer
                 n_corrects += 1
 
         result.score = score
@@ -111,23 +123,105 @@ class QuizScoringAPI(GenericAPIView):
 
 
 class ResultViewAPI(GenericAPIView):
-    """ViewSet for viewing result."""
+    """API for viewing result."""
+    queryset = Result.objects.all().order_by("-created")
     serializer_class = ResultSerializer
     permission_classes = (
         IsAuthenticated,
     )
     http_method_names = (
         "get",
+        "post",
     )
 
     def get(self, request, *args, **kwargs):
-        """Get results related to current user."""
-        user = request.user
-        results = Result.objects.filter(user=user)
+        return responses.client_success(
+            [
+                self.serializer_class(result).data
+                for result in self.get_queryset()
+            ],
+        )
+
+    def post(self, request, *args, **kwargs):
+        """Filter results based on criteria."""
+        queryset = self.get_queryset()
+
+        # Filter by category
+        category_id = request.data.get("categoryId")
+        category = Category.objects.filter(pk=category_id)
+        if category_id:
+            if not category:
+                return Response(
+                    data={"error": "Category not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            category = category.get()
+            queryset = self.filter_by_category(queryset, category)
+
+        # Filter by user
+        user_id = request.data.get("userId")
+        user = User.objects.filter(pk=user_id)
+        if user_id:
+            if not user:
+                return Response(
+                    data={"error": "User not found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            user = user.get()
+            queryset = self.filter_by_user(queryset, user)
 
         return responses.client_success(
             [
                 self.serializer_class(result).data
-                for result in results
+                for result in queryset
             ],
         )
+
+    def filter_by_category(self, queryset, category):
+        """Filter results by category."""
+        queryset = queryset.filter(
+            Q(
+                category=category,
+            ) |
+            Q(
+                quiz__questions__category=category,
+            )
+        ).distinct("id")
+        return queryset
+
+    def filter_by_user(self, queryset, user):
+        """Filter results by user."""
+        return queryset.filter(user=user)
+
+
+class ScoreboardViewAPI(ResultViewAPI):
+    """API for viewing scoreboard."""
+    queryset = Result.objects.all()
+
+    def get_queryset(self):
+        """Filter queryset by max scores for each user and category."""
+        queryset = super().get_queryset()
+        # GROUP BY + MAX
+        # Ref: https://git.io/JMCP4
+        model_max_set = queryset.values(
+            "user",
+            "category",
+        ).annotate(
+            max_score=Max("score"),
+        )
+
+        q_statement = Q()
+        for expr in model_max_set:
+            q_statement |= (
+                Q(user__exact=expr["user"]) &
+                Q(category__exact=expr["category"]) &
+                Q(score=expr["max_score"])
+            )
+
+        queryset = queryset.filter(
+            q_statement,
+        ).order_by(
+            "-score",
+            "duration",
+        )
+        return queryset

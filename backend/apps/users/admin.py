@@ -15,6 +15,9 @@ class UserAdmin(DjangoUserAdmin):
         "email",
         "first_name",
         "last_name",
+        "avatar",
+        "school",
+        "major",
         "is_staff",
         "is_superuser",
     )

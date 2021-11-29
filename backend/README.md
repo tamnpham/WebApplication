@@ -340,29 +340,30 @@
 **Response**
 ```json
 {
-    "status": <str:status_message>,
-    "data": {
-        "id": <int>,
-        "owner": <int>,
-        "questions": [
-            {
-                "id": <int>,
-                "created": <str:timestamp>,
-                "modified": <str:timestamp>,
-                "code": <str>,
-                "title": <str>,
-                "content": <str>,
-                "answers": [
-                    <str>,
-                    <str>,
-                    <str>,
-                    <str>
-                ],
-                "image": <str:url>,
-                "category": <int>
-            },
-            ...
-        ]
+  "status": <str:status_message>,
+  "data": {
+    "quizId": <int>,
+    "owner": <int>,
+    "n_questions": <int>,
+    "questions": [
+        {
+            "id": <int>,
+            "created": <str:timestamp>,
+            "modified": <str:timestamp>,
+            "code": <str>,
+            "title": <str>,
+            "content": <str>,
+            "answers": [
+                <str>,
+                <str>,
+                <str>,
+                <str>
+            ],
+            "image": <str:url>,
+            "category": <int>
+        },
+        ...
+      ]
     }
 }
 ```
@@ -413,7 +414,93 @@
 **Response**:
 ```json
 {
-  "status": "Success",
+  "status": <str:status_message>,
+  "data": [
+    {
+        "id": <int>,    // result's id
+        "duration": <str>,
+        "score": <str>,
+        "n_corrects": <int>,
+        "n_questions": <int>,
+        "user": <int>,  // user's id
+        "category": (optional) <int>,  // category's id
+        "quiz": <int>   // quiz's id
+    },
+    ...
+  ]
+}
+```
+
+**Method**: POST
+
+**Request**:
+```json
+{
+    "categoryId": (optional) <int>,
+    "userId": (optional) <int>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": [
+    {
+        "id": <int>,    // result's id
+        "duration": <str>,
+        "score": <str>,
+        "n_corrects": <int>,
+        "n_questions": <int>,
+        "user": <int>,  // user's id
+        "category": (optional) <int>,  // category's id
+        "quiz": <int>   // quiz's id
+    },
+    ...
+  ]
+}
+```
+
+<hr>
+
+/api/quiz/scoreboard/
+
+**Method**: GET
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": [
+    {
+        "id": <int>,    // result's id
+        "duration": <str>,
+        "score": <str>,
+        "n_corrects": <int>,
+        "n_questions": <int>,
+        "user": <int>,  // user's id
+        "category": (optional) <int>,  // category's id
+        "quiz": <int>   // quiz's id
+    },
+    ...
+  ]
+}
+```
+
+**Method**: POST
+
+**Request**:
+```json
+{
+    "categoryId": (optional) <int>,
+    "userId": (optional) <int>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
   "data": [
     {
         "id": <int>,    // result's id

@@ -10,7 +10,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     """Factory for generate test User instance"""
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    # avatar = factory.django.ImageField(color="magenta")
+    avatar = factory.django.ImageField(color="magenta")
     phone = factory.Faker("phone_number")
     password = factory.PostGenerationMethodCall(
         "set_password",
