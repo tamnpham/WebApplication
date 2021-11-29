@@ -11,6 +11,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = "__all__"
 
+    # https://stackoverflow.com/a/35522896
     def get_image(self, instance):
         """Customize image serialization method."""
         request = self.context.get("request")
