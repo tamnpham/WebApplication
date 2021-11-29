@@ -53,7 +53,6 @@ export default function Post() {
       
     if (postState != null) {
     return (
-      // <div sx={{width: '100%', height: '100%', backgroundColor: '#161d31'}}>
       <Page
         title="Post Page"
         sx={{

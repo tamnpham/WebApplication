@@ -50,7 +50,6 @@ export default function RegisterForm() {
       console.log(values.lastName);
       console.log(values.email);
       console.log(values.password);
-      console.log(values.role);
       
       // let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAjyNQx0JeGtAkOlJDhQADGBo2OIjcfLM0';
       let url = 'http://34.72.189.169:8080/api/user/create';
@@ -66,7 +65,6 @@ export default function RegisterForm() {
             password: values.password,
             firstName: values.firstName,
             lastName: values.lastName,
-            role: values.role,
         }),
         //header
         headers: {
@@ -123,8 +121,8 @@ export default function RegisterForm() {
               fullWidth
               label="First name"
               {...getFieldProps("firstName")}
-              // error={Boolean(touched.firstName && errors.firstName)}
-              // helperText={touched.firstName && errors.firstName}
+              error={Boolean(touched.firstName && errors.firstName)}
+              helperText={touched.firstName && errors.firstName}
               inputProps={{ className: classes.input}}
             />
 

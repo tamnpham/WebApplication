@@ -42,9 +42,6 @@ export default function LoginForm() {
     initialValues: {
       email: '',
       password: '',
-      firstName: '',
-      lastName: '',
-      avatar: '',
       remember: true
     },
     validationSchema: LoginSchema,
@@ -54,7 +51,6 @@ export default function LoginForm() {
       console.log(values.email);
       console.log(values.password);
 
-      // let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAjyNQx0JeGtAkOlJDhQADGBo2OIjcfLM0';
       let url = 'http://34.72.189.169:8080/api/user/login/';
 
       fetch(
@@ -90,8 +86,7 @@ export default function LoginForm() {
         }
       })
       .then((data) => {
-        console.log(data.data.token.access, data.data.user.first_name, data.data.user.last_name, data.data.user.role, data.data.user.avatar)
-        authCtx.login(data.data.token.access, data.data.user.first_name, data.data.user.last_name, data.data.user.role, data.data.user.avatar);
+        authCtx.login(data.data.token.access, data.data.user.first_name, data.data.user.last_name, data.data.user.avatar);
         // console.log(authCtx.isLoggedIn);
         navigate('/dashboard/app', { replace: true });
       })

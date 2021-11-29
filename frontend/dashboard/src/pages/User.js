@@ -2,7 +2,8 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import LinearProgress from '@mui/material/LinearProgress';
 
 // material
 import {
@@ -65,10 +66,37 @@ const useStyles = makeStyles({
 });
 
 
+
 export default function User() {
   const classes = useStyles();
   const [isEditMode, setEditMode] = useState(false);
+  const [userState, setUserState] = useState(null);
 
+  useEffect(() => {
+    //fetch data from server
+    const apiUrl = `http://34.72.189.169:8080/api/user/profile/`;
+    const auth = localStorage.getItem("token");
+
+    const request = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    };
+
+    fetch(apiUrl, request)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        setUserState(response.data.user);
+        
+      });
+
+    },[])
+
+  if (userState != null) {
   return (
     <Page title="LSExam | Profile">
       {!isEditMode && (
@@ -105,20 +133,19 @@ export default function User() {
                 <Typography variant="h4">Phạm Ngọc Tâm</Typography>
 
                 <Typography variant="body1">
-                  <strong>Email:</strong> phamngoctam2405it@gmail.com
+                  <strong>Email:</strong> {userState.first_name} {userState.last_name}
                 </Typography>
 
                 <Typography variant="body1">
-                  <strong>Phone:</strong> 0795541213
+                  <strong>Phone:</strong> {userState.phone}
                 </Typography>
 
                 <Typography variant="body1">
-                  <strong>Major:</strong> sinh viên
+                  <strong>Major:</strong> {userState.major}
                 </Typography>
 
                 <Typography variant="body1">
-                  <strong>School:</strong> Trường Đại học Công Nghệ Thông Tin -
-                  HCMC
+                  <strong>School:</strong> {userState.school}
                 </Typography>
               </Item>
             </Grid>
@@ -316,4 +343,38 @@ export default function User() {
       )}
     </Page>
   );
+              } else {
+                return (
+                  <>
+                    <Page
+                      sx={{
+                        p: "5%",
+                        backgroundColor: "#161d31",
+                        color: "white",
+                        height: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          position: "absolute",
+                          left: "50%",
+                          top: "50%",
+                          width: "80%",
+                          transform: "translate(-50%, -50%)",
+                        }}
+                      >
+                        <Typography
+                          variant="h1"
+                          color="white"
+                          textAlign="center"
+                        >
+                          {" "}
+                          Loading...{" "}
+                        </Typography>
+                        <LinearProgress color="success" />
+                      </div>
+                    </Page>
+                  </>
+                );
+              }
 }
