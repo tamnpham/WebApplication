@@ -104,9 +104,8 @@ export default function Quiz() {
       await fetch(apiUrl, requestOption)
         .then((res) => res.json())
         .then((response) => {
-          // console.log(response.data);
           setQuestions(response.data.questions);
-          setQuiz(response.data.id);
+          setQuiz(response.data.quizId);
         });
     };
     fetchData();
