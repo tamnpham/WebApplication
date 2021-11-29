@@ -8,17 +8,12 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  TextField,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   Slider,
   Button,
   Stack,
 } from "@mui/material";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 // components
@@ -27,6 +22,7 @@ import Page from "../components/Page";
 // Redux
 import { useDispatch } from "react-redux";
 import { getQuestionOptions } from "../redux/store/questionSlice";
+import { AuthContext } from "../store/auth-context";
 
 // ----------------------------------------------------------------------
 
@@ -112,7 +108,8 @@ export default function DashboardApp() {
   };
 
   const [options, setOptions] = useState(null);
-  
+  const authCtx = useContext(AuthContext);
+
   useEffect(() => {
     const apiUrl = `http://34.72.189.169:8080/api/category`;
     const auth = localStorage.getItem("token");
@@ -137,7 +134,7 @@ export default function DashboardApp() {
     <Page title="Dashboard | LSExam">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hi, Welcome back</Typography>
+          <Typography variant="h4">Hi, {authCtx.firstName} {authCtx.lastName}</Typography>
         </Box>
         <Box sx={{ pb: 5 }} className={classes.center}>
           <Typography variant="h2">Let's choose option</Typography>

@@ -48,9 +48,7 @@ export default function Post() {
               setPostState(response[id]);
               
             });
-            //
-            // setPostState(posts[id]);
-            // fetchPostData()
+
           },[])
       
     if (postState != null) {

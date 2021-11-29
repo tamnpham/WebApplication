@@ -42,7 +42,6 @@ export default function RegisterForm() {
       lastName: '',
       email: '',
       password: '',
-      role: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: (values, actions) => {
