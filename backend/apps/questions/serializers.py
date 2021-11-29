@@ -5,10 +5,20 @@ from .models import Category, Question
 
 class QuestionSerializer(serializers.ModelSerializer):
     """Serializer for representing `Question`."""
+    image = serializers.SerializerMethodField()
 
     class Meta:
         model = Question
         fields = "__all__"
+
+    def get_image(self, instance):
+        """Customize image serialization method."""
+        request = self.context.get("request")
+        image_url = None
+        if instance.image and instance.image.url:
+            image_url = instance.image.url
+            image_url = request.build_absolute_uri(image_url)
+        return image_url
 
 
 class CategorySerializer(serializers.ModelSerializer):
