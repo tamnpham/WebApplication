@@ -56,7 +56,8 @@ export default function Question({
 }) {
 
   const classes = useStyles();
-
+  // console.log(question)
+  // console.log(question.image);
   return (
     <Container>
       <Box>
@@ -87,6 +88,7 @@ export default function Question({
         >
           {question.content}
         </Typography>
+        <img src={question.image} alt="img question"></img>
       </Box>
       <Box>
         <Stack spacing={2} sx={{ m: 1}}>
