@@ -112,6 +112,9 @@ export default function Quiz() {
               <Typography variant="h4" sx={{ p: 7 }}>
                 Câu hỏi {currentQuestion + 1}
               </Typography>
+              <Typography variant="h4" sx={{ p: 7 }}>
+                Duration {score.duration}
+              </Typography>
             </Box>
             <Box
               sx={{
