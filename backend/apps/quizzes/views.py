@@ -62,7 +62,7 @@ class QuizCreationAPI(GenericAPIView):
             quiz.questions.add(quest)
         quiz.save()
 
-        # Set up queryset of view class for serializer context setup  
+        # Set up queryset of view class for serializer context setup
         self.queryset = questions
 
         data = self.get_serializer(quiz).data
@@ -233,7 +233,17 @@ class ScoreboardViewAPI(ResultViewAPI):
 
         queryset = queryset.filter(
             q_statement,
-        ).order_by(
+        )
+
+        # Ref: https://stackoverflow.com/a/41702253
+        queryset = queryset.distinct(
+            "user",
+            "category"
+        )
+
+        queryset_ids = queryset.values("id")
+        queryset = self.queryset.filter(id__in=queryset_ids)
+        queryset = queryset.order_by(
             "-score",
             "duration",
         )
