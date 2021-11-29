@@ -26,6 +26,12 @@ class Blog(BaseModel):
         blank=True,
         verbose_name=_("Category"),
     )
+    image = models.ImageField(
+        verbose_name=_("Image"),
+        null=True,
+        blank=True,
+        max_length=255,
+    )
 
     class Meta:
         verbose_name = _("Blog")

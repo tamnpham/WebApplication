@@ -81,6 +81,7 @@ class User(
         null=True,
         blank=True,
         upload_to=settings.DEFAULT_MEDIA_PATH,
+        max_length=255,
     )
 
     email = models.CharField(
