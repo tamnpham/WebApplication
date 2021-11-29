@@ -123,17 +123,17 @@ export default function User() {
               >
                 <AvatarImage
                   alt="Remy Sharp"
-                  src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
+                  src={userState.avatar}
                   sx={{ width: 150, height: 150 }}
                 />
               </Box>
             </Grid>
             <Grid item xs={12} sm={5}>
               <Item sx={{ height: "100%" }}>
-                <Typography variant="h4">Phạm Ngọc Tâm</Typography>
+                <Typography variant="h4">{userState.first_name} {userState.last_name}</Typography>
 
                 <Typography variant="body1">
-                  <strong>Email:</strong> {userState.first_name} {userState.last_name}
+                  <strong>Email:</strong> {userState.email}
                 </Typography>
 
                 <Typography variant="body1">
@@ -264,7 +264,7 @@ export default function User() {
             <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
               <AvatarImage
                 alt="Remy Sharp"
-                src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
+                src={userState.avatar}
                 sx={{
                   width: 150,
                   height: 150,
@@ -357,9 +357,9 @@ export default function User() {
                       <div
                         style={{
                           position: "absolute",
-                          left: "50%",
-                          top: "50%",
-                          width: "80%",
+                          left: "60%",
+                          top: "60%",
+                          width: "50%",
                           transform: "translate(-50%, -50%)",
                         }}
                       >

@@ -134,7 +134,9 @@ export default function DashboardApp() {
     <Page title="Dashboard | LSExam">
       <Container maxWidth="xl">
         <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">Hi, {authCtx.firstName} {authCtx.lastName}</Typography>
+          <Typography variant="h4">
+            Hi, {authCtx.firstName} {authCtx.lastName}
+          </Typography>
         </Box>
         <Box sx={{ pb: 5 }} className={classes.center}>
           <Typography variant="h2">Let's choose option</Typography>
@@ -142,13 +144,16 @@ export default function DashboardApp() {
         <Box>
           <form onSubmit={handleSubmit}>
             <Grid
-              container
+              // container
+              // display="flex"
+              justifyContent="center"
               alignItems="center"
-              justify="center"
-              direction="column"
+              textAlign="center"
+              // direction="column"
+              columns={{ xs: 1, sm: 1, md: 1 }}
             >
-              <Grid item>
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 200 }}>
+              <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
+                <FormControl variant="standard" sx={{ m: 1, width: "50%" }}>
                   <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
                   <Select
                     name="categoryId"
@@ -166,8 +171,9 @@ export default function DashboardApp() {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item>
-                <div style={{ textAlign: "center", minWidth: '200px' }}>
+
+              <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}>
+                <div style={{ textAlign: "center", width: "100%"}}>
                   Number Questions
                   <Slider
                     value={questionOptions.numberQuestion}
@@ -177,11 +183,13 @@ export default function DashboardApp() {
                     min={1}
                     max={100}
                     valueLabelDisplay="on"
+                    width="100%"
                   />
                 </div>
               </Grid>
-              <Grid item>
-                <div style={{textAlign: "center", minWidth: '200px' }}>
+
+              <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}>
+                <div style={{ textAlign: "center", width: "100%" }}>
                   Time (minutes)
                   <Slider
                     value={questionOptions.time}
@@ -194,14 +202,16 @@ export default function DashboardApp() {
                   />
                 </div>
               </Grid>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                onClick={makeQuizHandler}
-              >
-                Submit
-              </Button>
+              <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  onClick={makeQuizHandler}
+                >
+                  Submit
+                </Button>
+              </Grid>
             </Grid>
           </form>
         </Box>
