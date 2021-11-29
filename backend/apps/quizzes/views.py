@@ -20,6 +20,7 @@ BASE_SCORE = 1
 
 class QuizCreationAPI(GenericAPIView):
     """APIView for handling quiz creation."""
+    queryset = None
     serializer_class = QuizSerializer
     permission_classes = (
         IsAuthenticated,
@@ -27,6 +28,15 @@ class QuizCreationAPI(GenericAPIView):
     http_method_names = (
         "post",
     )
+
+    def get_serializer_context(self):
+        context = super(QuizCreationAPI, self).get_serializer_context()
+        context.update(
+            {
+                "request": self.request,
+            }
+        )
+        return context
 
     def post(self, request, *args, **kwargs):
         """Return set of questions related to given category."""
@@ -52,7 +62,10 @@ class QuizCreationAPI(GenericAPIView):
             quiz.questions.add(quest)
         quiz.save()
 
-        data = self.serializer_class(quiz).data
+        # Set up queryset of view class for serializer context setup  
+        self.queryset = questions
+
+        data = self.get_serializer(quiz).data
         # Rename key for quiz ID
         data["quizId"] = data.pop("id")
         return responses.client_success(

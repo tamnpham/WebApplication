@@ -16,6 +16,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         """Customize image serialization method."""
         request = self.context.get("request")
         image_url = None
+
         if instance.image and instance.image.url:
             image_url = instance.image.url
             image_url = request.build_absolute_uri(image_url)
