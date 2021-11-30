@@ -112,26 +112,25 @@ export default function DashboardApp() {
   };
 
   const [options, setOptions] = useState(null);
-  
+
   useEffect(() => {
     const apiUrl = `http://34.72.189.169:8080/api/category`;
     const auth = localStorage.getItem("token");
     const requestOption = {
-      method: 'GET',
-       headers:{
-         Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  'Authorization': "Bearer " + auth,
-          },
-    }
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    };
     fetch(apiUrl, requestOption)
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
         setOptions(response);
       });
-  }, [setOptions]);
-
+  }, []);
 
   return (
     <Page title="Dashboard | LSExam">
@@ -170,7 +169,7 @@ export default function DashboardApp() {
                 </FormControl>
               </Grid>
               <Grid item>
-                <div style={{ textAlign: "center", minWidth: '200px' }}>
+                <div style={{ textAlign: "center", minWidth: "200px" }}>
                   Number Questions
                   <Slider
                     value={questionOptions.numberQuestion}
@@ -178,13 +177,14 @@ export default function DashboardApp() {
                     defaultValue={1}
                     step={1}
                     min={1}
+                    // max={options.length}
                     max={100}
                     valueLabelDisplay="on"
                   />
                 </div>
               </Grid>
               <Grid item>
-                <div style={{textAlign: "center", minWidth: '200px' }}>
+                <div style={{ textAlign: "center", minWidth: "200px" }}>
                   Time (minutes)
                   <Slider
                     value={questionOptions.time}
