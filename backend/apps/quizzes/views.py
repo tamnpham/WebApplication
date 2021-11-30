@@ -192,14 +192,7 @@ class ResultViewAPI(GenericAPIView):
 
     def filter_by_category(self, queryset, category):
         """Filter results by category."""
-        queryset = queryset.filter(
-            Q(
-                category=category,
-            ) |
-            Q(
-                quiz__questions__category=category,
-            )
-        ).distinct("id")
+        queryset = queryset.filter(category=category)
         return queryset
 
     def filter_by_user(self, queryset, user):
