@@ -12,8 +12,8 @@ class ResultAdmin(admin.ModelAdmin):
         "category",
         "duration",
         "score",
-        "n_corrects",
-        "n_questions",
+        "numberCorrects",
+        "numberQuestions",
     )
     readonly_fields = (
         "created",
@@ -28,7 +28,7 @@ class QuizAdmin(admin.ModelAdmin):
     list_display = (
         "owner",
         "get_questions",
-        "n_questions",
+        "numberQuestions",
     )
     readonly_fields = (
         "created",
