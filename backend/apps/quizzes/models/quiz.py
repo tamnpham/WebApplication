@@ -18,7 +18,7 @@ class Quiz(BaseModel):
     )
 
     @property
-    def n_questions(self):
+    def numberQuestions(self):
         return self.questions.count()
 
     class Meta:

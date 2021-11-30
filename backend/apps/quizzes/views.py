@@ -2,11 +2,10 @@ from datetime import datetime, timedelta
 
 from django.db.models import Q
 from django.db.models.aggregates import Max
-from rest_framework import mixins, status
+from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
 
 from apps.core import responses
 from apps.questions.models import Category, Question
@@ -40,24 +39,23 @@ class QuizCreationAPI(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         """Return set of questions related to given category."""
-        n_questions = request.data.get("numberQuestions")
+        numberQuestions = request.data.get("numberQuestions")
         category_id = request.data.get("categoryId")
-        if not n_questions or not category_id:
+        if not numberQuestions or not category_id:
             return Response(
                 data={"error": "Invalid category or number of questions."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # order_by("?") randomize queryset
-        # https://stackoverflow.com/a/47618345
         questions = Question.objects.filter(
             category=category_id,
-        ).order_by("?")
-        n_questions = int(n_questions)
+        )
 
         quiz = Quiz(owner=request.user)
         quiz.save()
-        questions = questions[:n_questions]
+
+        numberQuestions = int(numberQuestions)
+        questions = questions[:numberQuestions]
         for quest in questions:
             quiz.questions.add(quest)
         quiz.save()
@@ -96,7 +94,6 @@ class QuizScoringAPI(GenericAPIView):
                 )
             quiz = quiz.get()
 
-        n_questions = quiz.questions.count()
         t = datetime.strptime(
             request.data.get("duration"),
             "%H:%M:%S",
@@ -111,7 +108,7 @@ class QuizScoringAPI(GenericAPIView):
             category=quiz.questions.first().category,      # handle later
             duration=duration,
             quiz=quiz,
-            n_questions=quiz.n_questions,
+            numberQuestions=quiz.numberQuestions,
         )
 
         score = 0

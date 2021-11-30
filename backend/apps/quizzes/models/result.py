@@ -29,10 +29,10 @@ class Result(BaseModel):
         decimal_places=2,
         verbose_name=_("Score"),
     )
-    n_corrects = models.IntegerField(
+    numberCorrects = models.IntegerField(
         verbose_name=_("Number of correct answers"),
     )
-    n_questions = models.IntegerField(
+    numberQuestions = models.IntegerField(
         verbose_name=_("Number of question a user took"),
     )
     quiz = models.ForeignKey(
