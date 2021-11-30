@@ -32,7 +32,24 @@
         "email": <str>,
         "role": <str>,
         "school": <str>,
-        "major": <str>
+        "major": <str>,
+        "max_score": {
+          "id": <int>,  // category ID
+          "level": <int>,
+          "code": <str>,
+          "name": <str>,
+          "score": <str>
+        },
+        "top_3_scores": [
+          {
+            "id": <int>,  // category ID
+            "level": <int>,
+            "code": <str>,
+            "name": <str>,
+            "score": <str>
+          },
+          ...
+        ]
     }
   }
 }
@@ -104,7 +121,8 @@
 {
     "email": <str>,
     "password": <str>,
-    "role": (optional) <str>
+    "first_name": (optional) <str>,
+    "last_name": (optional) <str>
 }
 ```
 
