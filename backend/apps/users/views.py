@@ -1,11 +1,13 @@
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.core import responses
+from apps.quizzes.models import Result
+from apps.quizzes.views import ScoreboardMixin
 from apps.users.models import User
 
 from .serializers import UserCreateSerializer, UserSerializer
@@ -13,6 +15,7 @@ from .serializers import UserCreateSerializer, UserSerializer
 
 class UserCreateAPI(CreateAPIView):
     serializer_class = UserCreateSerializer
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -65,11 +68,34 @@ class UserLoginAPI(TokenObtainPairView):
             })
 
 
-class UserAPI(RetrieveUpdateAPIView):
+class UserAPI(
+    RetrieveUpdateAPIView,
+    ScoreboardMixin,
+):
     serializer_class = UserSerializer
     permission_classes = (
         IsAuthenticated,
     )
+    http_method_names = (
+        'get',
+        'post',
+    )
+
+    def get_serializer_context(self):
+        context = super(UserAPI, self).get_serializer_context()
+        context.update({
+            "scoreboard": self.filter_results(
+                self.request.user.result_set.all()
+            ),
+        })
+        return context
+
+    def retrieve_scoreboard(self):
+        """Retrieve scoreboard from Result table."""
+        request = self.context.get("request")
+        return self.filter_results(
+            Result.objects.filter(user=request.user),
+        )
 
     def get_object(self, pk=None):
         if pk:
@@ -84,7 +110,11 @@ class UserAPI(RetrieveUpdateAPIView):
         data_response = {}
 
         if user:
-            data_response["user"] = self.get_serializer(user).data
+            serializer = self.get_serializer(user)
+            # import ipdb
+            # ipdb.set_trace()
+            # if serializer.is_valid():
+            data_response["user"] = serializer.data
 
         return responses.client_success(data_response)
 

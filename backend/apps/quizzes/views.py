@@ -62,7 +62,7 @@ class QuizCreationAPI(GenericAPIView):
             quiz.questions.add(quest)
         quiz.save()
 
-        # Set up queryset of view class for serializer context setup  
+        # Set up queryset of view class for serializer context setup
         self.queryset = questions
 
         data = self.get_serializer(quiz).data
@@ -207,13 +207,13 @@ class ResultViewAPI(GenericAPIView):
         return queryset.filter(user=user)
 
 
-class ScoreboardViewAPI(ResultViewAPI):
-    """API for viewing scoreboard."""
-    queryset = Result.objects.all()
+class ScoreboardMixin:
+    """Scoreboard mixin"""
 
-    def get_queryset(self):
+    def filter_results(self, queryset):
         """Filter queryset by max scores for each user and category."""
-        queryset = super().get_queryset()
+        original_queryset = queryset
+        queryset = original_queryset
         # GROUP BY + MAX
         # Ref: https://git.io/JMCP4
         model_max_set = queryset.values(
@@ -233,8 +233,31 @@ class ScoreboardViewAPI(ResultViewAPI):
 
         queryset = queryset.filter(
             q_statement,
-        ).order_by(
+        )
+
+        # Ref: https://stackoverflow.com/a/41702253
+        queryset = queryset.distinct(
+            "user",
+            "category"
+        )
+
+        queryset_ids = queryset.values("id")
+        queryset = original_queryset.filter(id__in=queryset_ids)
+        queryset = queryset.order_by(
             "-score",
             "duration",
         )
         return queryset
+
+
+class ScoreboardViewAPI(
+    ResultViewAPI,
+    ScoreboardMixin,
+):
+    """API for viewing scoreboard."""
+    queryset = Result.objects.all()
+
+    def get_queryset(self):
+        """Apply scoreboard rule to queryset."""
+        queryset = super().get_queryset()
+        return self.filter_results(queryset)
