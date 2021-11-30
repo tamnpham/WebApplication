@@ -112,7 +112,7 @@ class QuizScoringAPI(GenericAPIView):
         )
 
         score = 0
-        n_corrects = 0
+        numberCorrects = 0
         for answer in answers:
             # Need to check if exist
             question_id = answer.get("questionId")
@@ -121,10 +121,10 @@ class QuizScoringAPI(GenericAPIView):
             question = Question.objects.get(pk=question_id)
             if question.trueAnswer == answer_id:
                 score += BASE_SCORE      # X point / 1 correct answer
-                n_corrects += 1
+                numberCorrects += 1
 
         result.score = score
-        result.n_corrects = n_corrects
+        result.numberCorrects = numberCorrects
         result.save()
 
         return responses.client_success(
