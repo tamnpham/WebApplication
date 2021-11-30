@@ -1,22 +1,5 @@
 // material
-import {
-  Box,
-  Grid,
-  Container,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Slider,
-  Button,
-  Stack,
-} from "@mui/material";
+import { Box, Grid, Container, Typography, Button, Stack } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +10,11 @@ import { Question, Timer } from "../components/quiz/";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { selectQuestionOptions } from "../redux/store/questionSlice";
-import { setSubmitAnswers, setQuizId, setResultQuestions } from "../redux/store/answersSlice";
+import {
+  setSubmitAnswers,
+  setQuizId,
+  setResultQuestions,
+} from "../redux/store/answersSlice";
 import Clock from "../components/quiz/Clock";
 
 // ----------------------------------------------------------------------
@@ -76,6 +63,7 @@ export default function Quiz() {
   const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [quiz, setQuiz] = useState(0);
   const [trueAnswers, setTrueAnswers] = useState([]);
+  const [seconds, setSeconds] = useState(questionOptions.time * 60);
 
   // const [timer, setTimer] = useState("00:00:00");
 
@@ -125,6 +113,15 @@ export default function Quiz() {
     setTrueAnswers(initValue);
   }, [questions]);
 
+  useEffect(() => {
+    if (seconds > 0) {
+      setTimeout(() => setSeconds(seconds - 1), 1000);
+    } else {
+      // setSeconds('BOOOOM!');
+      submitHandler();
+    }
+  });
+
   const chooseSelectedAnswer = (index, value) => {
     const newAnswers = selectedAnswers.slice();
     newAnswers[index].answer = value;
@@ -134,8 +131,8 @@ export default function Quiz() {
   console.log(selectedAnswers);
 
   // SubmitHandler
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = () => {
+    // e.preventDefault();
     dispatch(setSubmitAnswers(selectedAnswers));
     dispatch(setQuizId(quiz));
     dispatch(setResultQuestions(questions));
@@ -150,17 +147,23 @@ export default function Quiz() {
           p: "5%",
           backgroundColor: "#161d31",
           color: "white",
-          height: "100%",
+          height: "200%",
         }}
       >
         <Container>
-          {/* <Clock initTime={questionOptions.time}></Clock> */}
-          <Timer
-            initTime={questionOptions.time}
-            submitHandler={submitHandler}
-            // timer={timer}
-            // setTimer={setTimer}
-          ></Timer>
+          <Grid container >
+            <Grid item xs="6">
+              <center>
+              <Typography variant="h4" sx={{paddingTop: 2 }}>
+                Câu hỏi {currentQuestion + 1}
+              </Typography>
+              </center>
+            </Grid>
+            <Grid item xs="6">
+              <center><Clock initTime={questionOptions.time}></Clock></center>
+            </Grid>
+          </Grid>
+
           <Question
             question={questions[currentQuestion]}
             index={currentQuestion + 1}
@@ -204,6 +207,32 @@ export default function Quiz() {
       </Page>
     );
   } else {
-    return <Typography variant="h2">Loading...</Typography>;
+    return (
+      <>
+        <Page
+          sx={{
+            p: "5%",
+            backgroundColor: "#161d31",
+            color: "white",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              width: "80%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <Typography variant="h1" color="white" textAlign="center">
+              {" "}
+              Loading...{" "}
+            </Typography>
+          </div>
+        </Page>
+      </>
+    );
   }
 }

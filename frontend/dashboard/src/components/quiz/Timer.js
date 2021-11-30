@@ -78,7 +78,7 @@ export default function Timer(initTime, submitHandler) {
   }, []);
 
   return (
-    <Typography variant="h4" sx={{ p: 7 }}>
+    <Typography variant="h4" sx={{ p: 1 }}>
     Đồng hồ: {timer}
   </Typography>
   )

@@ -1,22 +1,5 @@
 // material
-import {
-  Box,
-  Grid,
-  Container,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Slider,
-  Button,
-  Stack,
-} from "@mui/material";
+import { Box, Grid, Container, Typography, Button, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 
@@ -52,19 +35,18 @@ export default function Question({
   index,
   answerIndex,
   chooseAnswer,
-  chooseSelectedAnswer
+  chooseSelectedAnswer,
 }) {
-
   const classes = useStyles();
   // console.log(question)
   // console.log(question.image);
   return (
     <Container>
-      <Box>
-        <Typography variant="h4" sx={{ p: 7 }}>
+      {/* <Box>
+        <Typography variant="h4" sx={{ p: 1 }}>
           Câu hỏi {index}
         </Typography>
-      </Box>
+      </Box> */}
       <Box
         sx={{
           border: 1,
@@ -88,10 +70,18 @@ export default function Question({
         >
           {question.content}
         </Typography>
-        <img src={question.image} alt="img question"></img>
+        {question.image && (
+          <center>
+            <img
+              src={question.image}
+              alt="img question"
+              style={{ marginTop: "20px" }}
+            ></img>
+          </center>
+        )}
       </Box>
       <Box>
-        <Stack spacing={2} sx={{ m: 1}}>
+        <Stack spacing={2} sx={{ m: 1 }}>
           {question.answers.map((answer, iterator) => {
             return (
               <Button

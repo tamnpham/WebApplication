@@ -10,12 +10,13 @@ const useStyles = makeStyles({
     display: "flex",
     fontFamily: "sans-serif",
     textAlign: "center",
-    margin: "auto",
-    padding: "20px",
-    width: "35%",
+    // margin: "auto",
+    paddingBottom: "20px",
+    // width: "35%",
+    fontSize: "10px",
   },
   time: {
-    fontSize: "32px",
+    fontSize: "20px",
   },
 });
 
@@ -23,8 +24,8 @@ const minuteSeconds = 60;
 
 const timerProps = {
   isPlaying: true,
-  size: 120,
-  strokeWidth: 6,
+  size: 60,
+  strokeWidth: 5,
 };
 
 const renderTime = (dimension, time) => {

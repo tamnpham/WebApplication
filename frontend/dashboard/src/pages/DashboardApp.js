@@ -107,7 +107,7 @@ export default function DashboardApp() {
     console.log(questionOptions.time);
   };
 
-  const [options, setOptions] = useState(null);
+  const [options, setOptions] = useState([]);
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
@@ -124,98 +124,136 @@ export default function DashboardApp() {
     fetch(apiUrl, requestOption)
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         setOptions(response);
       });
-  }, []);
+  },[]);
 
-  return (
-    <Page title="Dashboard | LSExam">
-      <Container maxWidth="xl">
-        <Box sx={{ pb: 5 }}>
-          <Typography variant="h4">
-            Hi, {authCtx.firstName} {authCtx.lastName}
-          </Typography>
-        </Box>
-        <Box sx={{ pb: 5 }} className={classes.center}>
-          <Typography variant="h2">Let's choose option</Typography>
-        </Box>
-        <Box>
-          <form onSubmit={handleSubmit}>
-            <Grid
-              // container
-              // display="flex"
-              justifyContent="center"
-              alignItems="center"
-              textAlign="center"
-              // direction="column"
-              columns={{ xs: 1, sm: 1, md: 1 }}
-            >
-              <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
-                <FormControl variant="standard" sx={{ m: 1, width: "50%" }}>
-                  <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
-                  <Select
-                    name="categoryId"
-                    value={questionOptions.categoryId}
-                    onChange={handleInputChange}
-                    inputProps={{ className: classes.inputSelect }}
-                  >
-                    {options &&
-                      options.length &&
-                      options.map((option) => (
-                        <MenuItem value={option.id} key={option.id}>
-                          {option.name}
-                        </MenuItem>
-                      ))}
-                  </Select>
-                </FormControl>
-              </Grid>
+  if (options.length > 0) {
+    return (
+      <Page title="Dashboard | LSExam">
+        <Container maxWidth="xl">
+          <Box sx={{ pb: 5 }}>
+            <Typography variant="h4">
+              Hi, {authCtx.firstName} {authCtx.lastName}
+            </Typography>
+          </Box>
+          <Box sx={{ pb: 5 }} className={classes.center}>
+            <Typography variant="h2">Let's choose option</Typography>
+          </Box>
+          <Box>
+            <form onSubmit={handleSubmit}>
+              <Grid
+                // container
+                // display="flex"
+                justifyContent="center"
+                alignItems="center"
+                textAlign="center"
+                // direction="column"
+                columns={{ xs: 1, sm: 1, md: 1 }}
+              >
+                <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
+                  <FormControl variant="standard" sx={{ m: 1, width: "50%" }}>
+                    <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
+                    <Select
+                      name="categoryId"
+                      value={questionOptions.categoryId}
+                      onChange={handleInputChange}
+                      inputProps={{ className: classes.inputSelect }}
+                    >
+                      {options &&
+                        options.length &&
+                        options.map((option) => (
+                          <MenuItem value={option.id} key={option.id}>
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
 
-              <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}>
-                <div style={{ textAlign: "center", width: "100%"}}>
-                  Number Questions
-                  <Slider
-                    value={questionOptions.numberQuestion}
-                    onChange={handleSliderChange("numberQuestion")}
-                    defaultValue={1}
-                    step={1}
-                    min={1}
-                    // max={options.length}
-                    max={100}
-                    valueLabelDisplay="on"
-                    width="100%"
-                  />
-                </div>
-              </Grid>
-
-              <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}>
-                <div style={{ textAlign: "center", width: "100%" }}>
-                  Time (minutes)
-                  <Slider
-                    value={questionOptions.time}
-                    onChange={handleSliderChange("time")}
-                    defaultValue={1}
-                    step={1}
-                    min={1}
-                    max={120}
-                    valueLabelDisplay="on"
-                  />
-                </div>
-              </Grid>
-              <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  onClick={makeQuizHandler}
+                <Grid
+                  item
+                  xs={10}
+                  sm={6}
+                  sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}
                 >
-                  Submit
-                </Button>
+                  <div style={{ textAlign: "center", width: "100%" }}>
+                    Number Questions
+                    <Slider
+                      value={questionOptions.numberQuestion}
+                      onChange={handleSliderChange("numberQuestion")}
+                      defaultValue={1}
+                      step={1}
+                      min={1}
+                      max={100}
+                      valueLabelDisplay="on"
+                      width="100%"
+                    />
+                  </div>
+                </Grid>
+
+                <Grid
+                  item
+                  xs={10}
+                  sm={6}
+                  sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}
+                >
+                  <div style={{ textAlign: "center", width: "100%" }}>
+                    Time (minutes)
+                    <Slider
+                      value={questionOptions.time}
+                      onChange={handleSliderChange("time")}
+                      defaultValue={1}
+                      step={1}
+                      min={1}
+                      max={120}
+                      valueLabelDisplay="on"
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    // onClick={makeQuizHandler}
+                  >
+                    Submit
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </Box>
-      </Container>
-    </Page>
-  );
+            </form>
+          </Box>
+        </Container>
+      </Page>
+    );
+  } else {
+    return (
+      <>
+        <Page
+          sx={{
+            p: "5%",
+            backgroundColor: "#161d31",
+            color: "white",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              width: "80%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <Typography variant="h1" color="white" textAlign="center">
+              {" "}
+              Loading...{" "}
+            </Typography>
+          </div>
+        </Page>
+      </>
+    );
+  }
 }
