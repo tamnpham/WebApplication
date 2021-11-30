@@ -245,6 +245,32 @@ export default function Quiz() {
       </Page>
     );
   } else {
-    return <Typography variant="h2">Loading...</Typography>;
+    return (
+      <>
+        <Page
+          sx={{
+            p: "5%",
+            backgroundColor: "#161d31",
+            color: "white",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              width: "80%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <Typography variant="h1" color="white" textAlign="center">
+              {" "}
+              Loading...{" "}
+            </Typography>
+          </div>
+        </Page>
+      </>
+    );
   }
 }

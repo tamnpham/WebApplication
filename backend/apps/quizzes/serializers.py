@@ -8,7 +8,7 @@ from .models import Quiz, Result
 class QuizSerializer(serializers.ModelSerializer):
     """Serializer for representing `Quiz`."""
     n_questions = serializers.IntegerField()
-    questions = QuestionSerializer(many=True, read_only=True)
+    questions = QuestionSerializer(many=True)
 
     class Meta:
         model = Quiz

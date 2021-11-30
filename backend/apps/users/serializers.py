@@ -11,6 +11,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    avatar = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = (
@@ -33,3 +35,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
                 "required": False,
             },
         }
+
+    # https://stackoverflow.com/a/35522896
+    def get_avatar(self, instance):
+        """Customize image serialization method."""
+        request = self.context.get("request")
+        image_url = None
+        if instance.avatar and instance.avatar.url:
+            image_url = instance.avatar.url
+            image_url = request.build_absolute_uri(image_url)
+        return image_url

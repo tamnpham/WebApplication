@@ -84,7 +84,7 @@ class UserAPI(RetrieveUpdateAPIView):
         data_response = {}
 
         if user:
-            data_response["user"] = self.serializer_class(user).data
+            data_response["user"] = self.get_serializer(user).data
 
         return responses.client_success(data_response)
 
