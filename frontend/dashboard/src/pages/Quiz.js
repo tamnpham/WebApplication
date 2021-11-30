@@ -16,6 +16,7 @@ import {
   setResultQuestions,
 } from "../redux/store/answersSlice";
 import Clock from "../components/quiz/Clock";
+import LinearProgress from '@mui/material/LinearProgress'
 
 // ----------------------------------------------------------------------
 
@@ -230,6 +231,7 @@ export default function Quiz() {
               {" "}
               Loading...{" "}
             </Typography>
+            <LinearProgress color="success" />
           </div>
         </Page>
       </>
