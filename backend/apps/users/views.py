@@ -111,9 +111,6 @@ class UserAPI(
 
         if user:
             serializer = self.get_serializer(user)
-            # import ipdb
-            # ipdb.set_trace()
-            # if serializer.is_valid():
             data_response["user"] = serializer.data
 
         return responses.client_success(data_response)
