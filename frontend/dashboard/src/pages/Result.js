@@ -1,5 +1,5 @@
 // material
-import { Box, Container, Typography, Button, Stack } from "@mui/material";
+import { Box, Container, Typography, Button, Stack, Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
@@ -48,12 +48,13 @@ const useStyles = makeStyles({
 export default function Quiz() {
   const classes = useStyles();
 
-  const score = useSelector(selectSubmitAnswers);
+  const result = useSelector(selectSubmitAnswers);
 
   const [questions, setQuestions] = useState([]);
   const [submitedAnswers, setSubmitedAnswers] = useState([]);
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(null);
 
   const navigate = useNavigate();
 
@@ -74,28 +75,31 @@ export default function Quiz() {
         Authorization: "Bearer " + auth,
       },
       body: JSON.stringify({
-        quizId: score.quizId,
-        duration: score.duration,
-        answers: score.submitedAnswers,
+        quizId: result.quizId,
+        duration: result.duration,
+        answers: result.submitedAnswers,
       }),
     };
 
     fetch("http://34.72.189.169:8080/api/quiz/score/", requestOption)
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((response) => {
+        console.log(response);
+        setScore(response.data.score)
+      })
       .catch((err) => console.log(err));
-  },[questions]);
+  }, []);
 
   useEffect(() => {
-    setQuestions(score.questions);
-    setSubmitedAnswers(score.submitedAnswers);
-  }, [score]);
+    setQuestions(result.questions);
+    setSubmitedAnswers(result.submitedAnswers);
+  }, [result]);
 
   const goHome = (e) => {
     e.preventDefault();
     navigate("/dashboard/app");
   };
-  if (questions.length > 0) {
+  if ((questions.length > 0) && (score !== null)) {
     return (
       <Page
         title="Quiz"
@@ -103,19 +107,35 @@ export default function Quiz() {
           p: "5%",
           backgroundColor: "#161d31",
           color: "white",
-          height: "100%",
+          height: "200%",
         }}
       >
         <Container>
           <Container>
-            <Box>
-              <Typography variant="h4" sx={{ p: 7 }}>
-                Câu hỏi {currentQuestion + 1}
-              </Typography>
-              <Typography variant="h4" sx={{ p: 7 }}>
-                Duration {score.duration}
-              </Typography>
-            </Box>
+            <Grid container spacing={3}>
+              <Grid item xs="3">
+                <center>
+                  <Typography variant="h4" sx={{ p: 1 }}>
+                    Câu hỏi {currentQuestion + 1}
+                  </Typography>
+                </center>
+              </Grid>
+              <Grid item xs="6">
+                <center>
+                  <Typography variant="h4" sx={{ p: 1 }}>
+                    Duration {result.duration}
+                  </Typography>
+                </center>
+              </Grid>
+              <Grid item xs="3">
+                <center>
+                  <Typography variant="h4" sx={{ p: 1 }}>
+                    Score: {score}
+                  </Typography>
+                </center>
+              </Grid>
+            </Grid>
+            <Box></Box>
             <Box
               sx={{
                 border: 1,
@@ -139,6 +159,15 @@ export default function Quiz() {
               >
                 {questions[currentQuestion].content}
               </Typography>
+              {questions[currentQuestion].image && (
+                <center>
+                  <img
+                    src={questions[currentQuestion].image}
+                    alt="img question"
+                    style={{ marginTop: "20px" }}
+                  ></img>
+                </center>
+              )}
             </Box>
             <Box>
               <Stack spacing={2} sx={{ m: 1 }}>
@@ -265,8 +294,7 @@ export default function Quiz() {
             }}
           >
             <Typography variant="h1" color="white" textAlign="center">
-              {" "}
-              Loading...{" "}
+              Loading...
             </Typography>
           </div>
         </Page>
