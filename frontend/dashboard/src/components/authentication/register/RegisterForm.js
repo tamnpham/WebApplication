@@ -51,7 +51,6 @@ export default function RegisterForm() {
       console.log(values.email);
       console.log(values.password);
       
-      // let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAjyNQx0JeGtAkOlJDhQADGBo2OIjcfLM0';
       let url = 'http://34.72.189.169:8080/api/user/create/';
 
       fetch(
