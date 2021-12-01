@@ -121,7 +121,7 @@ export default function CenteredTab() {
           </FormControl>
         </Box>
 
-        {ok === true && <ScoreTable data={scoreData} />}
+        {ok === true && <ScoreTable data={scoreData} length={scoreData.length} />}
       </Box>
     </>
   );

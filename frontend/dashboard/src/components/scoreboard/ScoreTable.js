@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useState, useEffect } from 'react';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,34 +32,51 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function ScoreTable(props) {
 
-  const data = props.data
+  const data = props.data;
+  const length = props.length;
 
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell style={{width: '1%', textAlign: 'center'}}>Hạng</StyledTableCell>
-            <StyledTableCell style={{width: '1%', textAlign: 'center'}}>Username</StyledTableCell>
-            <StyledTableCell style={{width: '1%', textAlign: 'center'}}>Score</StyledTableCell>
+            <StyledTableCell style={{ width: "1%", textAlign: "center" }}>
+              Rank
+            </StyledTableCell>
+            <StyledTableCell style={{ width: "1%", textAlign: "center" }}>
+              Username
+            </StyledTableCell>
+            <StyledTableCell style={{ width: "1%", textAlign: "center" }}>
+              Score
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row) => (
+          {data.map((row, index) => (
             <StyledTableRow>
-              <StyledTableCell component="th" scope="row" style={{width: '1%', textAlign: 'center'}}>
-                {row.rank}
+              <StyledTableCell
+                component="th"
+                scope="row"
+                style={{ width: "1%", textAlign: "center" }}
+              >
+                <strong>{index+1}</strong>
               </StyledTableCell>
 
-              <StyledTableCell component="th" scope="row" style={{width: '1%', textAlign: 'center'}}>
-                {row.user}
+              <StyledTableCell
+                component="th"
+                scope="row"
+                style={{ width: "1%", textAlign: "center" }}
+              >
+                <strong>{row.user.first_name} {row.user.last_name}</strong>
               </StyledTableCell>
-            
-              <StyledTableCell component="th" scope="row" style={{width: '1%', textAlign: 'center'}}>
-                {row.score}
-              </StyledTableCell>
-              
 
+              <StyledTableCell
+                component="th"
+                scope="row"
+                style={{ width: "1%", textAlign: "center" }}
+              >
+                <strong>{row.score}</strong>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
