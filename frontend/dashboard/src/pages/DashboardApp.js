@@ -23,6 +23,7 @@ import Page from "../components/Page";
 import { useDispatch } from "react-redux";
 import { getQuestionOptions } from "../redux/store/questionSlice";
 import { AuthContext } from "../store/auth-context";
+import LinearProgress from '@mui/material/LinearProgress';
 
 // ----------------------------------------------------------------------
 
@@ -230,28 +231,22 @@ export default function DashboardApp() {
   } else {
     return (
       <>
-        <Page
-          sx={{
-            p: "5%",
-            backgroundColor: "#161d31",
-            color: "white",
-            height: "100%",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              width: "80%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <Typography variant="h1" color="white" textAlign="center">
-              {" "}
-              Loading...{" "}
-            </Typography>
-          </div>
+        <Page title="Dashboard | LSExam">
+          <Container maxWidth="xl" >
+            <Box sx={{p: '25%'}}>
+              <center
+                style={{
+                  width: "80%",
+                }}
+              >
+                <Typography variant="h1" color="white" textAlign="center">
+                  {" "}
+                  Loading...{" "}
+                </Typography>
+                <LinearProgress color="success" />
+              </center>
+            </Box>
+          </Container>
         </Page>
       </>
     );

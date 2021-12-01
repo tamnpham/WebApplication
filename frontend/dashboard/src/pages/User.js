@@ -158,7 +158,7 @@ export default function User() {
                   variant="h1"
                   sx={{ textAlign: "center", color: "#43b581" }}
                 >
-                  300
+                  {userState.max_score.score}
                 </Typography>
               </Item>
             </Grid>

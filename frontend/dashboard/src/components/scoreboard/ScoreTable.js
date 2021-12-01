@@ -51,7 +51,7 @@ export default function ScoreTable(props) {
               </StyledTableCell>
 
               <StyledTableCell component="th" scope="row" style={{width: '1%', textAlign: 'center'}}>
-                {row.name}
+                {row.user}
               </StyledTableCell>
             
               <StyledTableCell component="th" scope="row" style={{width: '1%', textAlign: 'center'}}>

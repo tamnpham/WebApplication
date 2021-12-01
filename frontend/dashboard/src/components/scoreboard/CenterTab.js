@@ -1,102 +1,127 @@
 import * as React from 'react';
-import { useState } from 'react';
-import Box from '@mui/material/Box';
+import { useState, useEffect } from 'react';
+import {
+  Box,
+  Grid,
+  Container,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Slider,
+  Button,
+  Stack,
+} from "@mui/material";
 import ScoreTable from './ScoreTable';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
 import { makeStyles } from "@material-ui/core/styles";
-import { useFormik, Form, FormikProvider } from 'formik';
+import LinearProgress from '@mui/material/LinearProgress';
+import Page from "../../components/Page";
 
 const useStyles = makeStyles({
   input: {
     color: "white"
-  }
+  },
+  typography: {
+    position: "absolute",
+    left: "50%",
+    transform: "(-50%,50%)",
+  },
+  center: {
+    textAlign: "center",
+  },
+  answer: {
+    textAlign: "left",
+    borderRadius: 4,
+    border: "1px solid",
+    p: 2,
+    backgroundColor: "#ABEBC6",
+    color: "#145A32",
+  },
+  inputSelect: {
+    color: "white",
+  },
 });
 
-function sleepFor(sleepDuration){
-  var now = new Date().getTime();
-  while(new Date().getTime() < now + sleepDuration){ /* Do nothing */ }
-}
+
 
 export default function CenteredTab() {
   const classes = useStyles();
   const [scoreData, setScoreData] = useState([]);
-  
-  function createData(rank, name, score) {
-    return { rank, name, score};
-  }
+  const [options, setOptions] = useState([]);
+  const [ok, setOK] = useState(false);
 
-  
+  useEffect(() => {
+    const apiUrl = `http://34.72.189.169:8080/api/category`;
+    const auth = localStorage.getItem("token");
+    const requestOption = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    };
+    fetch(apiUrl, requestOption)
+      .then((res) => res.json())
+      .then((response) => {
+        setOptions(response);
+      });
+  },[]);
 
-  const formik = useFormik({
-    initialValues: {
-      category: '',
-    },
-    onSubmit: (values, actions) => {
-      
-      actions.setSubmitting(true);
-      // sleepFor(5000);
-      console.log(values.category);
-      //fetch data
-      const rows = [
-        createData(1, "Phạm Ngọc Tâm", 4000),
-        createData(2, "Huỳnh Minh Trí", 3000),
-        createData(3, "Long", 3000),
-        createData(4, "Long", 3000),
-        createData(2, "Huỳnh Minh Trí", 3000),
-        createData(2, "Huỳnh Minh Trí", 3000),
-        createData(2, "Huỳnh Minh Trí", 3000),
-        createData(2, "Huỳnh Minh Trí", 3000),
-    ];
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-      setScoreData(rows);
-      console.log(scoreData)
-      // eslint-disable-next-line no-const-assign
-      actions.setSubmitting(false);
-    }
-  })
+    const apiUrl = `http://34.72.189.169:8080/api/quiz/scoreboard/`;
+    const auth = localStorage.getItem("token");
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+    const request = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+      body: JSON.stringify({
+        categoryId: value,
+      }),
+    };
+
+    fetch(apiUrl, request)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+        setScoreData(response.data);
+        setOK(true)
+      });
+  };
 
   return (
     <>
-      <Box sx={{ width: "100%", typography: "body1" }}>
+      <Box sx={{ width: "100%", typography: "body1", pt: "5%" }}>
         <Box
-          sx={{ borderBottom: 1, borderColor: "divider", textAlign: "center" }}
+          sx={{ textAlign: "center" }}
         >
-          <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <FormControl sx={{ width: "50%", pb: "2%" }}>
-                <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                <Select
-                  label="Category"
-                  placeholder="Choose category you want"
-                  inputProps={{ className: classes.input }}
-                  {...getFieldProps("category")}
-                >
-                  <MenuItem value={"ATMNC"}>An toàn mạng nâng cao</MenuItem>
-                  <MenuItem value={"QLRR"}>Quản lí rủi ro</MenuItem>
-                </Select>
-
-                <Button
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  sx={{ mt: "4%" }}
-                  loading={isSubmitting}
-                >
-                  View
-                </Button>
-              </FormControl>
-            </Form>
-          </FormikProvider>
+          <FormControl variant="standard" sx={{ m: 1, width: "50%", pb: "5%" }}>
+            <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
+            <Select
+              name="categoryId"
+              // value={questionOptions.categoryId}
+              onChange={handleInputChange}
+              inputProps={{ className: classes.inputSelect }}
+            >
+              {options &&
+                options.length > 0 &&
+                options.map((option) => (
+                  <MenuItem value={option.id} key={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
         </Box>
 
-        <ScoreTable data={scoreData}/>
+        {ok === true && <ScoreTable data={scoreData} />}
       </Box>
     </>
   );

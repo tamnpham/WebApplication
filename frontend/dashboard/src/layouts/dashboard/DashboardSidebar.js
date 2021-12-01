@@ -76,7 +76,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         <Box sx={{ mb: 5, mx: 2.5 }}>
           <Link underline="none" component={RouterLink} to="#">
             <AccountStyle>
-              <Avatar src={authCtx.avatar} alt="photoURL" />
+              <Avatar src={'http://34.72.189.169:8080'+authCtx.avatar} alt="photoURL" />
               <Box sx={{ ml: 2 }}>
                 <Typography variant="subtitle2" sx={{ color: "white" }}>
                   {" "}

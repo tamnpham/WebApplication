@@ -70,7 +70,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={'http://34.72.189.169:8080'+authCtx.avatar} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -81,10 +81,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {authCtx.firstName} {authCtx.lastName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {authCtx.email}
           </Typography>
         </Box>
 
