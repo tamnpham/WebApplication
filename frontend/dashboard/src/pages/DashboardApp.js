@@ -80,6 +80,7 @@ export default function DashboardApp() {
       [name]: value,
     });
   };
+  
   const handleSliderChange = (name) => (e, value) => {
     setQuestionOptions({
       ...questionOptions,
