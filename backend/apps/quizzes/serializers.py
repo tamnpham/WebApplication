@@ -45,6 +45,7 @@ class QuizSerializer(serializers.ModelSerializer):
 
 class ResultSerializer(serializers.ModelSerializer):
     """Serializer for representing `Result`."""
+    user = serializers.SerializerMethodField()
 
     class Meta:
         model = Result
@@ -52,3 +53,12 @@ class ResultSerializer(serializers.ModelSerializer):
             "created",
             "modified",
         )
+
+    def get_user(self, instance):
+        """Get limited fields of user."""
+        user = instance.user
+        return {
+            "id": user.id,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+        }

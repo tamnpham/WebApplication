@@ -9,7 +9,9 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = "__all__"
+        exclude = (
+            "title",
+        )
 
     # https://stackoverflow.com/a/35522896
     def get_image(self, instance):
