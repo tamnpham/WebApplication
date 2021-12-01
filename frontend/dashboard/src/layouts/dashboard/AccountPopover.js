@@ -70,7 +70,7 @@ export default function AccountPopover() {
           })
         }}
       >
-        <Avatar src={'http://34.72.189.169:8080'+authCtx.avatar} alt="photoURL" />
+        <Avatar src={authCtx.avatar} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
