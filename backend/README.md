@@ -366,7 +366,7 @@
   "data": {
     "quizId": <int>,
     "owner": <int>,
-    "n_questions": <int>,
+    "numberQuestions": <int>,
     "questions": [
         {
             "id": <int>,
@@ -419,9 +419,13 @@
     "id": <int>,    // result's id
     "duration": <str>,
     "score": <str>,
-    "n_corrects": <int>,
-    "n_questions": <int>,
-    "user": <int>,      // user's id
+    "numberCorrects": <int>,
+    "numberQuestions": <int>,
+    "user": {
+      "id": <int>,  // user's id
+      "first_name": <str>,
+      "last_name": <str>
+    },
     "category": (optional) <int>    // category relevant to the result
   }
 }
@@ -442,9 +446,13 @@
         "id": <int>,    // result's id
         "duration": <str>,
         "score": <str>,
-        "n_corrects": <int>,
-        "n_questions": <int>,
-        "user": <int>,  // user's id
+        "numberCorrects": <int>,
+        "numberQuestions": <int>,
+        "user": {
+          "id": <int>,  // user's id
+          "first_name": <str>,
+          "last_name": <str>
+        },
         "category": (optional) <int>,  // category's id
         "quiz": <int>   // quiz's id
     },
@@ -472,9 +480,13 @@
         "id": <int>,    // result's id
         "duration": <str>,
         "score": <str>,
-        "n_corrects": <int>,
-        "n_questions": <int>,
-        "user": <int>,  // user's id
+        "numberCorrects": <int>,
+        "numberQuestions": <int>,
+        "user": {
+          "id": <int>,  // user's id
+          "first_name": <str>,
+          "last_name": <str>
+        },
         "category": (optional) <int>,  // category's id
         "quiz": <int>   // quiz's id
     },
@@ -498,9 +510,13 @@
         "id": <int>,    // result's id
         "duration": <str>,
         "score": <str>,
-        "n_corrects": <int>,
-        "n_questions": <int>,
-        "user": <int>,  // user's id
+        "numberCorrects": <int>,
+        "numberQuestions": <int>,
+        "user": {
+          "id": <int>,  // user's id
+          "first_name": <str>,
+          "last_name": <str>
+        },
         "category": (optional) <int>,  // category's id
         "quiz": <int>   // quiz's id
     },
@@ -528,9 +544,13 @@
         "id": <int>,    // result's id
         "duration": <str>,
         "score": <str>,
-        "n_corrects": <int>,
-        "n_questions": <int>,
-        "user": <int>,  // user's id
+        "numberCorrects": <int>,
+        "numberQuestions": <int>,
+        "user": {
+          "id": <int>,  // user's id
+          "first_name": <str>,
+          "last_name": <str>
+        },
         "category": (optional) <int>,  // category's id
         "quiz": <int>   // quiz's id
     },
