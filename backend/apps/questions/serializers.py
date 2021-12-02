@@ -28,7 +28,6 @@ class QuestionReturnSerializer(serializers.ModelSerializer):
         if instance.image and instance.image.url:
             image_url = instance.image.url
             image_url = request.build_absolute_uri(image_url)
-        import ipdb; ipdb.set_trace()
         return image_url
 
 
