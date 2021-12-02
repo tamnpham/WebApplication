@@ -1,15 +1,12 @@
-from rest_framework import mixins, status
-from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework.renderers import JSONRenderer
-from rest_framework.response import Response
+from rest_framework import mixins
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from apps.core import responses
 from apps.core.permissions import IsTeacherUser
 
 from .models import Category, Question
-from .serializers import CategorySerializer, QuestionSerializer
+from .serializers import (CategorySerializer, QuestionReturnSerializer,
+                          QuestionSerializer)
 
 
 class QuestionViewSet(
@@ -24,31 +21,36 @@ class QuestionViewSet(
             IsAuthenticated,
         ),
         "create": (
-            # IsTeacherUser,
-            IsAuthenticated,
+            IsTeacherUser,
         ),
     }
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    # permission_classes = (
-    #     IsAuthenticated,
-    # )
+    serializer_action_classes = {
+        "default": QuestionReturnSerializer,
+        "create": QuestionSerializer,
+    }
 
-    #
     def get_permissions(self):
         """Get permission based on action"""
         try:
             # return permission_classes depending on `action`
-            return [
+            return (
                 permission()
                 for permission in self.permission_classes_by_action[self.action]
-            ]
+            )
         except KeyError:
             # action is not set return default permission_classes
-            return [
+            return (
                 permission()
                 for permission in self.permission_classes_by_action["default"]
-            ]
+            )
+
+    def get_serializer_class(self):
+        try:
+            return self.serializer_action_classes[self.action]
+        except (KeyError, AttributeError):
+            return self.serializer_action_classes["default"]
 
 
 class QuestionCreateViewSet(
