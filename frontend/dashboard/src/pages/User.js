@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import { useState, useEffect } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
+import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } from "formik";
 
 // material
 import {
@@ -63,6 +64,9 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "center",
   },
+  input: {
+    color: "white"
+  }
 });
 
 
@@ -90,11 +94,48 @@ export default function User() {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
+        const userInfo = response.data.user;
+        if (userInfo.max_score == null) {
+          
+        }
         setUserState(response.data.user);
         
       });
 
     },[])
+
+    const formik = useFormik({
+      initialValues: {
+        firstName: "",
+        lastName: "",
+        major: "",
+        school: "",
+        phone: ""
+      },
+      onSubmit: (values, actions) => {
+        // const auth = localStorage.getItem("token");
+        // actions.setSubmitting(true);
+        console.log(values.firstName);
+        console.log(values.lastName);
+        console.log(values.major);
+        console.log(values.school);
+        console.log(values.phone);
+        
+        var data = new FormData();
+        data.append("first_name", values.firstName);
+        data.append("last_name", values.lastName);
+        data.append("major", values.major);
+        data.append("school", values.school);
+        data.append("phone", values.phone);
+
+        console.log(data);
+        setEditMode(false);
+      }})
+      
+      const {
+        handleSubmit,
+        getFieldProps,
+      } = formik;
 
   if (userState != null) {
   return (
@@ -130,7 +171,9 @@ export default function User() {
             </Grid>
             <Grid item xs={12} sm={5}>
               <Item sx={{ height: "100%" }}>
-                <Typography variant="h4">{userState.first_name} {userState.last_name}</Typography>
+                <Typography variant="h4">
+                  {userState.first_name} {userState.last_name}
+                </Typography>
 
                 <Typography variant="body1">
                   <strong>Email:</strong> {userState.email}
@@ -154,12 +197,15 @@ export default function User() {
                 <Typography variant="h4" sx={{ textAlign: "center" }}>
                   Max Score
                 </Typography>
+
+                {userState.max_score !== null && (
                 <Typography
                   variant="h1"
                   sx={{ textAlign: "center", color: "#43b581" }}
                 >
                   {userState.max_score.score}
                 </Typography>
+                )}
               </Item>
             </Grid>
 
@@ -180,7 +226,7 @@ export default function User() {
                       </Box>
                       <Typography
                         variant="h4"
-                        sx={{ textAlign: "center", color: "#43b581", pt: '1%' }}
+                        sx={{ textAlign: "center", color: "#43b581", pt: "1%" }}
                       >
                         Math
                       </Typography>
@@ -196,7 +242,7 @@ export default function User() {
                       </Box>
                       <Typography
                         variant="h4"
-                        sx={{ textAlign: "center", color: "#43b581", pt: '1%' }}
+                        sx={{ textAlign: "center", color: "#43b581", pt: "1%" }}
                       >
                         English
                       </Typography>
@@ -212,7 +258,7 @@ export default function User() {
                       </Box>
                       <Typography
                         variant="h4"
-                        sx={{ textAlign: "center", color: "#43b581", pt: '1%' }}
+                        sx={{ textAlign: "center", color: "#43b581", pt: "1%" }}
                       >
                         History
                       </Typography>
@@ -260,85 +306,100 @@ export default function User() {
 
       {isEditMode && (
         <Container>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
-              <AvatarImage
-                alt="Remy Sharp"
-                src={userState.avatar}
-                sx={{
-                  width: 150,
-                  height: 150,
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  marginTop: "100px",
-                  marginBottom: "50px",
-                }}
-              />
-              <Button variant="contained" component="label">
-                Upload File
-                <input type="file" hidden />
-              </Button>
-            </Grid>
-            <Grid item xs={12} sm={9} sx={{ textAlign: "center" }}>
-              <Typography variant="h3" sx={{ pb: 5 }}>
-                <strong>Update profile</strong>
-              </Typography>
-              <Box className={classes.formEdit}>
-                <FormControl>
-                  {/* <label>Firstname</label> */}
-                  <TextField
-                    id="outlined-basic"
-                    label="Firstname"
-                    variant="outlined"
-                    sx={{ pb: 2 }}
+          <Formik value={formik}>
+            <Form autoComplete="off" onSubmit={handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+                  <AvatarImage
+                    alt="Remy Sharp"
+                    src={userState.avatar}
+                    sx={{
+                      width: 150,
+                      height: 150,
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "100px",
+                      marginBottom: "50px",
+                    }}
                   />
+                  <Button variant="contained" component="label">
+                    Upload File
+                    <input type="file" hidden />
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={9} sx={{ textAlign: "center"}}>
+                  <Typography variant="h3" sx={{ pb: 5 }}>
+                    <strong>Update profile</strong>
+                  </Typography>
+                  <Box className={classes.formEdit}>
+                    <FormControl>
+                      {/* <label>Firstname</label> */}
+                      <TextField
+                        id="outlined-basic"
+                        label="Firstname"
+                        variant="outlined"
+                        sx={{ pb: 2 }}
+                        inputProps={{className: classes.input}}
+                        {...getFieldProps("firstName")}
+                      />
 
-                  {/* <label>Lastname</label> */}
-                  <TextField
-                    id="outlined-basic"
-                    label="Lastname"
-                    variant="outlined"
-                    sx={{ pb: 2 }}
-                  />
+                      {/* <label>Lastname</label> */}
+                      <TextField
+                        id="outlined-basic"
+                        label="Lastname"
+                        variant="outlined"
+                        sx={{ pb: 2 }}
+                        inputProps={{className: classes.input}}
+                        {...getFieldProps("lastName")}
+                      />
 
-                  {/* <label>Address</label> */}
-                  <TextField
-                    id="outlined-basic"
-                    label="Major"
-                    variant="outlined"
-                    sx={{ pb: 2 }}
-                  />
+                      {/* <label>Address</label> */}
+                      <TextField
+                        id="outlined-basic"
+                        label="Major"
+                        variant="outlined"
+                        sx={{ pb: 2 }}
+                        inputProps={{className: classes.input}}
+                        {...getFieldProps("major")}
+                      />
 
-                  {/* <label>Phone</label> */}
-                  <TextField
-                    id="outlined-basic"
-                    label="School"
-                    variant="outlined"
-                    sx={{ pb: 2 }}
-                  />
+                      {/* <label>Phone</label> */}
+                      <TextField
+                        id="outlined-basic"
+                        label="School"
+                        variant="outlined"
+                        sx={{ pb: 2 }}
+                        inputProps={{className: classes.input}}
+                        {...getFieldProps("school")}
+                      />
 
-                  {/* <label>Email</label> */}
-                  <TextField
-                    id="outlined-basic"
-                    label="Phone"
-                    variant="outlined"
-                    sx={{ pb: 2 }}
-                  />
-                </FormControl>
-              </Box>
+                      {/* <label>Email</label> */}
+                      <TextField
+                        id="outlined-basic"
+                        label="Phone"
+                        variant="outlined"
+                        sx={{ pb: 2 }}
+                        inputProps={{className: classes.input}}
+                        {...getFieldProps("phone")}
+                      />
+                    </FormControl>
+                  </Box>
 
-              <Box textAlign="center">
-                <Button
-                  onClick={() => setEditMode(false)}
-                  variant="contained"
-                  color="success"
-                  className={classes.buttonEdit}
-                >
-                  Save
-                </Button>
-              </Box>
-            </Grid>
-          </Grid>
+                  <Box textAlign="center">
+                    <Button
+                      // onClick={() => setEditMode(false)}
+                      type="submit"
+                      variant="contained"
+                      color="success"
+                      className={classes.buttonEdit}
+                    >
+                      Save
+                    </Button>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Form>
+          </Formik>
         </Container>
       )}
     </Page>
