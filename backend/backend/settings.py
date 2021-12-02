@@ -1,4 +1,5 @@
 import os
+import uuid
 from datetime import timedelta
 from pathlib import Path
 
@@ -40,6 +41,9 @@ THIRD_PARTY = [
 LOCAL_APPS = [
     'apps.core',
     'apps.users',
+    'apps.questions',
+    'apps.blogs',
+    'apps.quizzes',
 ]
 
 INSTALLED_APPS += THIRD_PARTY + LOCAL_APPS
@@ -47,9 +51,9 @@ INSTALLED_APPS += THIRD_PARTY + LOCAL_APPS
 # Midleware
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -84,11 +88,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '34.72.189.169',
-        'PORT': '5432',
+        'NAME': 'longnguyen',
+        'USER': 'longnguyen',
+        'PASSWORD': 'longnguyen',
+        'HOST': 'localhost',
+        'PORT': '15432',
     }
 }
 
@@ -122,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
 USE_I18N = True
 
@@ -137,10 +141,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = os.path.join(BASE_DIR, "static", "media")
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"), 
+    os.path.join(BASE_DIR, "static"),
 ]
 
 # Default primary key field type
@@ -148,24 +152,20 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# REST authentication for testing
-# REST_FRAMEWORK = {
-#    'DEFAULT_AUTHENTICATION_CLASSES': (
-#        'rest_framework.authentication.TokenAuthentication',
-#    ),
-#    'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAdminUser'
-#    ),
-# }
-
 # Custom Configuration
 # Change default User
 AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
+    "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ],
+    ),
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    # ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
 }
 
 # JWT Attributes
@@ -173,10 +173,38 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
 }
 
-# CORS
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://localhost:8080',
-    'http://34.72.189.169:3000',
-    'http://34.72.189.169:8080',
-)
+# Disable CORS Issues
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "OPTIONS",
+]
+
+
+# CSRF token
+# Temporary disabled for testing
+# CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_HTTPONLY = True
+# SESSION_COOKIE_SECURE = True
+
+# Paths
+def _default_media_path(model_instance, filename):
+    """Function for generation of upload path for Django model instance.
+
+    Generates upload path that contain instance"s model app, model name,
+    object"s ID, salt and file name.
+    """
+    components = model_instance._meta.label_lower.split(".")
+    # components.append(str(model_instance.id))
+    components.append(str(uuid.uuid4()))
+    components.append(filename)
+
+    return os.path.join(*components)
+
+
+DEFAULT_MEDIA_PATH = _default_media_path

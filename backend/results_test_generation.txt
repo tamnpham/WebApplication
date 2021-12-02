@@ -1,0 +1,13 @@
+# Make sure Category, User, and Quiz instances are available
+
+from apps.users.models import User
+from apps.questions.models import *
+from apps.quizzes.models import *
+from apps.quizzes.factories import *
+
+results = ResultFactory.create_batch(
+	size=5,
+	category=Category.objects.all()[1],     
+	quiz=Quiz.objects.all()[0],     
+	user=User.objects.all()[1],     
+)
