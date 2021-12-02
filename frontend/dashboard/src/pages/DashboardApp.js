@@ -145,12 +145,9 @@ export default function DashboardApp() {
           <Box>
             <form onSubmit={handleSubmit}>
               <Grid
-                // container
-                // display="flex"
                 justifyContent="center"
                 alignItems="center"
                 textAlign="center"
-                // direction="column"
                 columns={{ xs: 1, sm: 1, md: 1 }}
               >
                 <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
