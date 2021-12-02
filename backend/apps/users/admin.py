@@ -15,9 +15,6 @@ class UserAdmin(DjangoUserAdmin):
         "email",
         "first_name",
         "last_name",
-        "avatar",
-        "school",
-        "major",
         "is_staff",
         "is_superuser",
     )
@@ -41,7 +38,7 @@ class UserAdmin(DjangoUserAdmin):
             "fields": (
                 "first_name",
                 "last_name",
-                "avatar",
+                # "avatar",
                 "phone"
             ),
         }),

@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import UserManager as DjangoUserManager
 from django.core import validators
@@ -76,13 +75,23 @@ class User(
         help_text="Designates whether this user should be treated as active.",
     )
 
-    avatar = models.ImageField(
-        verbose_name=_("Avatar image"),
-        null=True,
-        blank=True,
-        upload_to=settings.DEFAULT_MEDIA_PATH,
-        max_length=255,
-    )
+    # avatar = imagekitmodels.ProcessedImageField(
+    #     verbose_name=_("Avatar"),
+    #     blank=True,
+    #     null=True,
+    #     upload_to=settings.DEFAULT_MEDIA_PATH,
+    #     max_length=512,
+    #     processors=[Transpose()],
+    #     options={
+    #         "quality": 100,
+    #     },
+    # )
+    # avatar_thumbnail = imagekitmodels.ImageSpecField(
+    #     source="avatar",
+    #     processors=[
+    #         ResizeToFill(50, 50),
+    #     ],
+    # )
 
     email = models.CharField(
         verbose_name=_("Email address"),
@@ -104,29 +113,6 @@ class User(
         max_length=30,
         blank=True,
         null=True,
-    )
-
-    school = models.CharField(
-        verbose_name=_("School"),
-        max_length=255,
-        blank=True,
-        null=True,
-    )
-
-    INFORMATION_SECURITY = "Information Security"
-    COMPUTER_SCIENCE = "Computer Science"
-    NETWORK_COMMUNICATION = "Computer Networks and Data Communications"
-    MAJORS = (
-        (INFORMATION_SECURITY, "Information Security"),
-        (NETWORK_COMMUNICATION, "Computer Networks and Data Communications"),
-        (COMPUTER_SCIENCE, "Computer Science"),
-    )
-
-    major = models.CharField(
-        verbose_name=_("Major"),
-        max_length=255,
-        choices=MAJORS,
-        default=INFORMATION_SECURITY,
     )
 
     @property

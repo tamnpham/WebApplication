@@ -1,13 +1,11 @@
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.core import responses
-from apps.quizzes.models import Result
-from apps.quizzes.views import ScoreboardMixin
 from apps.users.models import User
 
 from .serializers import UserCreateSerializer, UserSerializer
@@ -15,7 +13,6 @@ from .serializers import UserCreateSerializer, UserSerializer
 
 class UserCreateAPI(CreateAPIView):
     serializer_class = UserCreateSerializer
-    permission_classes = (AllowAny,)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -51,51 +48,18 @@ class UserLoginAPI(TokenObtainPairView):
             user.last_login = timezone.now()
             user.save()
 
-            avatar = user.avatar.url if user.avatar else ""
-            data = {
-                "token": serializer.validated_data,
-                "user": {
-                    "first_name": user.first_name,
-                    "last_name": user.last_name,
-                    "role": user.role,
-                    "avatar": request.build_absolute_uri(avatar),
-                }
-            }
-            return responses.client_success(data)
+            return responses.client_success(
+                serializer.validated_data,
+            )
         else:
             raise responses.client_error({
                 "errors": serializer.errors,
             })
 
 
-class UserAPI(
-    RetrieveUpdateAPIView,
-    ScoreboardMixin,
-):
+class UserAPI(RetrieveUpdateAPIView):
     serializer_class = UserSerializer
-    permission_classes = (
-        IsAuthenticated,
-    )
-    http_method_names = (
-        'get',
-        'post',
-    )
-
-    def get_serializer_context(self):
-        context = super(UserAPI, self).get_serializer_context()
-        context.update({
-            "scoreboard": self.filter_results(
-                self.request.user.result_set.all()
-            ),
-        })
-        return context
-
-    def retrieve_scoreboard(self):
-        """Retrieve scoreboard from Result table."""
-        request = self.context.get("request")
-        return self.filter_results(
-            Result.objects.filter(user=request.user),
-        )
+    permission_classes = [IsAdminUser]
 
     def get_object(self, pk=None):
         if pk:
@@ -105,31 +69,10 @@ class UserAPI(
         return user
 
     def retrieve(self, request, *args, **kwargs):
-        user_id = request.user.id
-        user = self.get_object(user_id)
+        user = self.get_object(kwargs["user_id"])
         data_response = {}
 
         if user:
-            serializer = self.get_serializer(user)
-            data_response["user"] = serializer.data
+            data_response["user"] = self.serializer_class(user).data
 
         return responses.client_success(data_response)
-
-    def post(self, request, *args, **kwargs):
-        user_id = request.user.id
-        user = self.get_object(user_id)
-        fields = (
-            "first_name",
-            "last_name",
-            "phone",
-            "avatar",
-            "school",
-            "major",
-        )
-        for field in fields:
-            value = request.data.get(field)
-            if value:
-                setattr(user, field, value)
-
-        user.save()
-        return responses.client_success(data=None)
