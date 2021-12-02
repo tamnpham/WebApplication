@@ -228,8 +228,7 @@ export default function Quiz() {
             }}
           >
             <Typography variant="h1" color="white" textAlign="center">
-              {" "}
-              Loading...{" "}
+              Loading...
             </Typography>
             <LinearProgress color="success" />
           </div>
