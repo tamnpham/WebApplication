@@ -5,13 +5,19 @@ from .models import Category, Question
 
 class QuestionSerializer(serializers.ModelSerializer):
     """Serializer for representing `Question`."""
+
+    class Meta:
+        model = Question
+        fields = "__all__"
+
+
+class QuestionReturnSerializer(serializers.ModelSerializer):
+    """Serializer for representing `Question`."""
     image = serializers.SerializerMethodField()
 
     class Meta:
         model = Question
-        exclude = (
-            "title",
-        )
+        fields = "__all__"
 
     # https://stackoverflow.com/a/35522896
     def get_image(self, instance):
@@ -22,6 +28,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         if instance.image and instance.image.url:
             image_url = instance.image.url
             image_url = request.build_absolute_uri(image_url)
+        import ipdb; ipdb.set_trace()
         return image_url
 
 
