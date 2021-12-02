@@ -208,6 +208,46 @@
 
 **Expected status**: 201 Created
 
+<hr>
+
+/api/question/filter/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+    "categoryId": <int>
+}
+```
+
+**Response**:
+```json
+{
+  "status": "Success",
+  "data": [
+    {
+      "id": <int>,
+      "created": <str:timestamp>,
+      "modified": <str:timestamp>,
+      "code": <str>,
+      "title": <str>,
+      "content": <str>,
+      "answers": [
+          <str>,
+          <str>,
+          <str>,
+          <str>
+      ],
+      "true": <int>,
+      "image": <str:url>,
+      "category": <int>
+    },
+    ...
+  ]
+}
+```
+
 ## Category
 
 /api/category/

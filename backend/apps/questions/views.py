@@ -1,4 +1,5 @@
 from rest_framework import mixins
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
@@ -7,6 +8,7 @@ from apps.core.permissions import IsTeacherUser
 from .models import Category, Question
 from .serializers import (CategorySerializer, QuestionReturnSerializer,
                           QuestionSerializer)
+from apps.core import responses
 
 
 class QuestionViewSet(
@@ -21,7 +23,8 @@ class QuestionViewSet(
             IsAuthenticated,
         ),
         "create": (
-            IsTeacherUser,
+            IsAuthenticated,    # For testing
+            # IsTeacherUser,
         ),
     }
     queryset = Question.objects.all()
@@ -32,7 +35,7 @@ class QuestionViewSet(
     }
 
     def get_permissions(self):
-        """Get permission based on action"""
+        """Get permission based on action."""
         try:
             # return permission_classes depending on `action`
             return (
@@ -47,10 +50,24 @@ class QuestionViewSet(
             )
 
     def get_serializer_class(self):
+        """Get serializer based on action."""
         try:
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
             return self.serializer_action_classes["default"]
+
+    @action(detail=False, methods=("post",))
+    def filter(self, request):
+        """Get list of questions by category."""
+        queryset = self.get_queryset()
+        category_id = request.data.get("categoryId")
+        queryset = queryset.filter(category__id=category_id)
+        return responses.client_success(
+            [
+                self.get_serializer(quest).data
+                for quest in queryset
+            ]
+        )
 
 
 class QuestionCreateViewSet(
