@@ -83,20 +83,6 @@ export default function Admin() {
     setValueTab(newValue);
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log(value);
-  // };
-
-  const onSubmit = (values, submitProps) => {
-    console.log("Form data", values);
-    console.log("submitProps", submitProps);
-    submitProps.setSubmitting(false);
-    submitProps.resetForm();
-  };
-
-  const [formValues, setFormValues] = useState(null);
-
   useEffect(() => {
     const apiUrl = `http://34.72.189.169:8080/api/category`;
     const auth = localStorage.getItem("token");
@@ -116,93 +102,6 @@ export default function Admin() {
       });
   }, []);
 
-  const formik = useFormik({
-    initialValues: {
-      category: "",
-      title: "",
-      content: "",
-      answers: [],
-      trueAnswer: 0,
-      image: "",
-    },
-    onSubmit: (values, actions) => {
-      const auth = localStorage.getItem("token");
-      actions.setSubmitting(true);
-      console.log(values.category);
-      console.log(values.title);
-      console.log(values.content);
-      console.log(values.image);
-      let data = new FormData();
-      data.append("image", values.image);
-      console.log(data);
-      // console.log(values.answers);
-      // console.log(values.trueAnswer);
-
-      // const requestOption = {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //     Authorization: "Bearer " + auth,
-      //   },
-      //   body: JSON.stringify({
-      //     category: values.category,
-      //     title: values.title,
-      //     content: values.content,
-      //     answers: values.answers,
-      //     trueAnswer: values.trueAnswer,
-      //     image: values.image,
-      //   }),
-      // };
-
-      // let url = "http://34.72.189.169:8080/api/question/";
-
-      // fetch(url, requestOption)
-      //   // HTTP response
-      //   .then((response) => {
-      //     // if 200 OK
-      //     if (response.ok) {
-      //       //success
-      //       console.log(response);
-      //       return response.json();
-      //     } else {
-      //       //fail
-      //       return response.json().then((data) => {
-      //         //show error
-      //         let errorMessage = "Register failed!";
-      //         throw new Error(errorMessage);
-      //       });
-      //     }
-      //   })
-      //   .then((data) => {
-      //     console.log(data.status);
-      //     // eslint-disable-next-line eqeqeq
-      //     if (data.status == "Success") {
-      //       alert("Create question Success!");
-      //     } else {
-      //       let errorMessage = "Something went wrong! Try again!";
-      //       throw new Error(errorMessage);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     alert(err.message);
-      //   });
-      actions.setSubmitting(false);
-    },
-  });
-
-  const {
-    errors,
-    touched,
-    handleSubmit,
-    isSubmitting,
-    getFieldProps,
-    setFieldValue,
-    values,
-    handleChange,
-    handleBlur,
-  } = formik;
-
   return (
     <Page title="Admin Page">
       <Container>
@@ -211,7 +110,7 @@ export default function Admin() {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList
                 onChange={handleChangeTab}
-                aria-label="lab API tabs example"
+                aria-label="Question Tab"
                 centered
               >
                 <Tab label="Edit question" value="1" />
@@ -220,6 +119,7 @@ export default function Admin() {
               </TabList>
             </Box>
             <TabPanel value="1">
+
             </TabPanel>
             <TabPanel value="2">
               <Formik
@@ -237,17 +137,19 @@ export default function Admin() {
                   data.append("category", values.category);
                   data.append("title", values.title);
                   data.append("content", values.content);
-                  data.append("answers", values.answers);
+                  // data.append("answers", values.answers);
                   data.append("trueAnswer", values.trueAnswer);
                   data.append("image", values.image);
-                  console.log(data.get("answers"));
+                  const arrayAnswers = values.answers;
+                  for (var i = 0; i < arrayAnswers.length; i++) {
+                    data.append("answers", arrayAnswers[i]);
+                  }
+                  console.log(data.getAll("answers"));
+                  console.log(arrayAnswers)
                   console.log(values.answers)
-                  console.log(data.get("image"));
                   const requestOption = {
                     method: "POST",
                     headers: {
-                      // Accept: "*/*",
-                      // "Content-Type": "multipart/form-data",
                       Authorization: "Bearer " + auth,
                     },
                     body: data
@@ -288,7 +190,7 @@ export default function Admin() {
                       <Select
                         name="categoryId"
                         value={questionData.categoryId}
-                        onChange={handleInputChange}
+                        // onChange={handleInputChange}
                         {...getFieldProps("category")}
                         inputProps={{ className: classes.inputSelect }}
                       >
