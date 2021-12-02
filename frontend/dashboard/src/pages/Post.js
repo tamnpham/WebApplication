@@ -97,8 +97,14 @@ export default function Post(props) {
           <ElevationScroll {...props}>
             <AppBar>
               <Toolbar sx={{ backgroundColor: "#b8b9d1" }}>
-                <Button variant="contained" color="primary" component={Link} to="/dashboard/app">
+                <Button variant="contained" color="primary" component={Link} to="/dashboard/app" sx={{mr: '1%'}}>
                   Home
+                </Button>
+                <Button variant="contained" color="primary" component={Link} to="/dashboard/blog" sx={{mr: '1%'}}>
+                  Blogs
+                </Button>
+                <Button variant="contained" color="primary" component={Link} to="/dashboard/blog">
+                  Edit
                 </Button>
               </Toolbar>
             </AppBar>
