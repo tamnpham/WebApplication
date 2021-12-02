@@ -1,20 +1,22 @@
-from rest_framework import mixins
+from rest_framework import mixins, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
+from apps.core import responses
 from apps.core.permissions import IsTeacherUser
 
 from .models import Category, Question
 from .serializers import (CategorySerializer, QuestionReturnSerializer,
                           QuestionSerializer)
-from apps.core import responses
 
 
 class QuestionViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing questions."""
@@ -26,12 +28,17 @@ class QuestionViewSet(
             IsAuthenticated,    # For testing
             # IsTeacherUser,
         ),
+        "update_question": (
+            IsAuthenticated,    # For testing
+            # IsTeacherUser,
+        ),
     }
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     serializer_action_classes = {
         "default": QuestionReturnSerializer,
         "create": QuestionSerializer,
+        "update_question": QuestionSerializer,
     }
 
     def get_permissions(self):
@@ -57,7 +64,7 @@ class QuestionViewSet(
             return self.serializer_action_classes["default"]
 
     @action(detail=False, methods=("post",))
-    def filter(self, request):
+    def filter(self, request, *args, **kwargs):
         """Get list of questions by category."""
         queryset = self.get_queryset()
         category_id = request.data.get("categoryId")
@@ -68,6 +75,30 @@ class QuestionViewSet(
                 for quest in queryset
             ]
         )
+
+    @action(detail=False, methods=("post",))
+    def update_question(self, request, *args, **kwargs):
+        """Update a question given question's ID."""
+        question_id = request.data.get("id")
+        question = Question.objects.filter(pk=question_id)
+        if not question_id or not question:
+            return Response(
+                data={
+                    "status": "error",
+                    "message": "Question not found.",
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+        question = question.get()       # Get object from queryset
+        serializer = self.get_serializer(
+            question,
+            data=request.data,
+            partial=True,
+        )
+        if not serializer.is_valid():
+            return responses.client_error("Invalid data.")
+        serializer.save()
+        return responses.client_success(data=None)
 
 
 class QuestionCreateViewSet(

@@ -210,6 +210,33 @@
 
 <hr>
 
+/api/question/\<int:questionId\>/
+
+**Method**: GET
+
+**Response**:
+```json
+{
+    "id": <int>,
+    "image": <str:url>,
+    "created": <str:timestamp>,
+    "modified": <str:timestamp>,
+    "code": <str>,
+    "title": <str>,
+    "content": <str>,
+    "answers": [
+        <str>,
+        <str>,
+        <str>,
+        <str>
+    ],
+    "trueAnswer": <int>,
+    "category": <int>
+}
+```
+
+<hr>
+
 /api/question/filter/
 
 **Method**: POST
@@ -239,12 +266,45 @@
           <str>,
           <str>
       ],
-      "true": <int>,
+      "trueAnswer": <int>,
       "image": <str:url>,
       "category": <int>
     },
     ...
   ]
+}
+```
+
+<hr>
+
+/api/question/update/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+      "id": <int>,
+      "code": <str>,
+      "title": <str>,
+      "content": <str>,
+      "answers": [
+          <str>,
+          <str>,
+          <str>,
+          <str>
+      ],
+      "true": <int>,
+      "image": <str:url>,
+      "category": <int>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": null
 }
 ```
 

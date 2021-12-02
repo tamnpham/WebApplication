@@ -14,7 +14,12 @@ urlpatterns = [
         "filter/",
         views.QuestionViewSet.as_view({"post": "filter"}),
         name="question-list-by-category",
-    )
+    ),
+    path(
+        "update/",
+        views.QuestionViewSet.as_view({"post": "update_question"}),
+        name="question-update",
+    ),
 ]
 urlpatterns += router.urls
 
