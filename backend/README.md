@@ -121,8 +121,8 @@
 {
     "email": <str>,
     "password": <str>,
-    "first_name": (optional) <str>,
-    "last_name": (optional) <str>
+    "first_name": <str>,
+    "last_name": <str>
 }
 ```
 
