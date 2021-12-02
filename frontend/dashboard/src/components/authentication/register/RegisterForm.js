@@ -169,7 +169,7 @@ export default function RegisterForm() {
             inputProps={{ className: classes.input}}
           />
 
-          <FormControl fullWidth>
+          {/* <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Role</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -182,7 +182,7 @@ export default function RegisterForm() {
               <MenuItem value={'Student'}>Student</MenuItem>
               <MenuItem value={'Teacher'}>Teacher</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
 
           <LoadingButton
             fullWidth

@@ -113,20 +113,57 @@ export default function User() {
         phone: ""
       },
       onSubmit: (values, actions) => {
-        // const auth = localStorage.getItem("token");
+        const auth = localStorage.getItem("token");
         // actions.setSubmitting(true);
         console.log(values.firstName);
         console.log(values.lastName);
         console.log(values.major);
         console.log(values.school);
         console.log(values.phone);
-        
+        console.log(values.avatar);
+
         var data = new FormData();
         data.append("first_name", values.firstName);
         data.append("last_name", values.lastName);
         data.append("major", values.major);
         data.append("school", values.school);
         data.append("phone", values.phone);
+        data.append("avatar", values.avatar);
+
+        const request = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + auth,
+          },
+          body: data
+        };
+
+        let url = "http://34.72.189.169:8080/api/user/profile/";
+
+        fetch(url, request)
+          // HTTP response
+          .then((response) => {
+            //  OK
+            if (response.ok) {
+              //success
+              console.log(response);
+              return response.json();
+            } else {
+              //fail
+              return response.json().then((data) => {
+                //show error
+                let errorMessage = "Update failed!";
+                throw new Error(errorMessage);
+              });
+            }
+          })
+          .then((data) => {
+            if (data.status === "Success")
+            alert('Update profile successfully! Please reload the page!');
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
 
         console.log(data);
         setEditMode(false);
@@ -135,6 +172,7 @@ export default function User() {
       const {
         handleSubmit,
         getFieldProps,
+        setFieldValue
       } = formik;
 
   if (userState != null) {
@@ -199,12 +237,12 @@ export default function User() {
                 </Typography>
 
                 {userState.max_score !== null && (
-                <Typography
-                  variant="h1"
-                  sx={{ textAlign: "center", color: "#43b581" }}
-                >
-                  {userState.max_score.score}
-                </Typography>
+                  <Typography
+                    variant="h1"
+                    sx={{ textAlign: "center", color: "#43b581" }}
+                  >
+                    {userState.max_score.score}
+                  </Typography>
                 )}
               </Item>
             </Grid>
@@ -324,10 +362,17 @@ export default function User() {
                   />
                   <Button variant="contained" component="label">
                     Upload File
-                    <input type="file" hidden />
+                    <input
+                      accept="image/*"
+                      type="file"
+                      hidden
+                      onChange={(e) => {
+                        setFieldValue("avatar", e.target.files[0]);
+                      }}
+                    />
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={9} sx={{ textAlign: "center"}}>
+                <Grid item xs={12} sm={9} sx={{ textAlign: "center" }}>
                   <Typography variant="h3" sx={{ pb: 5 }}>
                     <strong>Update profile</strong>
                   </Typography>
@@ -339,7 +384,7 @@ export default function User() {
                         label="Firstname"
                         variant="outlined"
                         sx={{ pb: 2 }}
-                        inputProps={{className: classes.input}}
+                        inputProps={{ className: classes.input }}
                         {...getFieldProps("firstName")}
                       />
 
@@ -349,7 +394,7 @@ export default function User() {
                         label="Lastname"
                         variant="outlined"
                         sx={{ pb: 2 }}
-                        inputProps={{className: classes.input}}
+                        inputProps={{ className: classes.input }}
                         {...getFieldProps("lastName")}
                       />
 
@@ -359,7 +404,7 @@ export default function User() {
                         label="Major"
                         variant="outlined"
                         sx={{ pb: 2 }}
-                        inputProps={{className: classes.input}}
+                        inputProps={{ className: classes.input }}
                         {...getFieldProps("major")}
                       />
 
@@ -369,7 +414,7 @@ export default function User() {
                         label="School"
                         variant="outlined"
                         sx={{ pb: 2 }}
-                        inputProps={{className: classes.input}}
+                        inputProps={{ className: classes.input }}
                         {...getFieldProps("school")}
                       />
 
@@ -379,7 +424,7 @@ export default function User() {
                         label="Phone"
                         variant="outlined"
                         sx={{ pb: 2 }}
-                        inputProps={{className: classes.input}}
+                        inputProps={{ className: classes.input }}
                         {...getFieldProps("phone")}
                       />
                     </FormControl>
