@@ -2,7 +2,7 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } from "formik";
 
@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 // components
 import Page from "../components/Page";
-
+import { AuthContext } from '../store/auth-context';
 // -----------------------------Variable and State--------------------------
 
 
@@ -75,6 +75,7 @@ export default function User() {
   const classes = useStyles();
   const [isEditMode, setEditMode] = useState(false);
   const [userState, setUserState] = useState(null);
+  const authCtx = useContext(AuthContext);
 
   useEffect(() => {
     //fetch data from server
@@ -95,9 +96,7 @@ export default function User() {
       .then((response) => {
         console.log(response);
         const userInfo = response.data.user;
-        if (userInfo.max_score == null) {
-          
-        }
+        authCtx.update(userInfo.first_name, userInfo.last_name, userInfo.avatar);
         setUserState(response.data.user);
         
       });
@@ -128,7 +127,9 @@ export default function User() {
         data.append("major", values.major);
         data.append("school", values.school);
         data.append("phone", values.phone);
-        data.append("avatar", values.avatar);
+        if (values.avatar != null) {
+          data.append("avatar", values.avatar);
+        }
 
         const request = {
           method: "POST",
@@ -140,7 +141,7 @@ export default function User() {
 
         let url = "http://34.72.189.169:8080/api/user/profile/";
 
-        fetch(url, request)
+         fetch(url, request)
           // HTTP response
           .then((response) => {
             //  OK

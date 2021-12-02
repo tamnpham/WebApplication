@@ -98,7 +98,7 @@ export default function AccountPopover() {
             }),
           }}
         >
-          <Avatar src={userState.avatar} alt="photoURL" />
+          <Avatar src={authCtx.avatar} alt="photoURL" />
         </IconButton>
 
         <MenuPopover
@@ -109,7 +109,7 @@ export default function AccountPopover() {
         >
           <Box sx={{ my: 1.5, px: 2.5 }}>
             <Typography variant="subtitle1" noWrap>
-              {userState.first_name} {userState.last_name}
+              {authCtx.firstName} {authCtx.lastName}
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
               {userState.email}

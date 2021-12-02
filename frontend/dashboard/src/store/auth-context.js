@@ -9,6 +9,7 @@ export const AuthContext = React.createContext({
     isLoggedIn: false,
     login: (token, firstName, lastName, avatar) => {},
     logout: () => {},
+    update: (firstName, lastName, avatar) => {},
 });
 
 export const AuthContextProvider = (props) => {
@@ -50,6 +51,16 @@ export const AuthContextProvider = (props) => {
         localStorage.removeItem('avatar');
     }
 
+    const updateHandler = (firstName, lastName, avatar) => {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setAvatar(avatar);
+
+        localStorage.setItem('firstName', firstName);
+        localStorage.setItem('lastName', lastName);
+        localStorage.setItem('avatar', avatar);
+    }
+
     const contextValue = {
         token: token,
         firstName: firstName,
@@ -57,7 +68,8 @@ export const AuthContextProvider = (props) => {
         avatar: avatar,
         isLoggedIn: userIsLoggedIn,
         login: loginHandler,
-        logout: logoutHandler
+        logout: logoutHandler,
+        update: updateHandler
     }
     return (
         <AuthContext.Provider value={contextValue}>

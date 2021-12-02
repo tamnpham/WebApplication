@@ -52,31 +52,31 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
-    const [userState, setUserState] = useState(null);
+    // const [userState, setUserState] = useState(null);
 
-    useEffect(() => {
-      //fetch data from server
-      const apiUrl = `http://34.72.189.169:8080/api/user/profile/`;
-      const auth = localStorage.getItem("token");
+    // useEffect(() => {
+    //   //fetch data from server
+    //   const apiUrl = `http://34.72.189.169:8080/api/user/profile/`;
+    //   const auth = localStorage.getItem("token");
   
-      const request = {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
-        },
-      };
+    //   const request = {
+    //     method: "GET",
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json",
+    //       Authorization: "Bearer " + auth,
+    //     },
+    //   };
       
-      console.log('hahaa');
+    //   console.log('hahaa');
 
-      fetch(apiUrl, request)
-        .then((res) => res.json())
-        .then((response) => {
-          setUserState(response.data.user);
-        });
+    //   fetch(apiUrl, request)
+    //     .then((res) => res.json())
+    //     .then((response) => {
+    //       setUserState(response.data.user);
+    //     });
   
-      },[])
+    //   },[])
     
     const renderContent = (
       <Scrollbar
@@ -102,15 +102,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         <Box sx={{ mb: 5, mx: 2.5 }}>
           <Link underline="none" component={RouterLink} to="#">
             <AccountStyle>
-              {userState !== null && (
-                <Avatar src={userState.avatar} alt="photoURL" />
-              )}
+              <Avatar src={authCtx.avatar} alt="photoURL" />
               <Box sx={{ ml: 2 }}>
-                {userState !== null && (
-                  <Typography variant="subtitle2" sx={{ color: "white" }}>
-                    {userState.first_name} {userState.last_name}
-                  </Typography>
-                )}
+                <Typography variant="subtitle2" sx={{ color: "white" }}>
+                  {authCtx.firstNname} {authCtx.lastName}
+                </Typography>
               </Box>{" "}
             </AccountStyle>{" "}
           </Link>{" "}
@@ -126,7 +122,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       </Scrollbar>
     );
 
-    if (userState !== null) {
     return (
       <RootStyle>
         <MHidden width="lgUp">
@@ -156,7 +151,4 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </MHidden>{" "}
       </RootStyle>
     );
-} else {
-  return <div></div>;
-}
 }
