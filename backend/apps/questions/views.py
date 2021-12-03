@@ -8,8 +8,7 @@ from apps.core import responses
 from apps.core.permissions import IsTeacherUser
 
 from .models import Category, Question
-from .serializers import (CategorySerializer, QuestionReturnSerializer,
-                          QuestionSerializer)
+from .serializers import CategorySerializer, QuestionSerializer
 
 
 class QuestionViewSet(
@@ -35,12 +34,6 @@ class QuestionViewSet(
     }
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    serializer_action_classes = {
-        "default": QuestionReturnSerializer,
-        "create": QuestionSerializer,
-        # "update_question": QuestionSerializer,
-        "update_question": QuestionReturnSerializer,
-    }
 
     def get_permissions(self):
         """Get permission based on action."""
@@ -56,13 +49,6 @@ class QuestionViewSet(
                 permission()
                 for permission in self.permission_classes_by_action["default"]
             )
-
-    def get_serializer_class(self):
-        """Get serializer based on action."""
-        try:
-            return self.serializer_action_classes[self.action]
-        except (KeyError, AttributeError):
-            return self.serializer_action_classes["default"]
 
     @action(detail=False, methods=("post",))
     def filter(self, request, *args, **kwargs):
