@@ -446,8 +446,8 @@
 **Response**
 ```json
 {
-    "status": <str:status_message>,
-    "data": null
+  "status": <str:status_message>,
+  "data": null
 }
 ```
 
@@ -460,8 +460,8 @@
 **Request**:
 ```json
 {
-    "categoryId": <int>,
-    "numberQuestions": <int>
+  "categoryId": <int>,
+  "numberQuestions": <int>
 }
 ```
 

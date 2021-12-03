@@ -26,6 +26,8 @@ class Question(BaseModel):
     title = models.CharField(
         verbose_name=_("Title"),
         max_length=255,
+        null=True,
+        blank=True,
     )
     content = models.CharField(
         verbose_name=_("Content"),
