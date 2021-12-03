@@ -38,7 +38,8 @@ class QuestionViewSet(
     serializer_action_classes = {
         "default": QuestionReturnSerializer,
         "create": QuestionSerializer,
-        "update_question": QuestionSerializer,
+        # "update_question": QuestionSerializer,
+        "update_question": QuestionReturnSerializer,
     }
 
     def get_permissions(self):
