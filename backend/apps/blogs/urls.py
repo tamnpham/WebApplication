@@ -12,9 +12,9 @@ router.register(
 )
 urlpatterns = [
     path(
-        "<int:blog_id>/update/",
+        "update/",
         # csrf_exempt(views.BlogUpdateAPI.as_view()),
-        views.BlogUpdateAPI.as_view(),
+        views.BlogViewSetAPI.as_view({"post": "update_blog"}),
         name="blog-update",
     ),
 ]

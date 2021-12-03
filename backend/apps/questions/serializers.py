@@ -10,9 +10,6 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = "__all__"
-        extra_fields = (
-            "image_url",
-        )
 
     # https://stackoverflow.com/a/35522896
     def get_image_url(self, instance):
