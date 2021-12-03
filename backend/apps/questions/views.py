@@ -16,6 +16,7 @@ class QuestionViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing questions."""
@@ -90,6 +91,7 @@ class QuestionViewSet(
 
 class QuestionCreateViewSet(
     mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet,
 ):
     """ViewSet for creating questions."""
