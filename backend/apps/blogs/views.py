@@ -16,6 +16,7 @@ class BlogViewSetAPI(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing blogs."""
