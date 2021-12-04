@@ -114,7 +114,6 @@ export default function Admin() {
             <TabPanel value="3">
               <DeleteQuestion />
             </TabPanel>
-            <TabPanel value="3">Item Three</TabPanel>
             <TabPanel value="4">
               <AddPost />
             </TabPanel>
