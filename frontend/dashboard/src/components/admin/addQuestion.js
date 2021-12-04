@@ -9,6 +9,8 @@ import {
   Select,
   TextField,
   Stack,
+  FormControl,
+  InputLabel
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
@@ -123,6 +125,7 @@ export default function AddQuestion(questionData) {
               })
               .then((data) => {
                 console.log(data);
+                alert("Create successfully");
               })
               .catch((err) => {
                 alert(err.message);
@@ -131,23 +134,29 @@ export default function AddQuestion(questionData) {
           render={({ values, getFieldProps, setFieldValue }) => (
             <Form>
               <Stack spacing={2}>
-                <Select
-                  name="categoryId"
-                  value={questionData.categoryId}
-                  // placeholder="Category"
-                  // onChange={handleInputChange}
-                  // label="Category"
-                  {...getFieldProps("category")}
-                  inputProps={{ className: classes.inputSelect }}
+                <FormControl
+                  variant="standard"
+                  sx={{ m: 1, width: "100%", pb: "5%" }}
                 >
-                  {categories &&
-                    categories.length &&
-                    categories.map((category) => (
-                      <MenuItem value={category.id} key={category.id}>
-                        {category.name}
-                      </MenuItem>
-                    ))}
-                </Select>
+                  <InputLabel>Category</InputLabel>
+                  <Select
+                    name="categoryId"
+                    value={questionData.categoryId}
+                    // placeholder="Category"
+                    // onChange={handleInputChange}
+                    // label="Category"
+                    {...getFieldProps("category")}
+                    inputProps={{ className: classes.inputSelect }}
+                  >
+                    {categories &&
+                      categories.length &&
+                      categories.map((category) => (
+                        <MenuItem value={category.id} key={category.id}>
+                          {category.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
                 {/* <TextField
                   label="Title"
                   variant="outlined"
@@ -178,7 +187,7 @@ export default function AddQuestion(questionData) {
                     <TextField
                       label="True Answer (0->A,1->B,2->C,3->D,...)"
                       variant="outlined"
-                      sx={{width: "100%"}}
+                      sx={{ width: "100%" }}
                       {...getFieldProps("trueAnswer")}
                       inputProps={{ className: classes.inputSelect }}
                     />

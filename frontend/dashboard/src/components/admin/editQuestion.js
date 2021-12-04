@@ -11,7 +11,8 @@ import {
   Stack,
   Typography,
   FormControl,
-  Paper
+  Paper, 
+  InputLabel
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
@@ -107,6 +108,7 @@ export default function EditQuestion() {
     <Container>
       <Stack>
         <FormControl variant="standard" sx={{ m: 1, width: "100%", pb: "5%" }}>
+        <InputLabel>Question</InputLabel>
           <Select
             name="questions"
             // value={questionData.categoryId}
@@ -180,6 +182,7 @@ export default function EditQuestion() {
               })
               .then((data) => {
                 console.log(data);
+                alert("Edit successfully");
               })
               .catch((err) => {
                 alert(err.message);
@@ -198,7 +201,7 @@ export default function EditQuestion() {
                   inputProps={{ className: classes.inputSelect }}
                 /> */}
                 <TextField
-                  // label="Question"
+                  label="Content"
                   variant="outlined"
                   // value={question.content}
                   defaultValue={question.content}
