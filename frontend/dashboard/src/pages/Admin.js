@@ -25,6 +25,7 @@ import {
 import Page from "../components/Page";
 import {AddQuestion, DeleteQuestion, EditQuestion} from '../components/admin/'
 
+
 //React
 import { useState, useEffect } from "react";
 
@@ -114,12 +115,11 @@ export default function Admin() {
               <EditQuestion />
             </TabPanel>
             <TabPanel value="2">
-              <AddQuestion 
-                // questionData={questionData}
-                // categories={categories}
-              />
+              <AddQuestion />
             </TabPanel>
-            <TabPanel value="3">Item Three</TabPanel>
+            <TabPanel value="3">
+              <DeleteQuestion />
+            </TabPanel>
           </TabContext>
         </Box>
       </Container>
