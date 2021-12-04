@@ -171,7 +171,7 @@
 ```json
 {
   "category": <int>,
-  "title": <str>,
+  "title": (optional) <str>,
   "content": <str>,
   "answers": [
       <str>,
@@ -235,6 +235,10 @@
 }
 ```
 
+**Method**: DELETE
+
+**Expected status**: 204 No content
+
 <hr>
 
 /api/question/filter/
@@ -251,7 +255,7 @@
 **Response**:
 ```json
 {
-  "status": "Success",
+  "status": <str:status_message>,
   "data": [
     {
       "id": <int>,
@@ -351,6 +355,10 @@
 
 **Expected status**: 200 OK
 
+**Method**: DELETE
+
+**Expected status**: 204 No content
+
 ## Blog
 
 /api/blog/
@@ -425,6 +433,10 @@
   "image": <str:url>
 }
 ```
+
+**Method**: DELETE
+
+**Status code**: 204 No content
 
 <hr>
 
