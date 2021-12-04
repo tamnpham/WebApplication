@@ -3,27 +3,12 @@ import {
   Container,
   Box,
   Tab,
-  Grid,
-  MenuItem,
-  Button,
-  Select,
-  TextField,
-  Stack,
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
 
-//formik
-import {
-  Form,
-  FieldArray,
-  Field,
-  Formik,
-} from "formik";
-// components
-
 import Page from "../components/Page";
-import {AddQuestion, DeleteQuestion, EditQuestion} from '../components/admin/'
+import {AddPost, AddQuestion, DeleteQuestion, EditQuestion, EditPost} from '../components/admin/'
 
 
 //React
@@ -42,6 +27,12 @@ const useStyles = makeStyles({
   },
   inputSelect: {
     color: "white",
+  },
+  scroller: {
+    flexGrow: "0"
+  },
+  root: {
+    justifyContent: "center"
   },
 });
 
@@ -104,11 +95,14 @@ export default function Admin() {
               <TabList
                 onChange={handleChangeTab}
                 aria-label="Question Tab"
-                centered
+                variant="scrollable"
+                classes={{root: classes.root, scroller: classes.scroller}}
               >
                 <Tab label="Edit question" value="1" />
                 <Tab label="Add question" value="2" />
                 <Tab label="Delete question" value="3" />
+                <Tab label="Add Post" value="4" />
+                <Tab label="Edit Post" value="5" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -119,6 +113,13 @@ export default function Admin() {
             </TabPanel>
             <TabPanel value="3">
               <DeleteQuestion />
+            </TabPanel>
+            <TabPanel value="3">Item Three</TabPanel>
+            <TabPanel value="4">
+              <AddPost />
+            </TabPanel>
+            <TabPanel value="5">
+              <EditPost />
             </TabPanel>
           </TabContext>
         </Box>

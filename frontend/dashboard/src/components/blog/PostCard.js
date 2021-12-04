@@ -62,7 +62,7 @@ export default function ActionAreaCard() {
                       <CardMedia
                         component="img"
                         height="140"
-                        image={post.image}
+                        image={post.image_url}
                         alt=""
                       />
                       <CardContent
@@ -72,7 +72,7 @@ export default function ActionAreaCard() {
                           {post.title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          By {post.author}
+                          By {post.author.first_name} {post.author.last_name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           Posted {post.created}

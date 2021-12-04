@@ -129,7 +129,7 @@ export default function Post(props) {
 
                   <Grid item xs={12} sm={12} md={12} xl={12}>
                     <Typography variant="body1">
-                      By {postState.author} , created {postState.created}
+                      By {postState.author.first_name} {postState.author.last_name} , created {postState.created}
                     </Typography>
                     <Typography variant="body1">
                       Last modified {postState.modified}
