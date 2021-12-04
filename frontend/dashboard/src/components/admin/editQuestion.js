@@ -10,7 +10,8 @@ import {
   TextField,
   Stack,
   Typography,
-  FormControl
+  FormControl,
+  Paper
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
@@ -48,9 +49,12 @@ export default function EditQuestion() {
   const [question, setQuestion] = useState({});
   const [questionId, setQuestionId] = useState(null);
 
+  const [showQuestion, setShowQuestion] = useState(false);
+
   const handleInputChange = (e) => {
     console.log(e.target.value);
     setQuestionId(e.target.value);
+    // setShowQuestion(false);
   };
 
   useEffect(() => {
@@ -64,13 +68,18 @@ export default function EditQuestion() {
         Authorization: "Bearer " + auth,
       },
     };
-    fetch(apiUrl, requestOption)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-        console.log(question.length);
-        setQuestion(response);
-      });
+    try{
+      fetch(apiUrl, requestOption)
+        .then((res) => res.json())
+        .then((response) => {
+          // console.log(response);
+          setQuestion(response);
+        });
+    }
+    catch (err) {
+      console.log(err);
+    }
+    
   }, [questionId])
 
   useEffect(() => {
@@ -116,213 +125,168 @@ export default function EditQuestion() {
           </Select>
         </FormControl>
       </Stack>
-      <Formik
-        initialValues={{
-          id: 0,
-        }}
-        onSubmit={(values) => {
-          // const auth = localStorage.getItem("token");
-          // let data = new FormData();
-          // data.append("category", values.category);
-          // data.append("title", values.title);
-          // data.append("content", values.content);
-          // data.append("trueAnswer", values.trueAnswer);
-          // data.append("image", values.image);
-          // const arrayAnswers = values.answers;
-          // for (var i = 0; i < arrayAnswers.length; i++) {
-          //   data.append("answers", arrayAnswers[i]);
-          // }
-          // const requestOption = {
-          //   method: "POST",
-          //   headers: {
-          //     Authorization: "Bearer " + auth,
-          //   },
-          //   body: data,
-          // };
 
-          // let url = "http://34.72.189.169:8080/api/question/";
+      {question.id && (
+        <Formik
+          enableReinitialize
+          initialValues={{
+            id: question.id,
+            category: question.category,
+            // title: question.title,
+            content: question.content,
+            answers: question.answers,
+            trueAnswer: question.trueAnswer,
+            image: question.image,
+          }}
+          onSubmit={(values) => {
+            const auth = localStorage.getItem("token");
+            let data = new FormData();
+            data.append("category", values.category);
+            // data.append("title", values.title);
+            data.append("content", values.content);
+            data.append("trueAnswer", values.trueAnswer);
+            data.append("image", values.image);
+            data.append("id", question.id);
+            const arrayAnswers = values.answers;
+            for (var i = 0; i < arrayAnswers.length; i++) {
+              data.append("answers", arrayAnswers[i]);
+            }
+            const requestOption = {
+              method: "POST",
+              headers: {
+                Authorization: "Bearer " + auth,
+              },
+              body: data,
+            };
 
-          // fetch(url, requestOption)
-          //   // HTTP response
-          //   .then((response) => {
-          //     //  OK
-          //     if (response.ok) {
-          //       //success
-          //       console.log(response);
-          //       return response.json();
-          //     } else {
-          //       //fail
-          //       return response.json().then((data) => {
-          //         //show error
-          //         let errorMessage = "Create Question failed!";
-          //         throw new Error(errorMessage);
-          //       });
-          //     }
-          //   })
-          //   .then((data) => {
-          //     console.log(data);
-          //   })
-          //   .catch((err) => {
-          //     alert(err.message);
-          //   });
-          console.log(values);
-        }}
-        render={({ values, getFieldProps, setFieldValue }) => (
-          <Form>
-            {/* <TextField
-                label="Title"
-                // value={question.title}
-                defaultValue={question.title}
-                variant="outlined"
-                {...getFieldProps("title")}
-                inputProps={{ className: classes.inputSelect }}
-              /> */}
-            <Stack spacing={2}>
-              {/* <Select
-                name="questionId"
-                value={null}
-                onChange={handleInputChange}
-                label="Question"
-                inputProps={{ className: classes.inputSelect }}
-              >
-                {questions &&
-                  questions.length &&
-                  questions.map((question) => (
-                    <MenuItem value={question.id} key={question.id}>
-                      {question.content}
-                    </MenuItem>
-                  ))}
-              </Select> */}
-              {question && questions.length !== undefined && (
-                <Stack>
-                  <TextField
-                    // label="Title"
-                    variant="outlined"
-                    defaultValue={question.title}
-                    {...getFieldProps("title")}
-                    inputProps={{ className: classes.inputSelect }}
-                  />
-                  <TextField
-                    // label="Question"
-                    variant="outlined"
-                    defaultValue={question.content}
-                    {...getFieldProps("content")}
-                    multiline
-                    inputProps={{ className: classes.inputSelect }}
-                  />
-                </Stack>
-              )}
-              {/* <TextField
-                label="Title"
-                variant="outlined"
-                defaultValue={question.title}
-                {...getFieldProps("title")}
-                inputProps={{ className: classes.inputSelect }}
-              />
-              <TextField
-                label="Question"
-                variant="outlined"
-                defaultValue={question.content}
-                {...getFieldProps("content")}
-                multiline
-                inputProps={{ className: classes.inputSelect }}
-              /> */}
-              {/*   <TextField
-                          label="Title"
-                          variant="outlined"
-                          {...getFieldProps("title")}
-                          inputProps={{ className: classes.inputSelect }}
-                        />
-                        <TextField
-                          label="Question"
-                          variant="outlined"
-                          {...getFieldProps("content")}
-                          multiline
-                          inputProps={{ className: classes.inputSelect }}
-                        />
-                        <Grid container spacing={2}>
-                          <Grid item xs={6}>
-                            <input
-                              accept="image/*"
-                              className={classes.input}
-                              onChange={(e) => {
-                                setFieldValue("image", e.target.files[0]);
-                              }}
-                              id="raised-button-file"
-                              multiple
-                              type="file"
-                            />
-                          </Grid>
-                          <Grid item xs={6}>
-                            <TextField
-                              label="True Answer (0->A,1->B,2->C,3->D,...)"
+            let url = "http://34.72.189.169:8080/api/question/update/";
+
+            fetch(url, requestOption)
+              // HTTP response
+              .then((response) => {
+                //  OK
+                if (response.ok) {
+                  //success
+                  console.log(response);
+                  return response.json();
+                } else {
+                  //fail
+                  return response.json().then((data) => {
+                    //show error
+                    let errorMessage = "Update Question failed!";
+                    throw new Error(errorMessage);
+                  });
+                }
+              })
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((err) => {
+                alert(err.message);
+              });
+            // console.log(values);
+          }}
+          render={({ values, getFieldProps, setFieldValue }) => (
+            <Form>
+              <Stack spacing={2}>
+                {/* <TextField
+                  // label="Title"
+                  variant="outlined"
+                  // value={question.title}
+                  defaultValue={question.title}
+                  {...getFieldProps("title")}
+                  inputProps={{ className: classes.inputSelect }}
+                /> */}
+                <TextField
+                  // label="Question"
+                  variant="outlined"
+                  // value={question.content}
+                  defaultValue={question.content}
+                  {...getFieldProps("content")}
+                  multiline
+                  inputProps={{ className: classes.inputSelect }}
+                />
+                <center>
+                  <Paper variant="outlined" sx={{ m: 2, width: "300px" }}>
+                    <img src={question.image} />
+                  </Paper>
+                </center>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <input
+                      accept="image/*"
+                      className={classes.input}
+                      onChange={(e) => {
+                        setFieldValue("image", e.target.files[0]);
+                      }}
+                      id="raised-button-file"
+                      multiple
+                      type="file"
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="True Answer (0->A,1->B,2->C,3->D,...)"
+                      variant="outlined"
+                      {...getFieldProps("trueAnswer")}
+                      inputProps={{ className: classes.inputSelect }}
+                    />
+                  </Grid>
+                </Grid>
+                <FieldArray
+                  name="answers"
+                  render={(arrayHelpers) => (
+                    <div>
+                      {values.answers && values.answers.length > 0 ? (
+                        values.answers.map((answer, index) => (
+                          <div key={index}>
+                            <Field
                               variant="outlined"
-                              {...getFieldProps("trueAnswer")}
-                              inputProps={{ className: classes.inputSelect }}
+                              name={`answers.${index}`}
+                              inputProps={{
+                                className: classes.inputSelect,
+                              }}
                             />
-                          </Grid>
-                        </Grid>
-                        <FieldArray
-                          name="answers"
-                          render={(arrayHelpers) => (
-                            <div>
-                              {values.answers && values.answers.length > 0 ? (
-                                values.answers.map((answer, index) => (
-                                  <div key={index}>
-                                    <Field
-                                      variant="outlined"
-                                      name={`answers.${index}`}
-                                      inputProps={{
-                                        className: classes.inputSelect,
-                                      }}
-                                    />
-                                    <Button
-                                      type="button"
-                                      variant="contained"
-                                      sx={{ m: 1 }}
-                                      onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                                    >
-                                      -
-                                    </Button>
-                                    <Button
-                                      type="button"
-                                      variant="contained"
-                                      sx={{ m: 1 }}
-                                      onClick={() =>
-                                        arrayHelpers.insert(index, "")
-                                      } // insert an empty string at a position
-                                    >
-                                      +
-                                    </Button>
-                                  </div>
-                                ))
-                              ) : (
-                                <Button
-                                  type="button"
-                                  variant="contained"
-                                  sx={{ m: 1 }}
-                                  onClick={() => arrayHelpers.push("")}
-                                >
-                                  Add a friend
-                                </Button>
-                              )}
-                              <div>
-                                <Button
-                                  variant="contained"
-                                  sx={{ m: 1 }}
-                                  type="submit"
-                                >
-                                  Submit
-                                </Button>
-                              </div>
-                            </div>
-                          )}
-                        /> */}
-            </Stack>
-            <Button type="submit">Submit</Button>
-          </Form>
-        )}
-      />
+                            <Button
+                              type="button"
+                              variant="contained"
+                              sx={{ m: 1 }}
+                              onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                            >
+                              -
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="contained"
+                              sx={{ m: 1 }}
+                              onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
+                            >
+                              +
+                            </Button>
+                          </div>
+                        ))
+                      ) : (
+                        <Button
+                          type="button"
+                          variant="contained"
+                          sx={{ m: 1 }}
+                          onClick={() => arrayHelpers.push("")}
+                        >
+                          {/* show this when user has removed all friends from the list */}
+                          Add a friend
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                />
+                <Button type="submit" variant="contained" sx={{ m: 1 }}>
+                  Submit
+                </Button>
+              </Stack>
+            </Form>
+          )}
+        />
+      )}
     </Container>
   );
   } else {
