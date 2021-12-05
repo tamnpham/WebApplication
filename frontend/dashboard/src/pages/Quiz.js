@@ -94,6 +94,7 @@ export default function Quiz() {
       fetch(apiUrl, requestOption)
         .then((res) => res.json())
         .then((response) => {
+          console.log(response.data);
           setQuestions(response.data.questions);
           setQuiz(response.data.quizId);
         });
@@ -267,37 +268,6 @@ export default function Quiz() {
                     </Box>
                   </Grid>
                 </Grid>
-
-                {/* <Box sx={{ textAlign: "center" }}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    sx={{ m: 2 }}
-                    onClick={submitHandler}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    sx={{ m: 2 }}
-                    onClick={submitHandler}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    sx={{ m: 2, width: 100 }}
-                    onClick={next}
-                    disabled={currentQuestion + 1 === questions.length}
-                  >
-                    Next
-                  </Button>
-                </Box> */}
               </Container>
             </Page>
           </Box>

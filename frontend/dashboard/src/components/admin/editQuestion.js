@@ -115,7 +115,6 @@ export default function EditQuestion() {
             // value={""}
             onChange={handleInputChange}
             inputProps={{ className: classes.inputSelect }}
-            // className={classes.inputSelect}
           >
             {questions &&
               questions.length &&
@@ -134,7 +133,6 @@ export default function EditQuestion() {
           initialValues={{
             id: question.id,
             category: question.category,
-            // title: question.title,
             content: question.content,
             answers: question.answers,
             trueAnswer: question.trueAnswer,

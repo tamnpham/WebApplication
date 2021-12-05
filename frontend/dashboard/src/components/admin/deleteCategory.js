@@ -53,6 +53,11 @@ import {
       console.log(e.target.value);
       setCategoryId(e.target.value);
     };
+
+    
+  function refreshPage() {
+    window.location.reload(false);
+  }
   
     useEffect(() => {
       try{
@@ -146,7 +151,7 @@ import {
                   if (response.ok) {
                     //success
                     console.log(response);
-                    return response.json();
+                    return;
                   } else {
                     //fail
                     return response.json().then((data) => {
@@ -156,11 +161,12 @@ import {
                     });
                   }
                 })
-                .then((data) => {
-                  console.log(data);
+                .then(() => {
                   alert("Delete Category successfully");
+                  refreshPage()
                 })
                 .catch((err) => {
+                  console.log(err)
                   alert(err.message);
                 });
               // console.log(values);
