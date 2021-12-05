@@ -1,13 +1,11 @@
-from rest_framework import mixins, status
-from rest_framework.decorators import action
+from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from apps.core import responses
+from apps.core.views import CustomMixin
 
-from .models import Blog
-from .serializers import BlogSerializer
+from .models import Blog, Comment
+from .serializers import BlogSerializer, CommentSerializer
 
 
 class BlogViewSetAPI(
@@ -15,6 +13,7 @@ class BlogViewSetAPI(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
+    CustomMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing blogs."""
@@ -23,28 +22,21 @@ class BlogViewSetAPI(
     permission_classes = (
         IsAuthenticated,
     )
+    model = Blog
 
-    @action(detail=False, methods=("post",))
-    def update_blog(self, request, *args, **kwargs):
-        blog_id = request.data.get("id")
-        blog = Blog.objects.filter(pk=blog_id)
-        if not blog_id or not blog:
-            return Response(
-                data={
-                    "status": "error",
-                    "message": "Blog not found.",
-                },
-                status=status.HTTP_404_NOT_FOUND
-            )
-        blog = blog.get()       # Get object from queryset
 
-        serializer = self.get_serializer(
-            blog,
-            data=request.data,
-            partial=True,
-        )
-
-        if not serializer.is_valid():
-            return responses.client_error("Invalid data.")
-        serializer.save()
-        return responses.client_success(data=None)
+class CommentViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    CustomMixin,
+    GenericViewSet,
+):
+    """ViewSet for viewing categories."""
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (
+        IsAuthenticated,
+    )
+    model = Comment

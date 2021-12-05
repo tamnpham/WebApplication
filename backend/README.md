@@ -9,6 +9,7 @@
   - [Category](#category)
   - [Blog](#blog)
   - [Quiz](#quiz)
+  - [Comment](#comment)
 
 ## Note
 - Except login and register, other features require JWT token to proceed.
@@ -365,13 +366,13 @@
 **Response**:
 ```json
 {
-    "id": <int>,
-    "created": <str>,
-    "modified": <str>,
-    "name": <str>,
-    "level": <int>,
-    "code": <str>
-    }
+  "id": <int>,
+  "created": <str>,
+  "modified": <str>,
+  "name": <str>,
+  "level": <int>,
+  "code": <str>
+}
 ```
 
 **Expected status**: 200 OK
@@ -718,5 +719,108 @@
     },
     ...
   ]
+}
+```
+
+## Comment
+
+/api/comment/
+
+**Method**: GET
+
+**Response**:
+```json
+[
+  {
+    "id": <int>,
+    "user": {
+      "first_name": <str>,
+      "last_name": <str>,
+      "avatar_url": <str>
+    },
+    "created": <str>,
+    "modified": <str>,
+    "content": <str>,
+    "blog": <int> // blog's id
+  },
+  ...
+]
+```
+
+**Expected status**: 200 OK
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "blog": <int>, // blog's id
+  "content": <str>
+}
+```
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "user": {
+    "first_name": <str>,
+    "last_name": <str>,
+    "avatar_url": <str>
+  },
+  "created": <str>,
+  "modified": <str>,
+  "content": <str>,
+  "blog": <int> // blog's id
+}
+```
+
+<hr>
+
+/api/comment/\<int:comment_id\>/
+
+**Method**: GET
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "user": {
+    "first_name": <str>,
+    "last_name": <str>,
+    "avatar_url": <str>
+  },
+  "created": <str>,
+  "modified": <str>,
+  "content": <str>,
+  "blog": <int> // blog's id
+}
+```
+
+**Expected status**: 200 OK
+
+**Method**: DELETE
+
+**Expected status**: 204 No content
+
+<hr>
+
+/api/comment/update/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "blog": <int>,  // blog's id
+  "content": <str>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": null
 }
 ```
