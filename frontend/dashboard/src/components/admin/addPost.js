@@ -62,6 +62,12 @@ import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } fro
       const [categories, setCategories] = useState([]);
       const [content, setContent] = React.useState("**Hello world!!!**");
 
+      
+    function refreshPage() {
+      window.location.reload(false);
+    }
+    
+
       const formik = useFormik({
         initialValues: {
           title: "",
@@ -108,6 +114,7 @@ import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } fro
             .then((data) => {
               if (data !== null)
               alert('Create blog successfully!');
+              refreshPage();
             })
             .catch((err) => {
               alert(err.message);

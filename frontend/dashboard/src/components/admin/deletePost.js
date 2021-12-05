@@ -48,6 +48,12 @@ export default function DeletePost() {
   const [posts, setPosts] = useState([]);
   const [postDeleteId, setPostDeleteId] = useState(null);
 
+  
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  
+
   useEffect(() => {
     const apiUrl = `http://34.72.189.169:8080/api/blog/`;
     const auth = localStorage.getItem("token");
@@ -84,6 +90,7 @@ export default function DeletePost() {
       .then((res) => {
         if (res.ok) {
             alert('Delete post '+ postDeleteId + 'successfully!')
+            refreshPage();
         }
       })
   }

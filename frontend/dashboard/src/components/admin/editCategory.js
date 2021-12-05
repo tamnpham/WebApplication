@@ -48,6 +48,12 @@ export default function EditCategory() {
   const [category, setCategory] = useState({});
   const [categoryId, setCategoryId] = useState(null);
 
+  
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  
+
   const handleInputChange = (e) => {
     console.log(e.target.value);
     setCategoryId(e.target.value);
@@ -184,6 +190,7 @@ export default function EditCategory() {
                 .then((data) => {
                   console.log(data);
                   alert("Update Category successfully");
+                  refreshPage();
                 })
                 .catch((err) => {
                   alert(err.message);
