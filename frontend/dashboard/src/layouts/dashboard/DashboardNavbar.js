@@ -33,8 +33,8 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     minHeight: APPBAR_DESKTOP,
     padding: theme.spacing(0, 5),
-    // backgroundImage: `url("https://cdnb.artstation.com/p/assets/images/images/024/538/827/original/pixel-jeff-clipa-s.gif?1582740711")`,
-    backgroundColor: '#b8b9d1',
+    backgroundImage: `url("https://archive-media-0.nyafuu.org/wg/image/1510/51/1510512877961.gif")`,
+    // backgroundColor: '#b8b9d1',
   }
 }));
 
