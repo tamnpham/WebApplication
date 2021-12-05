@@ -11,7 +11,7 @@ import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
-import account from '../../_mocks_/account';
+import sidebarConfigAdmin from './SidebarConfigAdmin';
 import { AuthContext } from "../../store/auth-context";
 // ----------------------------------------------------------------------
 
@@ -85,7 +85,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             </AccountStyle>{" "}
           </Link>{" "}
         </Box>
-        <NavSection navConfig={sidebarConfig} />
+        {authCtx.role === "Student" && <NavSection navConfig={sidebarConfig} />}
+        {authCtx.role === "Teacher" && (
+          <NavSection navConfig={sidebarConfigAdmin} />
+        )}
         <Box sx={{ flexGrow: 1 }} />
         <Typography
           variant="body2"
