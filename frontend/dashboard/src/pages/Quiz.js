@@ -14,10 +14,10 @@ import {
   setSubmitAnswers,
   setQuizId,
   setResultQuestions,
-  setDuration
+  setDuration,
 } from "../redux/store/answersSlice";
 import Clock from "../components/quiz/Clock";
-import LinearProgress from '@mui/material/LinearProgress'
+import LinearProgress from "@mui/material/LinearProgress";
 
 // ----------------------------------------------------------------------
 
@@ -76,29 +76,30 @@ export default function Quiz() {
   };
 
   useEffect(() => {
-    const apiUrl = `http://34.72.189.169:8080/api/quiz/create/`;
-    const auth = localStorage.getItem("token");
-    const requestOption = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-      body: JSON.stringify({
-        categoryId: questionOptions.categoryId,
-        numberQuestions: questionOptions.numberQuestion,
-      }),
-    };
-    const fetchData = async () => {
-      await fetch(apiUrl, requestOption)
+    try {
+      const apiUrl = `http://34.72.189.169:8080/api/quiz/create/`;
+      const auth = localStorage.getItem("token");
+      const requestOption = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+        body: JSON.stringify({
+          categoryId: questionOptions.categoryId,
+          numberQuestions: questionOptions.numberQuestion,
+        }),
+      };
+      fetch(apiUrl, requestOption)
         .then((res) => res.json())
         .then((response) => {
           setQuestions(response.data.questions);
           setQuiz(response.data.quizId);
         });
-    };
-    fetchData();
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   useEffect(() => {
@@ -138,15 +139,16 @@ export default function Quiz() {
     dispatch(setSubmitAnswers(selectedAnswers));
     dispatch(setQuizId(quiz));
     dispatch(setResultQuestions(questions));
-    let timeout = questionOptions.time*60 - seconds;
-    const hours = Math.floor(timeout/3600);
-    const minutes =Math.floor((timeout - hours*3600)/60);
-    const second = timeout - hours*3600 - minutes*60;
+    let timeout = questionOptions.time * 60 - seconds;
+    const hours = Math.floor(timeout / 3600);
+    const minutes = Math.floor((timeout - hours * 3600) / 60);
+    const second = timeout - hours * 3600 - minutes * 60;
     const date = new Date();
     date.setHours(hours);
     date.setMinutes(minutes);
     date.setSeconds(second);
-    var duration = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    var duration =
+      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
     dispatch(setDuration(duration));
     navigate("/result");
   };
@@ -161,9 +163,7 @@ export default function Quiz() {
           height: "100%",
         }}
       >
-        <Page
-          title="Quiz"
-        >
+        <Page title="Quiz">
           <Container>
             <Grid container>
               <Grid item xs="6">
