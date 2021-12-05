@@ -153,77 +153,153 @@ export default function Quiz() {
 
   if (questions.length > 0) {
     return (
-      <div style={{height: '100%', backgroundColor: "#161d31"}}>
-      <Box
-        sx={{
-          p: "5%",
-          backgroundColor: "#161d31",
-          color: "white",
-          height: "100%",
-        }}
-      >
-        <Page
-          title="Quiz"
-        >
-          <Container>
-            <Grid container>
-              <Grid item xs="6">
-                <center>
-                  <Typography variant="h4" sx={{ paddingTop: 2 }}>
-                    Câu hỏi {currentQuestion + 1}
-                  </Typography>
-                </center>
-              </Grid>
-              <Grid item xs="6">
-                <center>
-                  <Clock initTime={questionOptions.time}></Clock>
-                </center>
-              </Grid>
-            </Grid>
+      <div style={{ height: "100%", backgroundColor: "#161d31" }}>
+        <React.Fragment>
+          <Box>
+            <Page
+              title="Quiz"
+              sx={{
+                p: "5%",
+                backgroundColor: "#161d31",
+                color: "white",
+              }}
+            >
+              <Container>
+                <Grid container>
+                  <Grid item xs="6" sm="6">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "right",
+                        alignItems: "right",
+                        mr: '5%'
+                      }}
+                    >
+                      <Typography variant="h4" sx={{ paddingTop: 2 }}>
+                        Câu hỏi {currentQuestion + 1}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs="6" sm="6">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "left",
+                        ml: '5%'
+                      }}
+                    >
+                      <Clock initTime={questionOptions.time}></Clock>
+                    </Box>
+                  </Grid>
 
-            <Question
-              question={questions[currentQuestion]}
-              index={currentQuestion + 1}
-              answerIndex={answers[currentQuestion]}
-              chooseAnswer={chooseAnswer}
-              chooseSelectedAnswer={chooseSelectedAnswer}
-            ></Question>
+                  <Grid item xs="12" sm="12">
+                    <Question
+                      question={questions[currentQuestion]}
+                      index={currentQuestion + 1}
+                      answerIndex={answers[currentQuestion]}
+                      chooseAnswer={chooseAnswer}
+                      chooseSelectedAnswer={chooseSelectedAnswer}
+                    ></Question>
+                  </Grid>
 
+                  <Grid item xs="4" sm="4">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "left",
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        sx={{ mt: "10%", width: "100%" }}
+                        onClick={previous}
+                        disabled={currentQuestion === 0}
+                      >
+                        Previous
+                      </Button>
+                    </Box>
+                  </Grid>
 
-            <Box sx={{ textAlign: "center" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                sx={{ m: 2, width: 100 }}
-                onClick={previous}
-                disabled={currentQuestion === 0}
-              >
-                Previous
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                sx={{ m: 2 }}
-                onClick={submitHandler}
-              >
-                Submit
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                sx={{ m: 2, width: 100 }}
-                onClick={next}
-                disabled={currentQuestion + 1 === questions.length}
-              >
-                Next
-              </Button>
-            </Box>
-          </Container>
-        </Page>
-      </Box>
+                  <Grid item xs="4" sm="4">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        sx={{ mt: "10%", width: "50%" }}
+                        onClick={submitHandler}
+                      >
+                        Submit
+                      </Button>
+                    </Box>
+                  </Grid>
+
+                  <Grid item xs="4" sm="4">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "right",
+                        alignItems: "right",
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        sx={{ mt: "10%", width: "100%" }}
+                        onClick={next}
+                        disabled={currentQuestion + 1 === questions.length}
+                      >
+                        Next
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+
+                {/* <Box sx={{ textAlign: "center" }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    sx={{ m: 2 }}
+                    onClick={submitHandler}
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    sx={{ m: 2 }}
+                    onClick={submitHandler}
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    sx={{ m: 2, width: 100 }}
+                    onClick={next}
+                    disabled={currentQuestion + 1 === questions.length}
+                  >
+                    Next
+                  </Button>
+                </Box> */}
+              </Container>
+            </Page>
+          </Box>
+        </React.Fragment>
       </div>
     );
   } else {

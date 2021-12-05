@@ -101,15 +101,16 @@ export default function Quiz() {
   };
   if ((questions.length > 0) && (score !== null)) {
     return (
-      <Box
-        sx={{
-          p: "5%",
-          backgroundColor: "#161d31",
-          color: "white",
-          height: "100%",
-        }}
-      >
-        <Page title="Quiz">
+      <Box>
+        <Page
+          title="Quiz"
+          sx={{
+            p: "5%",
+            backgroundColor: "#161d31",
+            color: "white",
+            height: "100%",
+          }}
+        >
           <Container>
             <Container>
               <Grid container spacing={3}>

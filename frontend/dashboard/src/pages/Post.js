@@ -121,7 +121,7 @@ export default function Post(props) {
                 p: "5%",
                 backgroundColor: "#161d31",
                 color: "white",
-                height: "200%",
+                // height: "200%",
                 width: "100%",
               }}
             >
