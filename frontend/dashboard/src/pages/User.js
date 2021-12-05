@@ -125,15 +125,35 @@ export default function User() {
         console.log(values.avatar);
 
         var data = new FormData();
-        data.append("first_name", values.firstName);
-        data.append("last_name", values.lastName);
-        // data.append("major", values.major);
-        data.append("school", values.school);
-        data.append("phone", values.phone);
-        if (values.avatar != null) {
-          data.append("avatar", values.avatar);
+        var count = 0;
+        if (values.firstName !== "") {
+          data.append("first_name", values.firstName);
+          count++;
         }
 
+        if (values.lastName !== "") {
+          data.append("last_name", values.lastName);
+          count++;
+        }
+        if (values.major !== "") {
+          data.append("major", values.major);
+          count++;
+        }
+        if (values.school !== "") {
+          data.append("school", values.school);
+          count++;
+        }
+        if (values.phone !== "") {
+          data.append("phone", values.phone);
+          count++;
+        }
+
+        if (values.avatar !== undefined) {
+          data.append("avatar", values.avatar);
+          count++;
+        }
+
+    
         const request = {
           method: "POST",
           headers: {
@@ -142,33 +162,43 @@ export default function User() {
           body: data
         };
 
+
         let url = "http://34.72.189.169:8080/api/user/profile/";
 
-         fetch(url, request)
-          // HTTP response
-          .then((response) => {
-            //  OK
-            if (response.ok) {
-              //success
-              console.log(response);
-              return response.json();
-            } else {
-              //fail
-              return response.json().then((data) => {
-                //show error
-                let errorMessage = "Update failed!";
-                throw new Error(errorMessage);
-              });
-            }
-          })
-          .then((data) => {
-            if (data.status === "Success")
-            alert('Update profile successfully! Please reload the page!');
-            refreshPage()
-          })
-          .catch((err) => {
-            alert(err.message);
-          });
+        if (count !== 0) {
+          console.log(count)
+          console.log(data.get('first_name'))
+          console.log(data.get('last_name'))
+          console.log(data.get('major'))
+          console.log(data.get('school'))
+          console.log(data.get('phone'))
+          console.log(data.get('avatar'))
+          fetch(url, request)
+            // HTTP response
+            .then((response) => {
+              //  OK
+              if (response.ok) {
+                //success
+                console.log(response);
+                return response.json();
+              } else {
+                //fail
+                return response.json().then((data) => {
+                  //show error
+                  let errorMessage = "Update failed!";
+                  throw new Error(errorMessage);
+                });
+              }
+            })
+            .then((data) => {
+              if (data.status === "Success")
+                alert("Update profile successfully! Please reload the page!");
+              refreshPage();
+            })
+            .catch((err) => {
+              alert(err.message);
+            });
+        }
 
         console.log(data);
         setEditMode(false);
