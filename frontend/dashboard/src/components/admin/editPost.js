@@ -152,7 +152,7 @@ export default function EditPost() {
 
   return (
     <>
-      <Box sx={{ width: "100%", typography: "body1", pt: "5%" }}>
+      <Box sx={{ width: "100%", typography: "body1"}}>
         <Box sx={{ textAlign: "center" }}>
           <FormControl variant="standard" sx={{ m: 1, width: "50%", pb: "5%" }}>
             <InputLabel variant="outlined"> Select post </InputLabel>

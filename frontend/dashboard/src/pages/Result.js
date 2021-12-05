@@ -111,63 +111,63 @@ export default function Quiz() {
   if ((questions.length > 0) && (score !== null)) {
     return (
       <div style={{ height: "100%", backgroundColor: "#161d31" }}>
-      <Box>
-        <Page
-          title="Quiz"
-          sx={{
-            p: "5%",
-            backgroundColor: "#161d31",
-            color: "white",
-            height: "100%",
-          }}
-        >
-          <Container>
+        <Box>
+          <Page
+            title="Quiz"
+            sx={{
+              p: "5%",
+              backgroundColor: "#161d31",
+              color: "white",
+              height: "100%",
+            }}
+          >
             <Container>
-              <Grid container spacing={3}>
-                <Grid item xs="3">
-                  <center>
-                    <Typography variant="h4" sx={{ p: 1 }}>
-                      Câu hỏi {currentQuestion + 1}
-                    </Typography>
-                  </center>
+              <Container>
+                <Grid container spacing={3}>
+                  <Grid item xs="3">
+                    <center>
+                      <Typography variant="h4" sx={{ p: 1 }}>
+                        Câu hỏi {currentQuestion + 1}
+                      </Typography>
+                    </center>
+                  </Grid>
+                  <Grid item xs="6">
+                    <center>
+                      <Typography variant="h4" sx={{ p: 1 }}>
+                        Duration {result.duration}
+                      </Typography>
+                    </center>
+                  </Grid>
+                  <Grid item xs="3">
+                    <center>
+                      <Typography variant="h4" sx={{ p: 1 }}>
+                        Score: {score}
+                      </Typography>
+                    </center>
+                  </Grid>
                 </Grid>
-                <Grid item xs="6">
-                  <center>
-                    <Typography variant="h4" sx={{ p: 1 }}>
-                      Duration {result.duration}
-                    </Typography>
-                  </center>
-                </Grid>
-                <Grid item xs="3">
-                  <center>
-                    <Typography variant="h4" sx={{ p: 1 }}>
-                      Score: {score}
-                    </Typography>
-                  </center>
-                </Grid>
-              </Grid>
-              <Box></Box>
-              <Box
-                sx={{
-                  border: 1,
-                  borderRadius: 2,
-                  m: 1,
-                  p: 2,
-                  backgroundColor: "#ABEBC6",
-                }}
-              >
-                <Typography
-                  variant="paragraph"
+                <Box
                   sx={{
+                    border: 1,
+                    borderRadius: 2,
+                    m: 1,
                     p: 2,
-                    m: 2,
-                    fontWeight: "Bold",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "justify",
-                    color: "#145A32",
+                    backgroundColor: "#ABEBC6",
                   }}
                 >
+
+                  <Typography
+                    variant="paragraph"
+                    sx={{
+                      p: 2,
+                      m: 2,
+                      fontWeight: "Bold",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "justify",
+                      color: "#145A32",
+                    }}
+                  >
                   {questions[currentQuestion].content}
                 </Typography>
                 {questions[currentQuestion].image && (
@@ -255,43 +255,154 @@ export default function Quiz() {
                       }
                     }
                   )}
-                </Stack>
-              </Box>
+                </Box>
+                <Box>
+                  <Stack spacing={2} sx={{ m: 1 }}>
+                    {questions[currentQuestion].answers.map(
+                      (answer, iterator) => {
+                        if (submitedAnswers[currentQuestion].answer !== null) {
+                          if (
+                            submitedAnswers[currentQuestion].answer !==
+                              questions[currentQuestion].trueAnswer &&
+                            questions[currentQuestion].trueAnswer === iterator
+                          ) {
+                            return (
+                              <Button
+                                variant="outlined"
+                                className={classes.rightAnswer}
+                              >
+                                {answer}
+                              </Button>
+                            );
+                          } else if (
+                            submitedAnswers[currentQuestion].answer !==
+                              questions[currentQuestion].trueAnswer &&
+                            submitedAnswers[currentQuestion].answer === iterator
+                          ) {
+                            return (
+                              <Button
+                                variant="outlined"
+                                className={classes.wrongAnswer}
+                              >
+                                {answer}
+                              </Button>
+                            );
+                          } else if (
+                            submitedAnswers[currentQuestion].answer ===
+                              questions[currentQuestion].trueAnswer &&
+                            questions[currentQuestion].trueAnswer === iterator
+                          )
+                            return (
+                              <Button
+                                variant="outlined"
+                                className={classes.rightAnswer}
+                              >
+                                {answer}
+                              </Button>
+                            );
+                          else
+                            return (
+                              <Button
+                                variant="outlined"
+                                className={classes.answer}
+                              >
+                                {answer}
+                              </Button>
+                            );
+                        } else {
+                          if (
+                            questions[currentQuestion].trueAnswer === iterator
+                          )
+                            return (
+                              <Button
+                                variant="outlined"
+                                className={classes.nullAnswer}
+                              >
+                                {answer}
+                              </Button>
+                            );
+                          else
+                            return (
+                              <Button
+                                variant="outlined"
+                                className={classes.answer}
+                              >
+                                {answer}
+                              </Button>
+                            );
+                        }
+                      }
+                    )}
+                  </Stack>
+                </Box>
+              </Container>
+
+              <Grid container>
+                <Grid item xs="4" sm="4">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "left",
+                      alignItems: "left",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      sx={{ mt: "10%", width: "100%" }}
+                      onClick={previous}
+                      disabled={currentQuestion === 0}
+                    >
+                      Previous
+                    </Button>
+                  </Box>
+                </Grid>
+
+                <Grid item xs="4" sm="4">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      sx={{ mt: "10%", width: "50%" }}
+                      onClick={goHome}
+                    >
+                      Home
+                    </Button>
+                  </Box>
+                </Grid>
+
+                <Grid item xs="4" sm="4">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "right",
+                      alignItems: "right",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      sx={{ mt: "10%", width: "100%" }}
+                      onClick={next}
+                      disabled={currentQuestion + 1 === questions.length}
+                    >
+                      Next
+                    </Button>
+                  </Box>
+                </Grid>
+              </Grid>
             </Container>
-            <Box sx={{ textAlign: "center" }}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                sx={{ m: 2, width: 100 }}
-                onClick={previous}
-                disabled={currentQuestion === 0}
-              >
-                Previous
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                sx={{ m: 2 }}
-                onClick={goHome}
-              >
-                Home
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                sx={{ m: 2, width: 100 }}
-                onClick={next}
-                disabled={currentQuestion + 1 === questions.length}
-              >
-                Next
-              </Button>
-            </Box>
-          </Container>
-        </Page>
-      </Box>
+          </Page>
+        </Box>
       </div>
     );
   } else {
