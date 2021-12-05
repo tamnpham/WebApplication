@@ -1,0 +1,697 @@
+{
+    "metadata": {
+        "author": "Nguyen Hoang Long",
+        "class": "NT208",
+        "project": "LSExam - online study space"
+    },
+    "data": {
+        "questions": [
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Điều nào dưới đây không phải là một trong các yêu cầu của dữ liệu",
+                "answers": [
+                    "Confidentiality",
+                    "Integrity",
+                    "Storage state",
+                    "Availability"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Phương pháp tấn công cho phép kẻ tấn công mạo nhận nạn nhân mà không cần sử dụng mật khẩu của nạn nhân",
+                "answers": [
+                    "Password pilfering",
+                    "Identify Spoofing",
+                    "Crypanalysis",
+                    "Eavesdropping"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Xem hình đính kèm. Đây là kỹ thuật tấn công nào",
+                "answers": [
+                    "Passive online",
+                    "Active online",
+                    "Offline",
+                    "Không phải các kỹ thuật trên"
+                ],
+                "trueAnswer": 0,
+                "image": "images/picture_1.png",
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Kỹ thuật crack mật khẩu trong đó attacker đã có được một số thông tin về mật khẩu là",
+                "answers": [
+                    "Brute Forcing",
+                    "Rule-based",
+                    "Dictionary",
+                    "Hybrid"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Việc sử dụng đội quân Zombie để tấn công trên mạng là hình thức tấn công",
+                "answers": [
+                    "Repudiation",
+                    "Intrusion",
+                    "DDoS",
+                    "Buffer Overflow"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Xem mô hình dưới đây và cho biết Honey pot nên đặt tại vị trí nào? (hình vẽ không đầy đủ)",
+                "answers": [
+                    "1",
+                    "2",
+                    "1 và 2",
+                    "2 và 3"
+                ],
+                "trueAnswer": 3,
+                "image": "images/picture_2.png",
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "SHA-1 trả lại kết quả dài bao nhiêu bit?",
+                "answers": [
+                    "128",
+                    "160",
+                    "224",
+                    "256"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Phương pháp tấn công DoS trong đó attacker sử dụng gói IP với các thông số rất khó hiểu để chia ra các phần nhỏ (fragment) là",
+                "answers": [
+                    "Smurf",
+                    "Ping of death",
+                    "SYN attack",
+                    "Teardrop"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Để che giấu các tập tin độc hại, attacker thường sử dụng kỹ thuật",
+                "answers": [
+                    "Rootkit",
+                    "Trojan",
+                    "Clearing logs",
+                    "Eavesdropping"
+                ],
+                "trueAnswer": 0,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Khi xây dụng một Bastion Host, bước nào sau đây không đúng?",
+                "answers": [
+                    "Remove unused hardware",
+                    "Remove unused services",
+                    "Remove unused user accounts",
+                    "Remove auditing"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Ứng dụng nào dưới đây thường dùng để đính kèm Trojan?",
+                "answers": [
+                    "Fport",
+                    "Insider",
+                    "Make one file",
+                    "One file exe maker"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Tường lửa sẽ không hoạt động ở tầng",
+                "answers": [
+                    "Application",
+                    "Session",
+                    "Transport",
+                    "Data link"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Xem hình vẽ đính kèm. Đây là kiểu truyền dữ liệu?",
+                "answers": [
+                    "Unicast",
+                    "Broadcast",
+                    "Multicast",
+                    "a và c đúng"
+                ],
+                "trueAnswer": 0,
+                "image": "images/picture_3.png",
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Thành phần nào dưới đây không phải là một thành phần chính của keylogger",
+                "answers": [
+                    "Chương trình điều khiển",
+                    "Tập tin hook",
+                    "Chương trình phá hoại",
+                    "Chương trình bảo vệ"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Chương trình ghi nhận các tương tác của người dùng với máy tính và Internet được gọi là",
+                "answers": [
+                    "Virus",
+                    "Spyware",
+                    "Trojan",
+                    "Keylogger"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Xem hình vẽ đính kèm. Đây là quá trình",
+                "answers": [
+                    "Security",
+                    "Authentication",
+                    "Integrity",
+                    "b và c đúng"
+                ],
+                "trueAnswer": 3,
+                "image": "images/picture_4.png",
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Kỹ thuật nhằm giảm kích thước chương trình và tăng tốc độ thực thi của virus được gọi là kỹ thuật",
+                "answers": [
+                    "Ngụy trang",
+                    "Biến hình",
+                    "Chống bẫy",
+                    "Tối ưu"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Kỹ thuật nào dưới đây không phải là kỹ thuật cơ bản của virus máy tính",
+                "answers": [
+                    "Phá hoại",
+                    "Lây nhiễm",
+                    "Đa hình",
+                    "Mã hóa"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Cổng số 31337 là cổng được sử dụng bởi Trojan",
+                "answers": [
+                    "Netbus",
+                    "Back Orifice",
+                    "GirlFriend",
+                    "Paradise"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Virus lây nhiễm lên các tập tin word, exel, access, power point là loại virus",
+                "answers": [
+                    "File virus",
+                    "Source code virus",
+                    "Stealth virus",
+                    "Macro virus"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Sử dụng phương pháp mã hóa Vigenère để mã hóa thông báo m = “THANH PHO HO CHI MINH” với khóa là k = “DAI HOC”, sẽ được chuỗi ciphertext c là",
+                "answers": [
+                    "WHIUV RKO PV QJL VQUM",
+                    "WHIUV KRO PV QJL MQUV",
+                    "WHIUV RKO PV QJL MQUV",
+                    "WHIUV RKO PV LJQ MQUV"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Mã hóa chuỗi m = “AN TOAN BAO MAT THONG TIN” với phương pháp mã hóa Permutation Cipher sẽ thu được chuỗi c = “NAT ONAB A OAMTM NAG”. h sẽ là",
+                "answers": [
+                    "12345",
+                    "21435",
+                    "54321",
+                    "21453"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Phương pháp Substitution Cipher sử dụng bảng chữ cái tiếng Anh (26 ký tự) sẽ có số khả năng biểu diễn",
+                "answers": [
+                    "2^26",
+                    "26^2",
+                    "26^26",
+                    "26!"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Giải thuật mã hóa cổ điển sử dụng ma trận khóa 5x5 hoặc 6x6 là giải thuật",
+                "answers": [
+                    "Playfair",
+                    "Affine",
+                    "Hill",
+                    "Atbash"
+                ],
+                "trueAnswer": 0,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Mã hóa chuỗi m = “DAI HOC” bằng giải thuật mã hóa Hill với kích thước ma trận khóa là 2x2 và giá trị của ma trận khóa là JU, KE dẽ được chuỗi ciphertext là",
+                "answers": [
+                    "WIX IEX",
+                    "IEX WIX",
+                    "IWX IEX",
+                    "IWX EIX"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Giải thuật mã hóa đối xứng nào dưới đây thuộc loại Stream Cipher",
+                "answers": [
+                    "RSA",
+                    "AES",
+                    "DES",
+                    "RC4"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Phương pháp mã hóa DES sẽ mã hóa cho các khối dữ liệu có kích thước (tính bằng bit)",
+                "answers": [
+                    "56",
+                    "64",
+                    "128",
+                    "256"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Giải thuật mã hóa AES (Advanced Encryption Standard) công bố năm 2001 sử dụng khóa có độ dài",
+                "answers": [
+                    "2048 bits",
+                    "1024 bits",
+                    "512 bits",
+                    "128 - 256 bits"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Các attackers có thể là",
+                "answers": [
+                    "Black-hat hacker",
+                    "Script kiddies",
+                    "Vicious employees",
+                    "Tất cả đều đúng"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Là một admin trong công ty, bạn muốn định một chính sách hạn chế sử dụng instant messaging tso sự nguy hiểm của hình thức tấn công",
+                "answers": [
+                    "Malicious code",
+                    "IP spoofing",
+                    "Social Engineering",
+                    "Replay attacks"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Thông tin đi kèm dữ liệu mã hóa (văn bản, hình ảnh, video...) nhằm mục đích xác nhận người chủ của dữ liệu được gọi là",
+                "answers": [
+                    "Secure mail",
+                    "Hash key",
+                    "Digital Certificate",
+                    "Digital Signature"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Xem hình dưới đây là cho biết đây là quá trình",
+                "answers": [
+                    "A -> B: E(K, M || H(M))",
+                    "A -> B: M || E(K, H(M)",
+                    "A -> B: M || H(M || K)",
+                    "A -> B: E(K, (M || E(PUb, H(M)))"
+                ],
+                "trueAnswer": 3,
+                "image": "images/picture_5.png",
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Xem hình dưới đây là cho biết đây là quá trình",
+                "answers": [
+                    "End entity",
+                    "Public key infrastructure",
+                    "Registration Authority (RA)",
+                    "Certificate Authority (CA)"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Chọn các cặp khớp nội dung với nhau",
+                "answers": [
+                    "a7, b6, c2, d1, e9, f10, g3, h4, i5, j8",
+                    "a7, b10, c2, d8, e9, f6, g3, h4, i5, j1",
+                    "a7, b6, c2, d8, e9, f10, g3, h4, i5, j1",
+                    "a7, b3, c2, d8, e9, f10, g6, h4, i5, j1"
+                ],
+                "trueAnswer": 2,
+                "image": "images/picture_6.png",
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Giao thức thường được sử dụng cùng với mạng riêng ảo (VPN - Virtual Private Network) là",
+                "answers": [
+                    "SSH",
+                    "Kerberos",
+                    "SSL/TSL",
+                    "IPSec"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Tại tầng vận chuyển, có thể triển khai giao thức bảo mật",
+                "answers": [
+                    "IPSec",
+                    "PGP",
+                    "SSL/TSL",
+                    "SSH"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "EFS (Encryption File System) trong hệ điều hành Windows mã hóa dữ liệu với giải thuật",
+                "answers": [
+                    "RC4",
+                    "RSA",
+                    "DES",
+                    "AES"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Chọn thứ tự thực hiện đúng với giao thức Kerberos",
+                "answers": [
+                    "1234",
+                    "1243",
+                    "3241",
+                    "2143"
+                ],
+                "trueAnswer": 2,
+                "image": "images/picture_7.png",
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Loại nào dưới đây được xem như là một tường lửa lai",
+                "answers": [
+                    "Packet Filter",
+                    "Circuie gateway",
+                    "Application gateway",
+                    "Dynamic packet filter"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Trojan đầu tiên được tạo ra trên máy tính là",
+                "answers": [
+                    "GirlFriend",
+                    "Back Orifice",
+                    "NetBus",
+                    "Barok"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Tường lửa loại Packet Filter được đặt ở lớp",
+                "answers": [
+                    "Physical",
+                    "Data link",
+                    "Network",
+                    "Transport"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Các loại server như Web server, Mail server thường được đặt trong vùng nào dưới đây",
+                "answers": [
+                    "Single Homed Bastion Host System (SHBH)",
+                    "Demilitarized Zones (DMZ)",
+                    "Screened Subnets",
+                    "Dual-Home Bastion Host System (DHBH)"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Tần số 5Ghz thường được sử dụng trong chuẩn không dây",
+                "answers": [
+                    "802.11g",
+                    "802.11b",
+                    "802.11a",
+                    "802.16"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Phương pháp chứng thực mã hóa WPA2 trong mạng không dây sử dụng giải thuật mã hóa",
+                "answers": [
+                    "AES",
+                    "DES",
+                    "3DES",
+                    "RC4"
+                ],
+                "trueAnswer": 0,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Trong chuẩn không dây 802.11, mã hóa WEP sử dụng vector khởi tạo IV có độ dài (tính bằng bit)",
+                "answers": [
+                    "120",
+                    "48",
+                    "36",
+                    "24"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Hàm thay đổi khóa TKIP (Temperal Key Integrity Protocol) được sử dụng trong mã hóa",
+                "answers": [
+                    "WEP",
+                    "WPA",
+                    "WPA2",
+                    "Câu b, c đúng"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Biểu thức sau đây là dạng nào? A -> B: E(PUb, E(PRa, M))",
+                "answers": [
+                    "confidentiality, authentication",
+                    "confidentiality",
+                    "authentication, signature",
+                    "confidentiality, authentication and signature"
+                ],
+                "trueAnswer": 0,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Máy chủ cấp vé trong giao thức Kerberos là",
+                "answers": [
+                    "TSS",
+                    "AS",
+                    "SS",
+                    "TGS"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "HTTPS (Hypertext Transport Protocol Secure) bảo mật cho kênh truyền giữa client và server với",
+                "answers": [
+                    "IPSec",
+                    "SSH",
+                    "Kerberos",
+                    "SSL"
+                ],
+                "trueAnswer": 3,
+                "image": null,
+                "code": "NT101_Exam_1"
+            }
+        ]
+    }
+}

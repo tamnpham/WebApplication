@@ -1,12 +1,9 @@
+from django.conf import settings
 from django.contrib.postgres import fields as postgres_fields
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.models import BaseModel
-
-import uuid
-import os
-from django.conf import settings
 
 
 class Question(BaseModel):
@@ -53,4 +50,4 @@ class Question(BaseModel):
         verbose_name_plural = _("Questions")
 
     def __str__(self) -> str:
-        return self.title
+        return f"{self.content[:30]}..."

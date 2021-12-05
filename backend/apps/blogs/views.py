@@ -1,6 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import mixins, status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -9,7 +10,6 @@ from apps.core import responses
 
 from .models import Blog
 from .serializers import BlogSerializer
-from rest_framework.decorators import action
 
 
 class BlogViewSetAPI(

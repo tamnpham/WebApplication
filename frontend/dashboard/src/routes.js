@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import DashboardApp from "./pages/DashboardApp";
 import Scoreboard from "./pages/Scoreboard";
+import History from "./pages/History";
 import Blog from "./pages/Blog";
 import User from "./pages/User";
 import NotFound from "./pages/Page404";
@@ -41,8 +42,9 @@ export default function Router() {
             <Route path="products" element={<Scoreboard />} />
             <Route path="blog" element={<Blog />} />
             <Route path="admin" element={<Admin />} />
+            <Route path="history" element={<History />} />
           </Route>
-          <Route path="/" element={<Navigate to="/dashboard/apps" />} />
+          <Route path="/" element={<Navigate to="/dashboard/app" />} />
           <Route path="post/:id" element={<Post />} />
           <Route path="quiz" element={<Quiz />} />
           <Route path="result" element={<Result />} />

@@ -55,6 +55,7 @@ class UserLoginAPI(TokenObtainPairView):
             data = {
                 "token": serializer.validated_data,
                 "user": {
+                    "id": user.id,
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "role": user.role,

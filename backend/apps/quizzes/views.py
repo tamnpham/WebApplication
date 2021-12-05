@@ -145,16 +145,17 @@ class ResultViewAPI(GenericAPIView):
     )
 
     def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(user=request.user)
         return responses.client_success(
             [
                 self.serializer_class(result).data
-                for result in self.get_queryset()
+                for result in queryset
             ],
         )
 
     def post(self, request, *args, **kwargs):
         """Filter results based on criteria."""
-        queryset = self.get_queryset()
+        queryset = self.get_queryset().filter(user=request.user)
 
         # Filter by category
         category_id = request.data.get("categoryId")
@@ -167,18 +168,6 @@ class ResultViewAPI(GenericAPIView):
                 )
             category = category.get()
             queryset = self.filter_by_category(queryset, category)
-
-        # Filter by user
-        user_id = request.data.get("userId")
-        user = User.objects.filter(pk=user_id)
-        if user_id:
-            if not user:
-                return Response(
-                    data={"error": "User not found."},
-                    status=status.HTTP_404_NOT_FOUND,
-                )
-            user = user.get()
-            queryset = self.filter_by_user(queryset, user)
 
         return responses.client_success(
             [

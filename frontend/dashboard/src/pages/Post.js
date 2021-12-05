@@ -86,20 +86,29 @@ export default function Post(props) {
       
     if (postState != null) {
     return (
-      <div style={{height: '100%', backgroundColor: "#161d31"}}>
+      <div style={{ height: "100%", backgroundColor: "#161d31" }}>
         <React.Fragment>
           <CssBaseline />
           <ElevationScroll {...props}>
             <AppBar>
               <Toolbar sx={{ backgroundColor: "#b8b9d1" }}>
-                <Button variant="contained" color="primary" component={Link} to="/dashboard/app" sx={{mr: '1%'}}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to="/dashboard/app"
+                  sx={{ mr: "1%" }}
+                >
                   Home
                 </Button>
-                <Button variant="contained" color="primary" component={Link} to="/dashboard/blog" sx={{mr: '1%'}}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to="/dashboard/blog"
+                  sx={{ mr: "1%" }}
+                >
                   Blogs
-                </Button>
-                <Button variant="contained" color="primary" component={Link} to="/dashboard/blog">
-                  Edit
                 </Button>
               </Toolbar>
             </AppBar>
@@ -112,7 +121,7 @@ export default function Post(props) {
                 p: "5%",
                 backgroundColor: "#161d31",
                 color: "white",
-                height: "200%",
+                // height: "200%",
                 width: "100%",
               }}
             >
@@ -124,7 +133,8 @@ export default function Post(props) {
 
                   <Grid item xs={12} sm={12} md={12} xl={12}>
                     <Typography variant="body1">
-                      By {postState.author.first_name} {postState.author.last_name} , created {postState.created}
+                      By {postState.author.first_name}{" "}
+                      {postState.author.last_name} , created {postState.created}
                     </Typography>
                     <Typography variant="body1">
                       Last modified {postState.modified}

@@ -11,7 +11,7 @@ import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
-import account from '../../_mocks_/account';
+import sidebarConfigAdmin from './SidebarConfigAdmin';
 import { AuthContext } from "../../store/auth-context";
 // ----------------------------------------------------------------------
 
@@ -51,32 +51,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
-
-    // const [userState, setUserState] = useState(null);
-
-    // useEffect(() => {
-    //   //fetch data from server
-    //   const apiUrl = `http://34.72.189.169:8080/api/user/profile/`;
-    //   const auth = localStorage.getItem("token");
-  
-    //   const request = {
-    //     method: "GET",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //       Authorization: "Bearer " + auth,
-    //     },
-    //   };
-      
-    //   console.log('hahaa');
-
-    //   fetch(apiUrl, request)
-    //     .then((res) => res.json())
-    //     .then((response) => {
-    //       setUserState(response.data.user);
-    //     });
-  
-    //   },[])
     
     const renderContent = (
       <Scrollbar
@@ -111,7 +85,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             </AccountStyle>{" "}
           </Link>{" "}
         </Box>
-        <NavSection navConfig={sidebarConfig} />
+        {authCtx.role === "Student" && <NavSection navConfig={sidebarConfig} />}
+        {authCtx.role === "Teacher" && (
+          <NavSection navConfig={sidebarConfigAdmin} />
+        )}
         <Box sx={{ flexGrow: 1 }} />
         <Typography
           variant="body2"

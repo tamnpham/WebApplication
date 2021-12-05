@@ -15,6 +15,8 @@ class Category(BaseModel):
     code = models.CharField(
         verbose_name=_("Code"),
         max_length=30,
+        null=True,
+        blank=True,
     )
     name = models.CharField(
         verbose_name=_("Category name"),

@@ -171,7 +171,7 @@
 ```json
 {
   "category": <int>,
-  "title": <str>,
+  "title": (optional) <str>,
   "content": <str>,
   "answers": [
       <str>,
@@ -235,6 +235,10 @@
 }
 ```
 
+**Method**: DELETE
+
+**Expected status**: 204 No content
+
 <hr>
 
 /api/question/filter/
@@ -251,7 +255,7 @@
 **Response**:
 ```json
 {
-  "status": "Success",
+  "status": <str:status_message>,
   "data": [
     {
       "id": <int>,
@@ -331,6 +335,27 @@
 
 **Expected status**: 200 OK
 
+**Method**: POST
+
+**Request**:
+```json
+{
+  "name": <str>,
+  "level": (optional) <int>,
+  "code": (optional) <str>
+}
+```
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "name": <str>,
+  "level": (optional) <int>,
+  "code": (optional) <str>
+}
+```
+
 <hr>
 
 /api/category/\<int:category_id\>
@@ -350,6 +375,10 @@
 ```
 
 **Expected status**: 200 OK
+
+**Method**: DELETE
+
+**Expected status**: 204 No content
 
 ## Blog
 
@@ -425,6 +454,10 @@
   "image": <str:url>
 }
 ```
+
+**Method**: DELETE
+
+**Status code**: 204 No content
 
 <hr>
 
@@ -572,8 +605,7 @@
 **Request**:
 ```json
 {
-    "categoryId": (optional) <int>,
-    "userId": (optional) <int>
+  "categoryId": (optional) <int>
 }
 ```
 
