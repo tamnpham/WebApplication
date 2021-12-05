@@ -56,8 +56,8 @@ const useStyles = makeStyles({
     backgroundColor: "#292f45",
   },
   badgeImage: {
-    width: "20%",
-    height: "20%",
+    width: "100%",
+    height: "100%",
   },
   badgeBox: {
     display: "flex",
@@ -98,6 +98,7 @@ export default function User() {
       .then((response) => {
         console.log(response);
         const userInfo = response.data.user;
+        console.log('here')
         authCtx.update(userInfo.first_name, userInfo.last_name, userInfo.avatar);
         setUserState(response.data.user);
         
@@ -260,75 +261,80 @@ export default function User() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={4}>
                     <Item>
-                      <Box className={classes.badgeBox}>
-                        <img
-                          src="https://www.clipartmax.com/png/middle/123-1232870_logo-subject-clip-art-subject-logo.png"
-                          className={classes.badgeImage}
-                        />
-                      </Box>
-                      <Typography
-                        variant="h4"
-                        sx={{ textAlign: "center", color: "#43b581", pt: "1%" }}
-                      >
-                        Math
-                      </Typography>
+                      {userState.top_3_scores[1] && (
+                        <>
+                          <Box className={classes.badgeBox}>
+                            <img
+                              src="\static\mock-images\badge\top2.png"
+                              className={classes.badgeImage}
+                            />
+                          </Box>
+
+                          <Typography
+                            variant="h4"
+                            sx={{
+                              textAlign: "center",
+                              color: "#fbb03b",
+                              pt: "1%",
+                            }}
+                          >
+                            {userState.top_3_scores[1].name}
+                          </Typography>
+                        </>
+                      )}
                     </Item>
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <Item>
-                      <Box className={classes.badgeBox}>
-                        <img
-                          src="https://freesvg.org/img/1529989446.png"
-                          className={classes.badgeImage}
-                        />
-                      </Box>
-                      <Typography
-                        variant="h4"
-                        sx={{ textAlign: "center", color: "#43b581", pt: "1%" }}
-                      >
-                        English
-                      </Typography>
+                      {userState.top_3_scores[0] && (
+                        <>
+                          <Box className={classes.badgeBox}>
+                            <img
+                              src="\static\mock-images\badge\top1.png"
+                              className={classes.badgeImage}
+                            />
+                          </Box>
+
+                          <Typography
+                            variant="h4"
+                            sx={{
+                              textAlign: "center",
+                              color: "#fbb03b",
+                              pt: "1%",
+                            }}
+                          >
+                            {userState.top_3_scores[0].name}
+                          </Typography>
+                        </>
+                      )}
                     </Item>
                   </Grid>
                   <Grid item xs={12} md={4}>
                     <Item>
-                      <Box className={classes.badgeBox}>
-                        <img
-                          src="https://www.pinclipart.com/picdir/big/11-112061_content-png-pinterest-clip-art-svg-file-gold.png"
-                          className={classes.badgeImage}
-                        />
-                      </Box>
-                      <Typography
-                        variant="h4"
-                        sx={{ textAlign: "center", color: "#43b581", pt: "1%" }}
-                      >
-                        History
-                      </Typography>
+                      {userState.top_3_scores[2] && (
+                        <>
+                          <Box className={classes.badgeBox}>
+                            <img
+                              src="\static\mock-images\badge\top3.png"
+                              className={classes.badgeImage}
+                            />
+                          </Box>
+
+                          <Typography
+                            variant="h4"
+                            sx={{
+                              textAlign: "center",
+                              color: "#fbb03b",
+                              pt: "1%",
+                            }}
+                          >
+                            {userState.top_3_scores[2].name}
+                          </Typography>
+                        </>
+                      )}
                     </Item>
                   </Grid>
                 </Grid>
-              </Item>
-            </Grid>
-
-            <Grid item xs={12} sm={12}>
-              <Item sx={{ height: "100%" }}>
-                <Typography variant="h4" sx={{ textAlign: "center" }}>
-                  Badges
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    pt: "1%",
-                  }}
-                >
-                  <AvatarImage
-                    alt="Remy Sharp"
-                    src="https://i.pinimg.com/originals/e6/dd/c6/e6ddc6f9aa34a62bb90caf59e91cc7c8.png"
-                    sx={{ width: 130, height: 130 }}
-                  />
-                </Box>
               </Item>
             </Grid>
           </Grid>
