@@ -14,6 +14,7 @@ class BlogSerializer(serializers.ModelSerializer):
         model = Blog
         fields = "__all__"
 
+    # https://stackoverflow.com/a/42346410
     def create(self, validated_data):
         validated_data["author"] = self.context["request"].user
         return super().create(validated_data)
