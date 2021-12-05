@@ -12,7 +12,8 @@ import {
   Typography,
   FormControl,
   Paper, 
-  InputLabel
+  InputLabel,
+  LinearProgress
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
@@ -305,27 +306,22 @@ export default function EditQuestion() {
   } else {
     return (
       <>
-        <Page
-          sx={{
-            p: "5%",
-            backgroundColor: "#161d31",
-            color: "white",
-            height: "100%",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              width: "80%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <Typography variant="h1" color="white" textAlign="center">
-              Loading...
-            </Typography>
-          </div>
+        <Page title="Dashboard | LSExam">
+          <Container maxWidth="xl">
+            <Box sx={{ p: "15%" }}>
+              <center
+                style={{
+                  width: "80%",
+                }}
+              >
+                <Typography variant="h1" color="white" textAlign="center">
+                  {" "}
+                  Loading...{" "}
+                </Typography>
+                <LinearProgress color="success" />
+              </center>
+            </Box>
+          </Container>
         </Page>
       </>
     );
