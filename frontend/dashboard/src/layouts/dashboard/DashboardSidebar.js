@@ -79,7 +79,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
               <Avatar src={authCtx.avatar} alt="photoURL" />
               <Box sx={{ ml: 2 }}>
                 <Typography variant="subtitle2" sx={{ color: "white" }}>
-                  {authCtx.firstNname} {authCtx.lastName}
+                  {authCtx.firstName} {authCtx.lastName}
                 </Typography>
               </Box>{" "}
             </AccountStyle>{" "}
