@@ -66,28 +66,37 @@ export default function Quiz() {
   };
 
   useEffect(() => {
-    const auth = localStorage.getItem("token");
-    const requestOption = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-      body: JSON.stringify({
-        quizId: result.quizId,
-        duration: result.duration,
-        answers: result.submitedAnswers,
-      }),
-    };
+    if (result.quizId) {
+      try {
+        const auth = localStorage.getItem("token");
+        const requestOption = {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth,
+          },
+          body: JSON.stringify({
+            quizId: result.quizId,
+            duration: result.duration,
+            answers: result.submitedAnswers,
+          }),
+        };
 
-    fetch("http://34.72.189.169:8080/api/quiz/score/", requestOption)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-        setScore(response.data.score)
-      })
-      .catch((err) => console.log(err));
+        fetch("http://34.72.189.169:8080/api/quiz/score/", requestOption)
+          .then((res) => res.json())
+          .then((response) => {
+            console.log(response);
+            setScore(response.data.score);
+          })
+          .catch((err) => console.log(err));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    else {
+      navigate("/dashboard/app");
+    }
   }, []);
 
   useEffect(() => {

@@ -76,30 +76,35 @@ export default function Quiz() {
   };
 
   useEffect(() => {
-    try {
-      const apiUrl = `http://34.72.189.169:8080/api/quiz/create/`;
-      const auth = localStorage.getItem("token");
-      const requestOption = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
-        },
-        body: JSON.stringify({
-          categoryId: questionOptions.categoryId,
-          numberQuestions: questionOptions.numberQuestion,
-        }),
-      };
-      fetch(apiUrl, requestOption)
-        .then((res) => res.json())
-        .then((response) => {
-          console.log(response.data);
-          setQuestions(response.data.questions);
-          setQuiz(response.data.quizId);
-        });
-    } catch (err) {
-      console.log(err);
+    if (questionOptions.categoryId) {
+      try {
+        const apiUrl = `http://34.72.189.169:8080/api/quiz/create/`;
+        const auth = localStorage.getItem("token");
+        const requestOption = {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth,
+          },
+          body: JSON.stringify({
+            categoryId: questionOptions.categoryId,
+            numberQuestions: questionOptions.numberQuestion,
+          }),
+        };
+        fetch(apiUrl, requestOption)
+          .then((res) => res.json())
+          .then((response) => {
+            console.log(response.data);
+            setQuestions(response.data.questions);
+            setQuiz(response.data.quizId);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    else {
+      navigate("/dashboard/app")
     }
   }, []);
 
@@ -121,7 +126,6 @@ export default function Quiz() {
     if (seconds > 0) {
       setTimeout(() => setSeconds(seconds - 1), 1000);
     } else {
-      // setSeconds('BOOOOM!');
       submitHandler();
     }
   });
