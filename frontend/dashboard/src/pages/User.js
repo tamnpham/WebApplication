@@ -114,7 +114,7 @@ export default function User() {
         phone: ""
       },
       onSubmit: (values, actions) => {
-        const auth = localStorage.getItem("token");
+        const auth = authCtx.token;
         // actions.setSubmitting(true);
         console.log(values.firstName);
         console.log(values.lastName);
@@ -126,7 +126,7 @@ export default function User() {
         var data = new FormData();
         data.append("first_name", values.firstName);
         data.append("last_name", values.lastName);
-        data.append("major", values.major);
+        // data.append("major", values.major);
         data.append("school", values.school);
         data.append("phone", values.phone);
         if (values.avatar != null) {
