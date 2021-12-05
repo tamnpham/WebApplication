@@ -42,7 +42,7 @@ export default function Router() {
             <Route path="blog" element={<Blog />} />
             <Route path="admin" element={<Admin />} />
           </Route>
-          <Route path="/" element={<Navigate to="/dashboard/apps" />} />
+          <Route path="/" element={<Navigate to="/dashboard/app" />} />
           <Route path="post/:id" element={<Post />} />
           <Route path="quiz" element={<Quiz />} />
           <Route path="result" element={<Result />} />

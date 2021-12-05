@@ -69,7 +69,9 @@ const useStyles = makeStyles({
   }
 });
 
-
+function refreshPage() {
+  window.location.reload(false);
+}
 
 export default function User() {
   const classes = useStyles();
@@ -161,6 +163,7 @@ export default function User() {
           .then((data) => {
             if (data.status === "Success")
             alert('Update profile successfully! Please reload the page!');
+            refreshPage()
           })
           .catch((err) => {
             alert(err.message);
