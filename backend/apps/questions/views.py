@@ -105,6 +105,7 @@ class CategoryViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing categories."""
@@ -113,3 +114,27 @@ class CategoryViewSet(
     permission_classes = (
         IsAuthenticated,
     )
+
+    @action(detail=False, methods=("post",))
+    def update_category(self, request, *args, **kwargs):
+        """Update a category given category's ID."""
+        category_id = request.data.get("id")
+        category = Category.objects.filter(pk=category_id)
+        if not category_id or not category:
+            return Response(
+                data={
+                    "status": "error",
+                    "message": "Category not found.",
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+        category = category.get()       # Get object from queryset
+        serializer = self.get_serializer(
+            category,
+            data=request.data,
+            partial=True,
+        )
+        if not serializer.is_valid():
+            return responses.client_error("Invalid data.")
+        serializer.save()
+        return responses.client_success(data=None)

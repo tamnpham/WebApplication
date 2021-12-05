@@ -1,5 +1,4 @@
 from django.urls.conf import path
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.routers import DefaultRouter
 
 from . import views

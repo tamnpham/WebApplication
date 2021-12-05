@@ -9,7 +9,6 @@ from rest_framework.response import Response
 
 from apps.core import responses
 from apps.questions.models import Category, Question
-from apps.users.models import User
 
 from .models import Quiz, Result
 from .serializers import QuizSerializer, ResultSerializer
@@ -144,8 +143,11 @@ class ResultViewAPI(GenericAPIView):
         "post",
     )
 
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+
     def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset().filter(user=request.user)
+        queryset = self.get_queryset()
         return responses.client_success(
             [
                 self.serializer_class(result).data
@@ -155,7 +157,7 @@ class ResultViewAPI(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         """Filter results based on criteria."""
-        queryset = self.get_queryset().filter(user=request.user)
+        queryset = self.get_queryset()
 
         # Filter by category
         category_id = request.data.get("categoryId")
@@ -238,5 +240,5 @@ class ScoreboardViewAPI(
 
     def get_queryset(self):
         """Apply scoreboard rule to queryset."""
-        queryset = super().get_queryset()
+        queryset = self.queryset
         return self.filter_results(queryset)

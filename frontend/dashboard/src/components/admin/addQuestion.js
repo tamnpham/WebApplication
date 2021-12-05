@@ -46,17 +46,17 @@ export default function AddQuestion(questionData) {
     const [categories, setCategories] = useState([]);
     
     useEffect(() => {
+      try {
         const apiUrl = `http://34.72.189.169:8080/api/category`;
         const auth = localStorage.getItem("token");
         const requestOption = {
-        method: "GET",
-        headers: {
+          method: "GET",
+          headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: "Bearer " + auth,
-        },
+          },
         };
-        try {
           fetch(apiUrl, requestOption)
             .then((res) => res.json())
             .then((response) => {
@@ -157,12 +157,6 @@ export default function AddQuestion(questionData) {
                       ))}
                   </Select>
                 </FormControl>
-                {/* <TextField
-                  label="Title"
-                  variant="outlined"
-                  {...getFieldProps("title")}
-                  inputProps={{ className: classes.inputSelect }}
-                /> */}
                 <TextField
                   label="Question"
                   variant="outlined"
@@ -172,18 +166,25 @@ export default function AddQuestion(questionData) {
                 />
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{ mt: "4%", mb: "4%" }}
+                  >
+                    Upload Image
                     <input
                       accept="image/*"
                       className={classes.input}
                       onChange={(e) => {
                         setFieldValue("image", e.target.files[0]);
                       }}
+                      hidden
                       id="raised-button-file"
-                      multiple
                       type="file"
                     />
+                    </Button>
                   </Grid>
-                  <Grid item xs={8}>
+                  <Grid item xs={6}>
                     <TextField
                       label="True Answer (0->A,1->B,2->C,3->D,...)"
                       variant="outlined"
@@ -199,37 +200,57 @@ export default function AddQuestion(questionData) {
                     <div>
                       {values.answers && values.answers.length > 0 ? (
                         values.answers.map((answer, index) => (
-                          <div key={index}>
-                            <Field
-                              variant="outlined"
-                              name={`answers.${index}`}
-                              inputProps={{
-                                className: classes.inputSelect,
-                              }}
-                            />
-                            <Button
-                              type="button"
-                              variant="contained"
-                              sx={{ m: 1 }}
-                              onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                            >
-                              -
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="contained"
-                              sx={{ m: 1 }}
-                              onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
-                            >
-                              +
-                            </Button>
-                          </div>
+                          <Grid container key={index}>
+                            <Grid item xs="8" sm="8" sx={{mb:2}}>
+                              <Field
+                                variant="outlined"
+                                name={`answers.${index}`}
+                                inputProps={{
+                                  className: classes.inputSelect,
+                                }}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  boxSizing: "border-box",
+                                  borderRadius: "7px",
+                                  backgroundColor: "#161d31",
+                                  color: "white",
+                                  fontSize: "17px",
+                                }}
+                                component="textarea"
+                              ></Field>
+                            </Grid>
+                            <Grid item xs="2" sm="2">
+                              <center>
+                                <Button
+                                  type="button"
+                                  variant="contained"
+                                  sx={{ m: 1 }}
+                                  onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                                >
+                                  -
+                                </Button>
+                              </center>
+                            </Grid>
+                            <Grid item xs="2" sm="2">
+                              <center>
+                                <Button
+                                  type="button"
+                                  variant="contained"
+                                  sx={{ m: 1 }}
+                                  onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
+                                >
+                                  +
+                                </Button>
+                              </center>
+                            </Grid>
+                          </Grid>
                         ))
                       ) : (
                         <Button
                           type="button"
                           variant="contained"
-                          sx={{ m: 1 }}
+                          sx={{ m: 2 }}
                           onClick={() => arrayHelpers.push("")}
                         >
                           Add an Answer

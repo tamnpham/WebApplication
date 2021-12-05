@@ -116,7 +116,6 @@ export default function EditQuestion() {
             // value={""}
             onChange={handleInputChange}
             inputProps={{ className: classes.inputSelect }}
-            // className={classes.inputSelect}
           >
             {questions &&
               questions.length &&
@@ -135,7 +134,6 @@ export default function EditQuestion() {
           initialValues={{
             id: question.id,
             category: question.category,
-            // title: question.title,
             content: question.content,
             answers: question.answers,
             trueAnswer: question.trueAnswer,
@@ -193,14 +191,6 @@ export default function EditQuestion() {
           render={({ values, getFieldProps, setFieldValue }) => (
             <Form>
               <Stack spacing={2}>
-                {/* <TextField
-                  // label="Title"
-                  variant="outlined"
-                  // value={question.title}
-                  defaultValue={question.title}
-                  {...getFieldProps("title")}
-                  inputProps={{ className: classes.inputSelect }}
-                /> */}
                 <TextField
                   label="Content"
                   variant="outlined"
@@ -210,23 +200,30 @@ export default function EditQuestion() {
                   multiline
                   inputProps={{ className: classes.inputSelect }}
                 />
-                <center>
-                  <Paper variant="outlined" sx={{ m: 2, width: "300px" }}>
+                <center style={{ marginTop:"10px", marginBottom:"10px"}} >
+                  <Paper variant="outlined" sx={{ width: "50%", height: "50%", mb:1, mt:1 }}>
                     <img src={question.image} />
                   </Paper>
                 </center>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{ mt: "4%", mb: "4%" }}
+                  >
+                    Upload Image
                     <input
                       accept="image/*"
                       className={classes.input}
                       onChange={(e) => {
                         setFieldValue("image", e.target.files[0]);
                       }}
+                      hidden
                       id="raised-button-file"
-                      multiple
                       type="file"
                     />
+                    </Button>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
@@ -243,31 +240,51 @@ export default function EditQuestion() {
                     <div>
                       {values.answers && values.answers.length > 0 ? (
                         values.answers.map((answer, index) => (
-                          <div key={index}>
+                          <Grid container key={index}>
+                          <Grid item xs="8" sm="8" sx={{mb:2}}>
                             <Field
                               variant="outlined"
                               name={`answers.${index}`}
                               inputProps={{
                                 className: classes.inputSelect,
                               }}
-                            />
-                            <Button
-                              type="button"
-                              variant="contained"
-                              sx={{ m: 1 }}
-                              onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                            >
-                              -
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="contained"
-                              sx={{ m: 1 }}
-                              onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
-                            >
-                              +
-                            </Button>
-                          </div>
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                boxSizing: "border-box",
+                                borderRadius: "7px",
+                                backgroundColor: "#161d31",
+                                color: "white",
+                                fontSize: "17px",
+                              }}
+                              component="textarea"
+                            ></Field>
+                          </Grid>
+                          <Grid item xs="2" sm="2">
+                            <center>
+                              <Button
+                                type="button"
+                                variant="contained"
+                                sx={{ m: 1 }}
+                                onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                              >
+                                -
+                              </Button>
+                            </center>
+                          </Grid>
+                          <Grid item xs="2" sm="2">
+                            <center>
+                              <Button
+                                type="button"
+                                variant="contained"
+                                sx={{ m: 1 }}
+                                onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
+                              >
+                                +
+                              </Button>
+                            </center>
+                          </Grid>
+                        </Grid>
                         ))
                       ) : (
                         <Button
