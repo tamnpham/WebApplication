@@ -41,7 +41,7 @@ export default function ScoreTable(props) {
         <TableHead>
           <TableRow>
             <StyledTableCell style={{ width: "1%", textAlign: "center" }}>
-              Rank
+              STT
             </StyledTableCell>
             <StyledTableCell style={{ width: "1%", textAlign: "center" }}>
               Username
