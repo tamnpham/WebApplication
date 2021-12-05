@@ -12,9 +12,6 @@ export default function Scoreboard() {
   return (
     <Page title="LSExam | Scoreboard">
       <Container>
-        {/* <Typography variant="h4" sx={{ mb: 5 }}>
-          Bảng điểm
-        </Typography> */}
 
         <Container>
           <CenteredTabs />

@@ -9,7 +9,18 @@ router.register(
     views.QuestionViewSet,
     basename="question",
 )
-urlpatterns = []
+urlpatterns = [
+    path(
+        "filter/",
+        views.QuestionViewSet.as_view({"post": "filter"}),
+        name="question-list-by-category",
+    ),
+    path(
+        "update/",
+        views.QuestionViewSet.as_view({"post": "update_question"}),
+        name="question-update",
+    ),
+]
 urlpatterns += router.urls
 
 # Extra router and url pattern for Category

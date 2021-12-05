@@ -16,7 +16,7 @@ import NotificationsPopover from './NotificationsPopover';
 
 const DRAWER_WIDTH = 280;
 const APPBAR_MOBILE = 64;
-const APPBAR_DESKTOP = 92;
+const APPBAR_DESKTOP = 70;
 
 const RootStyle = styled(AppBar)(({ theme }) => ({
   boxShadow: 'none',
@@ -33,8 +33,8 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     minHeight: APPBAR_DESKTOP,
     padding: theme.spacing(0, 5),
-    backgroundImage: `url("https://cdnb.artstation.com/p/assets/images/images/024/538/827/original/pixel-jeff-clipa-s.gif?1582740711")`,
-    // backgroundColor: '#161d31',
+    // backgroundImage: `url("https://cdnb.artstation.com/p/assets/images/images/024/538/827/original/pixel-jeff-clipa-s.gif?1582740711")`,
+    backgroundColor: '#b8b9d1',
   }
 }));
 
@@ -54,12 +54,10 @@ export default function DashboardNavbar({ onOpenSidebar }) {
           </IconButton>
         </MHidden>
 
-        <Searchbar />
+        {/* <Searchbar /> */}
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          <LanguagePopover />
-          <NotificationsPopover />
           <AccountPopover />
         </Stack>
       </ToolbarStyle>

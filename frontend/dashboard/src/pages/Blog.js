@@ -12,12 +12,6 @@ import POSTS from '../_mocks_/blog';
 
 // ----------------------------------------------------------------------
 
-const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'popular', label: 'Popular' },
-  { value: 'oldest', label: 'Oldest' }
-];
-
 // ----------------------------------------------------------------------
 
 export default function Blog() {
@@ -28,14 +22,6 @@ export default function Blog() {
           <Typography variant="h4" gutterBottom>
             Blog
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Icon icon={plusFill} />}
-          >
-            New Post
-          </Button>
         </Stack>
       
       <ActionAreaCard />

@@ -25,31 +25,31 @@
   "status": <str:status_message>,
   "data": {
     "user": {
-        "id": <int>,
-        "first_name": <str>,
-        "last_name": <str>,
-        "phone": <str>,
-        "email": <str>,
-        "role": <str>,
-        "school": <str>,
-        "major": <str>,
-        "max_score": {
+      "id": <int>,
+      "first_name": <str>,
+      "last_name": <str>,
+      "phone": <str>,
+      "email": <str>,
+      "role": <str>,
+      "school": <str>,
+      "major": <str>,
+      "max_score": {
+        "id": <int>,  // category ID
+        "level": <int>,
+        "code": <str>,
+        "name": <str>,
+        "score": <str>
+      },
+      "top_3_scores": [
+        {
           "id": <int>,  // category ID
           "level": <int>,
           "code": <str>,
           "name": <str>,
           "score": <str>
         },
-        "top_3_scores": [
-          {
-            "id": <int>,  // category ID
-            "level": <int>,
-            "code": <str>,
-            "name": <str>,
-            "score": <str>
-          },
-          ...
-        ]
+        ...
+      ]
     }
   }
 }
@@ -60,20 +60,20 @@
 **Request**: All field are *optional*
 ```json
 {
-    "first_name": <str>,
-    "last_name": <str>,
-    "phone": <str>,
-    "avatar": <file>,   // using file upload
-    "school": <str>,
-    "major": <str>
+  "first_name": <str>,
+  "last_name": <str>,
+  "phone": <str>,
+  "avatar": <file>,   // using file upload
+  "school": <str>,
+  "major": <str>
 }
 ```
 
 **Response**:
 ```json
 {
-    "status": <str:status_message>,
-    "data": null
+  "status": <str:status_message>,
+  "data": null
 }
 ```
 
@@ -86,27 +86,27 @@
 **Request**:
 ```json
 {
-    "email": <str>,
-    "password": <str>
+  "email": <str>,
+  "password": <str>
 }
 ```
 
 **Response**:
 ```json
 {
-    "status": <str:status_message>,
-    "data": {
-        "token": {
-            "refresh": <str>,
-            "access": <str>
-        },
-        "user": {
-            "first_name": <str>,
-            "last_name": <str>,
-            "role": <str>,
-            "avatar": <str:url>
-        }
+  "status": <str:status_message>,
+  "data": {
+    "token": {
+      "refresh": <str>,
+      "access": <str>
+    },
+    "user": {
+      "first_name": <str>,
+      "last_name": <str>,
+      "role": <str>,
+      "avatar": <str:url>
     }
+  }
 }
 ```
 
@@ -119,10 +119,10 @@
 **Request**:
 ```json
 {
-    "email": <str>,
-    "password": <str>,
-    "first_name": <str>,
-    "last_name": <str>
+  "email": <str>,
+  "password": <str>,
+  "first_name": <str>,
+  "last_name": <str>
 }
 ```
 
@@ -144,50 +144,7 @@
 **Response**:
 ```json
 [
-    {
-        "id": <int>,
-        "created": <str:timestamp>,
-        "modified": <str:timestamp>,
-        "code": <str>,
-        "title": <str>,
-        "content": <str>,
-        "answers": [
-            <str>,
-            <str>,
-            <str>,
-            <str>
-        ],
-        "trueAnswer": <int>,
-        "image": <str:url>,
-        "category": <int>
-    },
-    ...
-]
-```
-
-**Method**: POST
-
-**Request**:
-```json
-{
-    "category": <int>,
-    "title": <str>,
-    "content": <str>,
-    "answers": [
-        <str>,
-        <str>,
-        <str>,
-        <str>
-    ],
-    "trueAnswer": <int>,
-    "image": (optional) <file>,
-    "code": (optional) <str>
-}
-```
-
-**Response**:
-```json
-{
+  {
     "id": <int>,
     "created": <str:timestamp>,
     "modified": <str:timestamp>,
@@ -200,13 +157,156 @@
         <str>,
         <str>
     ],
-    "true": <int>,
+    "trueAnswer": <int>,
     "image": <str:url>,
     "category": <int>
+  },
+  ...
+]
+```
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "category": <int>,
+  "title": <str>,
+  "content": <str>,
+  "answers": [
+      <str>,
+      <str>,
+      <str>,
+      <str>
+  ],
+  "trueAnswer": <int>,
+  "image": (optional) <file>,
+  "code": (optional) <str>
+}
+```
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "created": <str:timestamp>,
+  "modified": <str:timestamp>,
+  "code": <str>,
+  "title": <str>,
+  "content": <str>,
+  "answers": [
+      <str>,
+      <str>,
+      <str>,
+      <str>
+  ],
+  "true": <int>,
+  "image": <str:url>,
+  "category": <int>
 },
 ```
 
 **Expected status**: 201 Created
+
+<hr>
+
+/api/question/\<int:questionId\>/
+
+**Method**: GET
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "image": <str:url>,
+  "created": <str:timestamp>,
+  "modified": <str:timestamp>,
+  "code": <str>,
+  "title": <str>,
+  "content": <str>,
+  "answers": [
+      <str>,
+      <str>,
+      <str>,
+      <str>
+  ],
+  "trueAnswer": <int>,
+  "category": <int>
+}
+```
+
+<hr>
+
+/api/question/filter/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "categoryId": <int>
+}
+```
+
+**Response**:
+```json
+{
+  "status": "Success",
+  "data": [
+    {
+      "id": <int>,
+      "created": <str:timestamp>,
+      "modified": <str:timestamp>,
+      "code": <str>,
+      "title": <str>,
+      "content": <str>,
+      "answers": [
+          <str>,
+          <str>,
+          <str>,
+          <str>
+      ],
+      "trueAnswer": <int>,
+      "image": <str:url>,
+      "category": <int>
+    },
+    ...
+  ]
+}
+```
+
+<hr>
+
+/api/question/update/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "id": <int>,
+  "code": <str>,
+  "title": <str>,
+  "content": <str>,
+  "answers": [
+      <str>,
+      <str>,
+      <str>,
+      <str>
+  ],
+  "true": <int>,
+  "image": <str:url>,
+  "category": <int>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": null
+}
+```
 
 ## Category
 
@@ -290,14 +390,14 @@
 **Response**:
 ```json
 {
-    "id": <int>,
-    "created": <str:timestamp>,
-    "modified": <str:timestamp>,
-    "title": <str>,
-    "content": <str>,
-    "author": <int>,
-    "category": <int>,
-    "image": <str:url>
+  "id": <int>,
+  "created": <str:timestamp>,
+  "modified": <str:timestamp>,
+  "title": <str>,
+  "content": <str>,
+  "author": <int>,
+  "category": <int>,
+  "image": <str:url>
 }
 ```
 **Expected status**: 201 Created
@@ -311,37 +411,43 @@
 **Response**
 ```json
 {
-    "id": <int>,
-    "created": <str:timestamp>,
-    "modified": <str:timestamp>,
-    "title": <str>,
-    "content": <str>,
-    "author": <int>,
-    "category": <int>,
-    "image": <str:url>
+  "id": <int>,
+  "created": <str:timestamp>,
+  "modified": <str:timestamp>,
+  "title": <str>,
+  "content": <str>,
+  "author": {
+    "first_name": <str>,
+    "last_name": <str>,
+    "avatar_url": <str:url>
+  },
+  "category": <int>,
+  "image": <str:url>
 }
 ```
 
 <hr>
 
-/api/blog/\<int:blog_id\>/update/
+/api/blog/update/
 
 **Method**: POST
 
-**Request**:
+**Request**: All fields are optional
 ```json
 {
-    "title": <str>,
-    "content": <str>,
-    "category": (optional) <int>
+  "id": <int>,
+  "title": <str>,
+  "content": <str>,
+  "category": <int>,
+  "image": <file>
 }
 ```
 
 **Response**
 ```json
 {
-    "status": <str:status_message>,
-    "data": null
+  "status": <str:status_message>,
+  "data": null
 }
 ```
 
@@ -354,8 +460,8 @@
 **Request**:
 ```json
 {
-    "categoryId": <int>,
-    "numberQuestions": <int>
+  "categoryId": <int>,
+  "numberQuestions": <int>
 }
 ```
 
@@ -368,25 +474,25 @@
     "owner": <int>,
     "numberQuestions": <int>,
     "questions": [
-        {
-            "id": <int>,
-            "created": <str:timestamp>,
-            "modified": <str:timestamp>,
-            "code": <str>,
-            "title": <str>,
-            "content": <str>,
-            "answers": [
-                <str>,
-                <str>,
-                <str>,
-                <str>
-            ],
-            "image": <str:url>,
-            "category": <int>
-        },
-        ...
-      ]
-    }
+      {
+        "id": <int>,
+        "created": <str:timestamp>,
+        "modified": <str:timestamp>,
+        "code": <str>,
+        "title": <str>,
+        "content": <str>,
+        "answers": [
+            <str>,
+            <str>,
+            <str>,
+            <str>
+        ],
+        "image": <str:url>,
+        "category": <int>
+      },
+      ...
+    ]
+  }
 }
 ```
 
@@ -399,15 +505,15 @@
 **Request**:
 ```json
 {
-    "quizId": <int>,
-    "duration": <str>,     // format: "hour:minute:second", e.g., "00:30:04"
-    "answers": [
-        {
-            "questionId": <int>,
-            "answer": <int>     // 0->A, 1->B, 2->C, 3->D
-        },
-        ...
-    ]
+  "quizId": <int>,
+  "duration": <str>,     // format: "hour:minute:second", e.g., "00:30:04"
+  "answers": [
+    {
+        "questionId": <int>,
+        "answer": <int>     // 0->A, 1->B, 2->C, 3->D
+    },
+    ...
+  ]
 }
 ```
 
@@ -443,18 +549,18 @@
   "status": <str:status_message>,
   "data": [
     {
-        "id": <int>,    // result's id
-        "duration": <str>,
-        "score": <str>,
-        "numberCorrects": <int>,
-        "numberQuestions": <int>,
-        "user": {
-          "id": <int>,  // user's id
-          "first_name": <str>,
-          "last_name": <str>
-        },
-        "category": (optional) <int>,  // category's id
-        "quiz": <int>   // quiz's id
+      "id": <int>,    // result's id
+      "duration": <str>,
+      "score": <str>,
+      "numberCorrects": <int>,
+      "numberQuestions": <int>,
+      "user": {
+        "id": <int>,  // user's id
+        "first_name": <str>,
+        "last_name": <str>
+      },
+      "category": (optional) <int>,  // category's id
+      "quiz": <int>   // quiz's id
     },
     ...
   ]
@@ -477,18 +583,18 @@
   "status": <str:status_message>,
   "data": [
     {
-        "id": <int>,    // result's id
-        "duration": <str>,
-        "score": <str>,
-        "numberCorrects": <int>,
-        "numberQuestions": <int>,
-        "user": {
-          "id": <int>,  // user's id
-          "first_name": <str>,
-          "last_name": <str>
-        },
-        "category": (optional) <int>,  // category's id
-        "quiz": <int>   // quiz's id
+      "id": <int>,    // result's id
+      "duration": <str>,
+      "score": <str>,
+      "numberCorrects": <int>,
+      "numberQuestions": <int>,
+      "user": {
+        "id": <int>,  // user's id
+        "first_name": <str>,
+        "last_name": <str>
+      },
+      "category": (optional) <int>,  // category's id
+      "quiz": <int>   // quiz's id
     },
     ...
   ]
@@ -507,18 +613,18 @@
   "status": <str:status_message>,
   "data": [
     {
-        "id": <int>,    // result's id
-        "duration": <str>,
-        "score": <str>,
-        "numberCorrects": <int>,
-        "numberQuestions": <int>,
-        "user": {
-          "id": <int>,  // user's id
-          "first_name": <str>,
-          "last_name": <str>
-        },
-        "category": (optional) <int>,  // category's id
-        "quiz": <int>   // quiz's id
+      "id": <int>,    // result's id
+      "duration": <str>,
+      "score": <str>,
+      "numberCorrects": <int>,
+      "numberQuestions": <int>,
+      "user": {
+        "id": <int>,  // user's id
+        "first_name": <str>,
+        "last_name": <str>
+      },
+      "category": (optional) <int>,  // category's id
+      "quiz": <int>   // quiz's id
     },
     ...
   ]
@@ -541,18 +647,18 @@
   "status": <str:status_message>,
   "data": [
     {
-        "id": <int>,    // result's id
-        "duration": <str>,
-        "score": <str>,
-        "numberCorrects": <int>,
-        "numberQuestions": <int>,
-        "user": {
-          "id": <int>,  // user's id
-          "first_name": <str>,
-          "last_name": <str>
-        },
-        "category": (optional) <int>,  // category's id
-        "quiz": <int>   // quiz's id
+      "id": <int>,    // result's id
+      "duration": <str>,
+      "score": <str>,
+      "numberCorrects": <int>,
+      "numberQuestions": <int>,
+      "user": {
+        "id": <int>,  // user's id
+        "first_name": <str>,
+        "last_name": <str>
+      },
+      "category": (optional) <int>,  // category's id
+      "quiz": <int>   // quiz's id
     },
     ...
   ]

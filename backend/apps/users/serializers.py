@@ -6,7 +6,7 @@ from .models import User
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-
+    """Serializer for representing User when creating."""
     class Meta:
         model = User
         fields = (
@@ -18,7 +18,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    avatar = serializers.SerializerMethodField()
+    """Serializer for representing User."""
+    avatar_url = serializers.SerializerMethodField()
     max_score = serializers.SerializerMethodField("get_max_score")
     top_3_scores = serializers.SerializerMethodField("get_top_3_scores")
 
@@ -35,6 +36,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'email',
             'role',
 
+            'avatar_url',
             'max_score',
             'top_3_scores',
         )
@@ -42,14 +44,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "email",
             "role",
         )
-        extra_kwargs = {
-            "email": {
-                "required": False,
-            },
-        }
 
     # https://stackoverflow.com/a/35522896
-    def get_avatar(self, instance):
+    def get_avatar_url(self, instance):
         """Customize image serialization method."""
         request = self.context.get("request")
         image_url = None
@@ -82,3 +79,26 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
                 data["score"] = entry.score
                 top_3.append(data)
         return top_3
+
+
+class BlogAuthorSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for representing Blog's Author."""
+    avatar_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = (
+            "first_name",
+            "last_name",
+            "avatar_url",
+        )
+
+    # https://stackoverflow.com/a/35522896
+    def get_avatar_url(self, instance):
+        """Customize image serialization method."""
+        request = self.context.get("request")
+        image_url = None
+        if instance.avatar and instance.avatar.url:
+            image_url = instance.avatar.url
+            image_url = request.build_absolute_uri(image_url)
+        return image_url

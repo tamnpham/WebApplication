@@ -5,16 +5,14 @@ from .models import Category, Question
 
 class QuestionSerializer(serializers.ModelSerializer):
     """Serializer for representing `Question`."""
-    image = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Question
-        exclude = (
-            "title",
-        )
+        fields = "__all__"
 
     # https://stackoverflow.com/a/35522896
-    def get_image(self, instance):
+    def get_image_url(self, instance):
         """Customize image serialization method."""
         request = self.context.get("request")
         image_url = None

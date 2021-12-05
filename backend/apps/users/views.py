@@ -1,7 +1,7 @@
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -118,18 +118,13 @@ class UserAPI(
     def post(self, request, *args, **kwargs):
         user_id = request.user.id
         user = self.get_object(user_id)
-        fields = (
-            "first_name",
-            "last_name",
-            "phone",
-            "avatar",
-            "school",
-            "major",
+        serializer = self.get_serializer(
+            user,
+            data=request.data,
+            partial=True,
         )
-        for field in fields:
-            value = request.data.get(field)
-            if value:
-                setattr(user, field, value)
 
-        user.save()
+        if not serializer.is_valid():
+            return responses.client_error("Invalid data.")
+        serializer.save()
         return responses.client_success(data=None)
