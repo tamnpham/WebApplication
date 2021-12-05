@@ -255,6 +255,7 @@ export default function Quiz() {
                       }
                     }
                   )}
+                </Stack>
                 </Box>
                 <Box>
                   <Stack spacing={2} sx={{ m: 1 }}>
