@@ -462,33 +462,26 @@ export default function User() {
               } else {
                 return (
                   <>
-                    <Page
-                      sx={{
-                        p: "5%",
-                        backgroundColor: "#161d31",
-                        color: "white",
-                        height: "100%",
-                      }}
-                    >
-                      <div
-                        style={{
-                          position: "absolute",
-                          left: "60%",
-                          top: "60%",
-                          width: "50%",
-                          transform: "translate(-50%, -50%)",
-                        }}
-                      >
-                        <Typography
-                          variant="h1"
-                          color="white"
-                          textAlign="center"
-                        >
-                          {" "}
-                          Loading...{" "}
-                        </Typography>
-                        <LinearProgress color="success" />
-                      </div>
+                    <Page title="Dashboard | LSExam">
+                      <Container maxWidth="xl">
+                        <Box sx={{ p: "25%" }}>
+                          <center
+                            style={{
+                              width: "80%",
+                            }}
+                          >
+                            <Typography
+                              variant="h1"
+                              color="white"
+                              textAlign="center"
+                            >
+                              {" "}
+                              Loading...{" "}
+                            </Typography>
+                            <LinearProgress color="success" />
+                          </center>
+                        </Box>
+                      </Container>
                     </Page>
                   </>
                 );

@@ -3,10 +3,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Grid } from "@mui/material";
+import { CardActionArea, Grid, LinearProgress, Container, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { NavLink } from 'react-router-dom'
+import Page from "../../components/Page";
 import { useEffect, useState } from 'react';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -89,7 +90,25 @@ export default function ActionAreaCard() {
     );
   } else {
     return (
-      <Typography>Loading...</Typography>
+      <>
+        <Page title="Dashboard | LSExam">
+          <Container maxWidth="xl">
+            <Box sx={{ p: "15%" }}>
+              <center
+                style={{
+                  width: "80%",
+                }}
+              >
+                <Typography variant="h1" color="white" textAlign="center">
+                  {" "}
+                  Loading...{" "}
+                </Typography>
+                <LinearProgress color="success" />
+              </center>
+            </Box>
+          </Container>
+        </Page>
+      </>
     );
   }
 }
