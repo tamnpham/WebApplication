@@ -97,6 +97,7 @@ export default function EditPost() {
     enableReinitialize: true,
     initialValues: {
       title: postGetEdit.title,
+      image: "",
     },
     onSubmit: (values, actions) => {
         console.log(postGetEdit.id)
@@ -108,6 +109,7 @@ export default function EditPost() {
             data.append("id", postGetEdit.id);
             data.append("title", values.title);
             data.append("content", content);
+            data.append("image", values.image);
 
             const requestOption = {
               method: "POST",
@@ -176,26 +178,35 @@ export default function EditPost() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} sx={{ textAlign: "center" }}>
               <Box className={classes.formEdit}>
-                <FormControl>
-                {/* {postGetEdit.title && ( */}
                 <TextField
-                      id="outlined-basic"
-                      label="Title"
-                      defaultValue={postGetEdit.title}
-                      variant="standard"
-                      sx={{ pb: 2 }}
-                      inputProps={{ className: classes.input }}
-                      {...getFieldProps("title")}
-                    />
-                {/* )} */}
-                </FormControl>
+                  id="outlined-basic"
+                  label="Update title"
+                  defaultValue={postGetEdit.title}
+                  variant="outlined"
+                  sx={{ pb: 2, width: "50%" }}
+                  inputProps={{ className: classes.input }}
+                  {...getFieldProps("title")}
+                />
               </Box>
+
+              <Button variant="contained" component="label" sx={{mt: '4%', mb: '4%'}}>
+                Upload Cover Image
+                <input
+                  accept="image/*"
+                  type="file"
+                  hidden
+                  onChange={(e) => {
+                    setFieldValue("image", e.target.files[0]);
+                  }}
+                />
+              </Button>
 
               <div className="container">
                 <MDEditor
                   value={content}
                   onChange={setContent}
                   style={{ height: "30%" }}
+                  sx={{ mt: "5%" }}
                 />
               </div>
 
@@ -206,6 +217,7 @@ export default function EditPost() {
                   variant="contained"
                   color="success"
                   className={classes.buttonEdit}
+                  sx={{ mt: "5%" }}
                 >
                   Save
                 </Button>

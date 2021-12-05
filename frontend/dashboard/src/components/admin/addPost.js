@@ -65,6 +65,7 @@ import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } fro
       const formik = useFormik({
         initialValues: {
           title: "",
+          image: ""
         },
         onSubmit: (values, actions) => {
           const auth = localStorage.getItem("token");
@@ -75,7 +76,7 @@ import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } fro
           var data = new FormData();
           data.append("title", values.title);
           data.append("content", content);
-          // data.append("image", "");
+          data.append("image", values.image);
 
           const request = {
             method: "POST",
@@ -138,13 +139,24 @@ import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } fro
                     </FormControl>
                   </Box>
 
-                  <div className="container">
-                    <MDEditor
-                      value={content}
-                      onChange={setContent}
-                      style={{ height: "30%" }}
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{ mt: "4%", mb: "4%" }}
+                  >
+                    Upload Cover Image
+                    <input
+                      accept="image/*"
+                      type="file"
+                      hidden
+                      onChange={(e) => {
+                        setFieldValue("image", e.target.files[0]);
+                      }}
                     />
-                    {/* <MDEditor.Markdown source={value} /> */}
+                  </Button>
+
+                  <div className="container" sx={{ mt: 3 }}>
+                    <MDEditor value={content} onChange={setContent} />
                   </div>
 
                   <Box textAlign="center">
