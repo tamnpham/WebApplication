@@ -54,8 +54,6 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
-  
- 
 
 // const rootStyle = styled(Body)
 // ----------------------------------------------------------------------
@@ -81,12 +79,9 @@ export default function Post(props) {
     
           fetch(apiUrl, request)
             .then((res) => res.json())
-            .then((response) => {
-              
-              setPostState(response);
-              
+            .then((response) => {       
+              setPostState(response);    
             });
-
           },[])
       
     if (postState != null) {

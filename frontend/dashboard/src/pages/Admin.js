@@ -8,8 +8,7 @@ import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
 
 import Page from "../components/Page";
-import {AddPost, AddQuestion, DeleteQuestion, EditQuestion, EditPost, DeletePost} from '../components/admin/'
-
+import {AddPost, AddQuestion, DeleteQuestion, EditQuestion, EditPost, DeletePost, AddCategory} from '../components/admin/'
 
 //React
 import { useState, useEffect } from "react";
@@ -104,6 +103,9 @@ export default function Admin() {
                 <Tab label="Add Post" value="4" />
                 <Tab label="Edit Post" value="5" />
                 <Tab label="Delete Post" value="6" />
+                <Tab label="Add Category" value="7" />
+                <Tab label="Edit Category" value="8" />
+                <Tab label="Delete Category" value="9" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -123,6 +125,9 @@ export default function Admin() {
             </TabPanel>
             <TabPanel value="6">
               <DeletePost />
+            </TabPanel>
+            <TabPanel value="7">
+              <AddCategory />
             </TabPanel>
           </TabContext>
         </Box>
