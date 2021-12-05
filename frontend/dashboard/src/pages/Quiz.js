@@ -1,8 +1,8 @@
 // material
-import { Box, Grid, Container, Typography, Button, Stack } from "@mui/material";
+import { Box, Grid, Container, Typography, Button, Stack , IconButton, Tooltip, Menu, MenuItem, AppBar, Toolbar } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 // components
 import Page from "../components/Page";
 import { Question, Timer } from "../components/quiz/";
@@ -18,6 +18,9 @@ import {
 } from "../redux/store/answersSlice";
 import Clock from "../components/quiz/Clock";
 import LinearProgress from "@mui/material/LinearProgress";
+
+import AccountPopover from "../layouts/dashboard/AccountPopover";
+import MenuIcon from '@mui/icons-material/Menu';
 
 // ----------------------------------------------------------------------
 
