@@ -23,9 +23,13 @@ export const answersSubmitSlice = createSlice({
     setResultQuestions : (state, action) => {
       state.questions = action.payload;
     },
+    setDuration : (state,action) => {
+      state.duration = action.payload;
+      console.log(state.duration)
+    }
   },
 });
 
-export const { setSubmitAnswers, setQuizId, setResultQuestions } = answersSubmitSlice.actions;
+export const { setSubmitAnswers, setQuizId, setResultQuestions, setDuration } = answersSubmitSlice.actions;
 export const selectSubmitAnswers = state => state.answers;
 export default answersSubmitSlice.reducer;

@@ -14,6 +14,7 @@ import {
   setSubmitAnswers,
   setQuizId,
   setResultQuestions,
+  setDuration
 } from "../redux/store/answersSlice";
 import Clock from "../components/quiz/Clock";
 import LinearProgress from '@mui/material/LinearProgress'
@@ -137,75 +138,90 @@ export default function Quiz() {
     dispatch(setSubmitAnswers(selectedAnswers));
     dispatch(setQuizId(quiz));
     dispatch(setResultQuestions(questions));
+    let timeout = questionOptions.time*60 - seconds;
+    const hours = Math.floor(timeout/3600);
+    const minutes =Math.floor((timeout - hours*3600)/60);
+    const second = timeout - hours*3600 - minutes*60;
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(second);
+    var duration = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    dispatch(setDuration(duration));
     navigate("/result");
   };
 
   if (questions.length > 0) {
     return (
-      <Page
-        title="Quiz"
+      <Box
         sx={{
           p: "5%",
           backgroundColor: "#161d31",
           color: "white",
-          height: "200%",
+          height: "100%",
         }}
       >
-        <Container>
-          <Grid container >
-            <Grid item xs="6">
-              <center>
-              <Typography variant="h4" sx={{paddingTop: 2 }}>
-                Câu hỏi {currentQuestion + 1}
-              </Typography>
-              </center>
+        <Page
+          title="Quiz"
+        >
+          <Container>
+            <Grid container>
+              <Grid item xs="6">
+                <center>
+                  <Typography variant="h4" sx={{ paddingTop: 2 }}>
+                    Câu hỏi {currentQuestion + 1}
+                  </Typography>
+                </center>
+              </Grid>
+              <Grid item xs="6">
+                <center>
+                  <Clock initTime={questionOptions.time}></Clock>
+                </center>
+              </Grid>
             </Grid>
-            <Grid item xs="6">
-              <center><Clock initTime={questionOptions.time}></Clock></center>
-            </Grid>
-          </Grid>
 
-          <Question
-            question={questions[currentQuestion]}
-            index={currentQuestion + 1}
-            answerIndex={answers[currentQuestion]}
-            chooseAnswer={chooseAnswer}
-            chooseSelectedAnswer={chooseSelectedAnswer}
-          ></Question>
+            <Question
+              question={questions[currentQuestion]}
+              index={currentQuestion + 1}
+              answerIndex={answers[currentQuestion]}
+              chooseAnswer={chooseAnswer}
+              chooseSelectedAnswer={chooseSelectedAnswer}
+            ></Question>
 
-          <Box sx={{ textAlign: "center" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={{ m: 2, width: 100 }}
-              onClick={previous}
-              disabled={currentQuestion === 0}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={{ m: 2 }}
-              onClick={submitHandler}
-            >
-              Submit
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={{ m: 2, width: 100 }}
-              onClick={next}
-              disabled={currentQuestion + 1 === questions.length}
-            >
-              Next
-            </Button>
-          </Box>
-        </Container>
-      </Page>
+            <Box sx={{ textAlign: "center" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ m: 2, width: 100 }}
+                onClick={previous}
+                disabled={currentQuestion === 0}
+              >
+                Previous
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ m: 2 }}
+                onClick={submitHandler}
+              >
+                Submit
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ m: 2, width: 100 }}
+                onClick={next}
+                disabled={currentQuestion + 1 === questions.length}
+              >
+                Next
+              </Button>
+            </Box>
+          </Container>
+        </Page>
+      </Box>
     );
   } else {
     return (
