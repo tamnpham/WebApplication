@@ -1,24 +1,6 @@
-"""
-Dataset format:
-- Question:
-    {
-        "category_name": <str>,      
-        "category code": <str>,     // create new category if not exist
-        "content": <str>,
-        "answers": [
-            <str>,
-            <str>,
-            <str>,
-            <str>
-        ],
-        "trueAnswer": <int>,
-        "image": (optional) <path>,
-        "code": (optional) <str>
-    }
-"""
-
 import json
 import os
+import random
 
 import requests
 from django.core.files.images import ImageFile
@@ -82,13 +64,19 @@ def import_via_model():
                 new_question.save()
 
 
-def api_send(url, headers, data, expected_status):
+def api_send(
+    url,
+    headers=None,
+    data=None,
+    files=None,
+    expected_status=status.HTTP_200_OK,
+):
     response = requests.post(
         url,
         headers=headers,
+        files=files,
         data=data,
     )
-    import ipdb; ipdb.set_trace()
     assert response.status_code == expected_status
     return response
 
@@ -145,28 +133,72 @@ def import_via_api():
                     "answers": entry.get("answers"),
                     "trueAnswer": entry.get("trueAnswer"),
                 }
+                files = None
                 if entry.get("image"):
                     image_path = os.path.join(
                         dataset_path,
                         dirname,
                         entry.get("image"),
                     )
-                    with open(image_path, "rb") as fs:
-                        data["image"] = fs
-                        response = api_send(
-                            url=url,
-                            headers=headers,
-                            data=data,
-                            expected_status=status.HTTP_201_CREATED,
-                        )
-                else:
-                    response = api_send(
-                        url=url,
-                        headers=headers,
-                        data=data,
-                        expected_status=status.HTTP_201_CREATED,
-                    )
+                    files = {
+                        "image": open(image_path, "rb"),
+                    }
+
+                response = api_send(
+                    url=url,
+                    headers=headers,
+                    data=data,
+                    files=files,
+                    expected_status=status.HTTP_201_CREATED,
+                )
+    print("Completed!")
+
+
+def import_opentrivia():
+    """Get questions via Open Trivia Database.
+
+    Source: (https://opentdb.com/api_config.php)
+    """
+    n_questions = 50
+    url = f"https://opentdb.com/api.php?amount={n_questions}&type=multiple"
+    response = requests.get(url)
+    questions = response.json().get("results")
+    for entry in questions:
+        category_name = entry.get("category")
+        category = Category.objects.filter(name=category_name)
+        if not category:
+            category = Category(name=category_name)
+
+        answers = entry.get("incorrect_answers")
+        trueAnswer = random.randint(0, 3)
+        answers.insert(trueAnswer, entry.get("correct_answer"))
+        
+        question = Question(
+            content=entry.get("question"),
+            answers=answers,
+            trueAnswer=trueAnswer,
+        )
+        question.save()
 
 
 if __name__ == "__main__":
     import_via_api()
+
+"""
+Dataset format:
+- Question:
+    {
+        "category_name": <str>,      
+        "category code": <str>,     // create new category if not exist
+        "content": <str>,
+        "answers": [
+            <str>,
+            <str>,
+            <str>,
+            <str>
+        ],
+        "trueAnswer": <int>,
+        "image": (optional) <path>,
+        "code": (optional) <str>
+    }
+"""

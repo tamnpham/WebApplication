@@ -6,5 +6,14 @@ import db_import
 class Command(BaseCommand):
     """Custom management command for sample data generator"""
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--opentrivia",
+            action="store_true",
+        )
+
     def handle(self, *args, **options):
-        db_import.import_via_api()
+        if options.get("opentrivia"):
+            db_import.import_opentrivia()
+        else:
+            db_import.import_via_api()
