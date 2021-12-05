@@ -34,6 +34,9 @@ const useStyles = makeStyles({
   root: {
     justifyContent: "center"
   },
+  tab: {
+    color: "pink"
+  }
 });
 
 // ----------------------------------------------------------------------
@@ -96,10 +99,10 @@ export default function Admin() {
                 onChange={handleChangeTab}
                 aria-label="Question Tab"
                 variant="scrollable"
-                classes={{root: classes.root, scroller: classes.scroller}}
+                classes={{ root: classes.root, scroller: classes.scroller }}
               >
-                <Tab label="Edit question" value="1" />
-                <Tab label="Add question" value="2" />
+                <Tab label="Add question" className={classes.tab} value="1" />
+                <Tab label="Edit question" value="2" />
                 <Tab label="Delete question" value="3" />
                 <Tab label="Add Post" value="4" />
                 <Tab label="Edit Post" value="5" />
@@ -110,10 +113,10 @@ export default function Admin() {
               </TabList>
             </Box>
             <TabPanel value="1">
-              <EditQuestion />
+              <AddQuestion />
             </TabPanel>
             <TabPanel value="2">
-              <AddQuestion />
+              <EditQuestion />
             </TabPanel>
             <TabPanel value="3">
               <DeleteQuestion />

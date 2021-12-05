@@ -175,7 +175,7 @@ export default function Quiz() {
                     <img
                       src={questions[currentQuestion].image}
                       alt="img question"
-                      style={{ marginTop: "20px" }}
+                      style={{ marginTop: "20px", width:"50%", height:"50%" }}
                     ></img>
                   </center>
                 )}
