@@ -207,16 +207,23 @@ export default function EditQuestion() {
                 </center>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
+                  <Button
+                    variant="contained"
+                    component="label"
+                    sx={{ mt: "4%", mb: "4%" }}
+                  >
+                    Upload Image
                     <input
                       accept="image/*"
                       className={classes.input}
                       onChange={(e) => {
                         setFieldValue("image", e.target.files[0]);
                       }}
+                      hidden
                       id="raised-button-file"
-                      multiple
                       type="file"
                     />
+                    </Button>
                   </Grid>
                   <Grid item xs={6}>
                     <TextField
@@ -234,7 +241,7 @@ export default function EditQuestion() {
                       {values.answers && values.answers.length > 0 ? (
                         values.answers.map((answer, index) => (
                           <Grid container key={index}>
-                          <Grid item xs="6" sm="8" sx={{mb:2}}>
+                          <Grid item xs="8" sm="8" sx={{mb:2}}>
                             <Field
                               variant="outlined"
                               name={`answers.${index}`}
@@ -253,7 +260,7 @@ export default function EditQuestion() {
                               component="textarea"
                             ></Field>
                           </Grid>
-                          <Grid item xs="6" sm="2">
+                          <Grid item xs="2" sm="2">
                             <center>
                               <Button
                                 type="button"
@@ -265,7 +272,7 @@ export default function EditQuestion() {
                               </Button>
                             </center>
                           </Grid>
-                          <Grid item xs="6" sm="2">
+                          <Grid item xs="2" sm="2">
                             <center>
                               <Button
                                 type="button"
