@@ -102,7 +102,7 @@ export default function Post(props) {
     setAnchorElUser(null);
   };
 
-  if (postState != null) {
+  if (postState !== null) {
     return (
       <div style={{ height: "100%", backgroundColor: "#161d31" }}>
         <React.Fragment>

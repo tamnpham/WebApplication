@@ -127,6 +127,7 @@ export default function EditPost() {
                 //  OK
                 if (response.ok) {
                   //success
+                  alert("Edit post successfully!");
                   console.log(response);
                   return response.json();
                 } else {
@@ -180,7 +181,7 @@ export default function EditPost() {
               <Box className={classes.formEdit}>
                 <TextField
                   id="outlined-basic"
-                  label="Update title"
+                  // label="Update title"
                   defaultValue={postGetEdit.title}
                   variant="outlined"
                   sx={{ pb: 2, width: "50%" }}
