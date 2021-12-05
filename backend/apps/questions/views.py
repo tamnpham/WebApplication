@@ -104,6 +104,7 @@ class QuestionCreateViewSet(
 class CategoryViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
+    mixins.CreateModelMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing categories."""

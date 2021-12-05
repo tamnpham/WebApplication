@@ -335,6 +335,27 @@
 
 **Expected status**: 200 OK
 
+**Method**: POST
+
+**Request**:
+```json
+{
+  "name": <str>,
+  "level": (optional) <int>,
+  "code": (optional) <str>
+}
+```
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "name": <str>,
+  "level": (optional) <int>,
+  "code": (optional) <str>
+}
+```
+
 <hr>
 
 /api/category/\<int:category_id\>
