@@ -155,7 +155,6 @@ export default function Quiz() {
                     backgroundColor: "#ABEBC6",
                   }}
                 >
-
                   <Typography
                     variant="paragraph"
                     sx={{
@@ -168,94 +167,21 @@ export default function Quiz() {
                       color: "#145A32",
                     }}
                   >
-                  {questions[currentQuestion].content}
-                </Typography>
-                {questions[currentQuestion].image && (
-                  <center>
-                    <img
-                      src={questions[currentQuestion].image}
-                      alt="img question"
-                      style={{ marginTop: "20px", width:"50%", height:"50%" }}
-                    ></img>
-                  </center>
-                )}
-              </Box>
-              <Box>
-                <Stack spacing={2} sx={{ m: 1 }}>
-                  {questions[currentQuestion].answers.map(
-                    (answer, iterator) => {
-                      if (submitedAnswers[currentQuestion].answer !== null) {
-                        if (
-                          submitedAnswers[currentQuestion].answer !==
-                            questions[currentQuestion].trueAnswer &&
-                          questions[currentQuestion].trueAnswer === iterator
-                        ) {
-                          return (
-                            <Button
-                              variant="outlined"
-                              className={classes.rightAnswer}
-                            >
-                              {answer}
-                            </Button>
-                          );
-                        } else if (
-                          submitedAnswers[currentQuestion].answer !==
-                            questions[currentQuestion].trueAnswer &&
-                          submitedAnswers[currentQuestion].answer === iterator
-                        ) {
-                          return (
-                            <Button
-                              variant="outlined"
-                              className={classes.wrongAnswer}
-                            >
-                              {answer}
-                            </Button>
-                          );
-                        } else if (
-                          submitedAnswers[currentQuestion].answer ===
-                            questions[currentQuestion].trueAnswer &&
-                          questions[currentQuestion].trueAnswer === iterator
-                        )
-                          return (
-                            <Button
-                              variant="outlined"
-                              className={classes.rightAnswer}
-                            >
-                              {answer}
-                            </Button>
-                          );
-                        else
-                          return (
-                            <Button
-                              variant="outlined"
-                              className={classes.answer}
-                            >
-                              {answer}
-                            </Button>
-                          );
-                      } else {
-                        if (questions[currentQuestion].trueAnswer === iterator)
-                          return (
-                            <Button
-                              variant="outlined"
-                              className={classes.nullAnswer}
-                            >
-                              {answer}
-                            </Button>
-                          );
-                        else
-                          return (
-                            <Button
-                              variant="outlined"
-                              className={classes.answer}
-                            >
-                              {answer}
-                            </Button>
-                          );
-                      }
-                    }
+                    {questions[currentQuestion].content}
+                  </Typography>
+                  {questions[currentQuestion].image && (
+                    <center>
+                      <img
+                        src={questions[currentQuestion].image}
+                        alt="img question"
+                        style={{
+                          marginTop: "20px",
+                          width: "50%",
+                          height: "50%",
+                        }}
+                      ></img>
+                    </center>
                   )}
-                </Stack>
                 </Box>
                 <Box>
                   <Stack spacing={2} sx={{ m: 1 }}>

@@ -137,7 +137,7 @@ export default function EditQuestion() {
             content: question.content,
             answers: question.answers,
             trueAnswer: question.trueAnswer,
-            image: question.image,
+            image: "",
           }}
           onSubmit={(values) => {
             const auth = localStorage.getItem("token");
@@ -146,12 +146,20 @@ export default function EditQuestion() {
             // data.append("title", values.title);
             data.append("content", values.content);
             data.append("trueAnswer", values.trueAnswer);
-            data.append("image", values.image);
+            if(values.image !== "") data.append("image", values.image);
             data.append("id", question.id);
             const arrayAnswers = values.answers;
             for (var i = 0; i < arrayAnswers.length; i++) {
               data.append("answers", arrayAnswers[i]);
             }
+
+            console.log(data.getAll("answers"));
+            console.log(data.get("category"))
+            console.log(data.get("content"))
+            console.log(data.get("trueAnswer"))
+            console.log(data.get("image"))
+            console.log(data.get("id"))
+            // console.log(values.answers)
             const requestOption = {
               method: "POST",
               headers: {
@@ -186,7 +194,7 @@ export default function EditQuestion() {
               .catch((err) => {
                 alert(err.message);
               });
-            // console.log(values);
+            // console.log("hello");
           }}
           render={({ values, getFieldProps, setFieldValue }) => (
             <Form>
