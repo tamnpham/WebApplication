@@ -10,6 +10,7 @@ from apps.questions.models import Category, Question
 
 DOMAIN_NAME = "http://localhost:8080"
 
+OPENTRIVIA_CATEGORY = (9, 17, 18, 19)
 
 def import_via_model():
     dataset_path = os.path.join(
@@ -159,8 +160,9 @@ def import_opentrivia():
 
     Source: (https://opentdb.com/api_config.php)
     """
+    category = random.choice(OPENTRIVIA_CATEGORY)
     n_questions = 50
-    url = f"https://opentdb.com/api.php?amount={n_questions}&type=multiple"
+    url = f"https://opentdb.com/api.php?amount={n_questions}&type=multiple&category={category}"
     response = requests.get(url)
     questions = response.json().get("results")
     for entry in questions:
@@ -168,17 +170,23 @@ def import_opentrivia():
         category = Category.objects.filter(name=category_name)
         if not category:
             category = Category(name=category_name)
+            category.save()
+            print(f"Added category: {category_name}")
+        else:
+            category = category.get()
 
         answers = entry.get("incorrect_answers")
         trueAnswer = random.randint(0, 3)
         answers.insert(trueAnswer, entry.get("correct_answer"))
-        
+
         question = Question(
             content=entry.get("question"),
             answers=answers,
             trueAnswer=trueAnswer,
+            category=category,
         )
         question.save()
+    print(f"Added {len(questions)} questions")
 
 
 if __name__ == "__main__":
