@@ -34,8 +34,14 @@ const useStyles = makeStyles({
   root: {
     justifyContent: "center"
   },
-  tab: {
+  tab1: {
     color: "pink"
+  },
+  tab2: {
+    color: "yellow"
+  },
+  tab3: {
+    color: "green"
   }
 });
 
@@ -101,15 +107,15 @@ export default function Admin() {
                 variant="scrollable"
                 classes={{ root: classes.root, scroller: classes.scroller }}
               >
-                <Tab label="Add question" className={classes.tab} value="1" />
-                <Tab label="Edit question" value="2" />
-                <Tab label="Delete question" value="3" />
-                <Tab label="Add Post" value="4" />
-                <Tab label="Edit Post" value="5" />
-                <Tab label="Delete Post" value="6" />
-                <Tab label="Add Category" value="7" />
-                <Tab label="Edit Category" value="8" />
-                <Tab label="Delete Category" value="9" />
+                <Tab label="Add question" className={classes.tab1} value="1" />
+                <Tab label="Edit question" className={classes.tab1} value="2" />
+                <Tab label="Delete question" className={classes.tab1} value="3" />
+                <Tab label="Add Post" className={classes.tab2} value="4" />
+                <Tab label="Edit Post" className={classes.tab2} value="5" />
+                <Tab label="Delete Post" className={classes.tab2} value="6" />
+                <Tab label="Add Category" className={classes.tab3} value="7" />
+                <Tab label="Edit Category" className={classes.tab3} value="8" />
+                <Tab label="Delete Category" className={classes.tab3} value="9" />
               </TabList>
             </Box>
             <TabPanel value="1">
