@@ -358,7 +358,7 @@
 
 <hr>
 
-/api/category/\<int:category_id\>
+/api/category/\<int:category_id\>/
 
 **Method**: GET
 
@@ -379,6 +379,30 @@
 **Method**: DELETE
 
 **Expected status**: 204 No content
+
+<hr>
+
+/api/category/update/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "id": <int>,
+  "name": <str>,
+  "code": (optional) <str>,
+  "level": (optional) <int>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": null
+}
+```
 
 ## Blog
 
@@ -433,7 +457,7 @@
 
 <hr>
 
-/api/blog/\<int:blog_id\>
+/api/blog/\<int:blog_id\>/
 
 **Method**: GET
 
