@@ -49,11 +49,12 @@ export default function AccountPopover() {
   };
 
   const [userState, setUserState] = useState(null);
+  const [stateToken, setStateToken] = useState(null);
 
   useEffect(() => {
     //fetch data from server
     const apiUrl = `http://34.72.189.169:8080/api/user/profile/`;
-    const auth = localStorage.getItem("token");
+    const auth = authCtx.token;
 
     const request = {
       method: "GET",
@@ -67,7 +68,7 @@ export default function AccountPopover() {
     fetch(apiUrl, request)
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         setUserState(response.data.user);
         
       });

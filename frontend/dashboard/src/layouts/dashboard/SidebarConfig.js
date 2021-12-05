@@ -23,6 +23,11 @@ const sidebarConfig = [
     icon: getIcon(peopleFill)
   },
   {
+    title: 'History',
+    path: '/dashboard/history',
+    icon: getIcon(fileTextFill)
+  },
+  {
     title: 'Score Board',
     path: '/dashboard/products',
     icon: getIcon(shoppingBagFill)
@@ -37,6 +42,7 @@ const sidebarConfig = [
     path: '/dashboard/admin',
     icon: getIcon(fileTextFill)
   },
+
 ];
 
 export default sidebarConfig;

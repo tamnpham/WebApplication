@@ -51,32 +51,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
-
-    // const [userState, setUserState] = useState(null);
-
-    // useEffect(() => {
-    //   //fetch data from server
-    //   const apiUrl = `http://34.72.189.169:8080/api/user/profile/`;
-    //   const auth = localStorage.getItem("token");
-  
-    //   const request = {
-    //     method: "GET",
-    //     headers: {
-    //       Accept: "application/json",
-    //       "Content-Type": "application/json",
-    //       Authorization: "Bearer " + auth,
-    //     },
-    //   };
-      
-    //   console.log('hahaa');
-
-    //   fetch(apiUrl, request)
-    //     .then((res) => res.json())
-    //     .then((response) => {
-    //       setUserState(response.data.user);
-    //     });
-  
-    //   },[])
     
     const renderContent = (
       <Scrollbar
