@@ -49,10 +49,7 @@ class ResultSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Result
-        exclude = (
-            "created",
-            "modified",
-        )
+        fields = "__all__"
 
     def get_user(self, instance):
         """Get limited fields of user."""

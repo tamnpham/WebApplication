@@ -145,10 +145,11 @@ class ResultViewAPI(GenericAPIView):
     )
 
     def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(user=request.user)
         return responses.client_success(
             [
                 self.serializer_class(result).data
-                for result in self.get_queryset()
+                for result in queryset
             ],
         )
 
