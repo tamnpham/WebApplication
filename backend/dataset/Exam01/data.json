@@ -1,0 +1,95 @@
+{
+    "metadata": {
+        "author": "Nguyen Hoang Long",
+        "class": "NT208",
+        "project": "LSExam - online study space"
+    },
+    "data": {
+        "questions": [
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Điều nào dưới đây không phải là một trong các yêu cầu của dữ liệu",
+                "answers": [
+                    "Confidentiality",
+                    "Integrity",
+                    "Storage state",
+                    "Availability"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Phương pháp tấn công cho phép kẻ tấn công mạo nhận nạn nhân mà không cần sử dụng mật khẩu của nạn nhân",
+                "answers": [
+                    "Password pilfering",
+                    "Identify Spoofing",
+                    "Crypanalysis",
+                    "Eavesdropping"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Xem hình đính kèm. Đây là kỹ thuật tấn công nào",
+                "answers": [
+                    "Passive online",
+                    "Active online",
+                    "Offline",
+                    "Không phải các kỹ thuật trên"
+                ],
+                "trueAnswer": 0,
+                "image": "images/picture_1.png",
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Kỹ thuật crack mật khẩu trong đó attacker đã có được một số thông tin về mật khẩu là",
+                "answers": [
+                    "Brute Forcing",
+                    "Rule-based",
+                    "Dictionary",
+                    "Hybrid"
+                ],
+                "trueAnswer": 1,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Việc sử dụng đội quân Zombie để tấn công trên mạng là hình thức tấn công",
+                "answers": [
+                    "Repudiation",
+                    "Intrusion",
+                    "DDoS",
+                    "Buffer Overflow"
+                ],
+                "trueAnswer": 2,
+                "image": null,
+                "code": "NT101_Exam_1"
+            },
+            {
+                "category_name": "An toàn mạng máy tính",
+                "category_code": "NT101",
+                "content": "Xem mô hình dưới đây và cho biết Honey pot nên đặt tại vị trí nào? (hình vẽ không đầy đủ)",
+                "answers": [
+                    "1",
+                    "2",
+                    "1 và 2",
+                    "2 và 3"
+                ],
+                "trueAnswer": 3,
+                "image": "images/picture_2.png",
+                "code": "NT101_Exam_1"
+            }
+        ]
+    }
+}
