@@ -101,6 +101,7 @@ export default function Quiz() {
   };
   if ((questions.length > 0) && (score !== null)) {
     return (
+      <div style={{ height: "100%", backgroundColor: "#161d31" }}>
       <Box>
         <Page
           title="Quiz"
@@ -282,6 +283,7 @@ export default function Quiz() {
           </Container>
         </Page>
       </Box>
+      </div>
     );
   } else {
     return (
