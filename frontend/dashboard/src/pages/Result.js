@@ -101,177 +101,186 @@ export default function Quiz() {
   };
   if ((questions.length > 0) && (score !== null)) {
     return (
-      <Page
-        title="Quiz"
+      <Box
         sx={{
           p: "5%",
           backgroundColor: "#161d31",
           color: "white",
-          height: "200%",
+          height: "100%",
         }}
       >
-        <Container>
+        <Page title="Quiz">
           <Container>
-            <Grid container spacing={3}>
-              <Grid item xs="3">
-                <center>
-                  <Typography variant="h4" sx={{ p: 1 }}>
-                    Câu hỏi {currentQuestion + 1}
-                  </Typography>
-                </center>
+            <Container>
+              <Grid container spacing={3}>
+                <Grid item xs="3">
+                  <center>
+                    <Typography variant="h4" sx={{ p: 1 }}>
+                      Câu hỏi {currentQuestion + 1}
+                    </Typography>
+                  </center>
+                </Grid>
+                <Grid item xs="6">
+                  <center>
+                    <Typography variant="h4" sx={{ p: 1 }}>
+                      Duration {result.duration}
+                    </Typography>
+                  </center>
+                </Grid>
+                <Grid item xs="3">
+                  <center>
+                    <Typography variant="h4" sx={{ p: 1 }}>
+                      Score: {score}
+                    </Typography>
+                  </center>
+                </Grid>
               </Grid>
-              <Grid item xs="6">
-                <center>
-                  <Typography variant="h4" sx={{ p: 1 }}>
-                    Duration {result.duration}
-                  </Typography>
-                </center>
-              </Grid>
-              <Grid item xs="3">
-                <center>
-                  <Typography variant="h4" sx={{ p: 1 }}>
-                    Score: {score}
-                  </Typography>
-                </center>
-              </Grid>
-            </Grid>
-            <Box></Box>
-            <Box
-              sx={{
-                border: 1,
-                borderRadius: 2,
-                m: 1,
-                p: 2,
-                backgroundColor: "#ABEBC6",
-              }}
-            >
-              <Typography
-                variant="paragraph"
+              <Box></Box>
+              <Box
                 sx={{
+                  border: 1,
+                  borderRadius: 2,
+                  m: 1,
                   p: 2,
-                  m: 2,
-                  fontWeight: "Bold",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  textAlign: "justify",
-                  color: "#145A32",
+                  backgroundColor: "#ABEBC6",
                 }}
               >
-                {questions[currentQuestion].content}
-              </Typography>
-              {questions[currentQuestion].image && (
-                <center>
-                  <img
-                    src={questions[currentQuestion].image}
-                    alt="img question"
-                    style={{ marginTop: "20px" }}
-                  ></img>
-                </center>
-              )}
-            </Box>
-            <Box>
-              <Stack spacing={2} sx={{ m: 1 }}>
-                {questions[currentQuestion].answers.map((answer, iterator) => {
-                  if (submitedAnswers[currentQuestion].answer !== null) {
-                    if (
-                      submitedAnswers[currentQuestion].answer !==
-                        questions[currentQuestion].trueAnswer &&
-                      questions[currentQuestion].trueAnswer === iterator
-                    ) {
-                      return (
-                        <Button
-                          variant="outlined"
-                          className={classes.rightAnswer}
-                        >
-                          {answer}
-                        </Button>
-                      );
-                    } else if (
-                      submitedAnswers[currentQuestion].answer !==
-                        questions[currentQuestion].trueAnswer &&
-                      submitedAnswers[currentQuestion].answer === iterator
-                    ) {
-                      return (
-                        <Button
-                          variant="outlined"
-                          className={classes.wrongAnswer}
-                        >
-                          {answer}
-                        </Button>
-                      );
-                    } else if (
-                      submitedAnswers[currentQuestion].answer ===
-                        questions[currentQuestion].trueAnswer &&
-                      questions[currentQuestion].trueAnswer === iterator
-                    )
-                      return (
-                        <Button
-                          variant="outlined"
-                          className={classes.rightAnswer}
-                        >
-                          {answer}
-                        </Button>
-                      );
-                    else
-                      return (
-                        <Button variant="outlined" className={classes.answer}>
-                          {answer}
-                        </Button>
-                      );
-                  } else {
-                    if (questions[currentQuestion].trueAnswer === iterator)
-                      return (
-                        <Button
-                          variant="outlined"
-                          className={classes.nullAnswer}
-                        >
-                          {answer}
-                        </Button>
-                      );
-                    else
-                      return (
-                        <Button variant="outlined" className={classes.answer}>
-                          {answer}
-                        </Button>
-                      );
-                  }
-                })}
-              </Stack>
+                <Typography
+                  variant="paragraph"
+                  sx={{
+                    p: 2,
+                    m: 2,
+                    fontWeight: "Bold",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "justify",
+                    color: "#145A32",
+                  }}
+                >
+                  {questions[currentQuestion].content}
+                </Typography>
+                {questions[currentQuestion].image && (
+                  <center>
+                    <img
+                      src={questions[currentQuestion].image}
+                      alt="img question"
+                      style={{ marginTop: "20px" }}
+                    ></img>
+                  </center>
+                )}
+              </Box>
+              <Box>
+                <Stack spacing={2} sx={{ m: 1 }}>
+                  {questions[currentQuestion].answers.map(
+                    (answer, iterator) => {
+                      if (submitedAnswers[currentQuestion].answer !== null) {
+                        if (
+                          submitedAnswers[currentQuestion].answer !==
+                            questions[currentQuestion].trueAnswer &&
+                          questions[currentQuestion].trueAnswer === iterator
+                        ) {
+                          return (
+                            <Button
+                              variant="outlined"
+                              className={classes.rightAnswer}
+                            >
+                              {answer}
+                            </Button>
+                          );
+                        } else if (
+                          submitedAnswers[currentQuestion].answer !==
+                            questions[currentQuestion].trueAnswer &&
+                          submitedAnswers[currentQuestion].answer === iterator
+                        ) {
+                          return (
+                            <Button
+                              variant="outlined"
+                              className={classes.wrongAnswer}
+                            >
+                              {answer}
+                            </Button>
+                          );
+                        } else if (
+                          submitedAnswers[currentQuestion].answer ===
+                            questions[currentQuestion].trueAnswer &&
+                          questions[currentQuestion].trueAnswer === iterator
+                        )
+                          return (
+                            <Button
+                              variant="outlined"
+                              className={classes.rightAnswer}
+                            >
+                              {answer}
+                            </Button>
+                          );
+                        else
+                          return (
+                            <Button
+                              variant="outlined"
+                              className={classes.answer}
+                            >
+                              {answer}
+                            </Button>
+                          );
+                      } else {
+                        if (questions[currentQuestion].trueAnswer === iterator)
+                          return (
+                            <Button
+                              variant="outlined"
+                              className={classes.nullAnswer}
+                            >
+                              {answer}
+                            </Button>
+                          );
+                        else
+                          return (
+                            <Button
+                              variant="outlined"
+                              className={classes.answer}
+                            >
+                              {answer}
+                            </Button>
+                          );
+                      }
+                    }
+                  )}
+                </Stack>
+              </Box>
+            </Container>
+            <Box sx={{ textAlign: "center" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ m: 2, width: 100 }}
+                onClick={previous}
+                disabled={currentQuestion === 0}
+              >
+                Previous
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ m: 2 }}
+                onClick={goHome}
+              >
+                Home
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                sx={{ m: 2, width: 100 }}
+                onClick={next}
+                disabled={currentQuestion + 1 === questions.length}
+              >
+                Next
+              </Button>
             </Box>
           </Container>
-          <Box sx={{ textAlign: "center" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={{ m: 2, width: 100 }}
-              onClick={previous}
-              disabled={currentQuestion === 0}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={{ m: 2 }}
-              onClick={goHome}
-            >
-              Home
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              sx={{ m: 2, width: 100 }}
-              onClick={next}
-              disabled={currentQuestion + 1 === questions.length}
-            >
-              Next
-            </Button>
-          </Box>
-        </Container>
-      </Page>
+        </Page>
+      </Box>
     );
   } else {
     return (
