@@ -15,7 +15,7 @@ export default function History() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Blog
+            Blogs
           </Typography>
         </Stack>
       
