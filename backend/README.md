@@ -605,8 +605,7 @@
 **Request**:
 ```json
 {
-    "categoryId": (optional) <int>,
-    "userId": (optional) <int>
+  "categoryId": (optional) <int>
 }
 ```
 
