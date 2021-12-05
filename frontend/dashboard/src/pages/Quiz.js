@@ -153,6 +153,7 @@ export default function Quiz() {
 
   if (questions.length > 0) {
     return (
+      <div style={{height: '100%', backgroundColor: "#161d31"}}>
       <Box
         sx={{
           p: "5%",
@@ -188,6 +189,7 @@ export default function Quiz() {
               chooseSelectedAnswer={chooseSelectedAnswer}
             ></Question>
 
+
             <Box sx={{ textAlign: "center" }}>
               <Button
                 variant="contained"
@@ -222,6 +224,7 @@ export default function Quiz() {
           </Container>
         </Page>
       </Box>
+      </div>
     );
   } else {
     return (

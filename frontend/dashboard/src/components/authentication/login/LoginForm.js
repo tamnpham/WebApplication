@@ -86,7 +86,7 @@ export default function LoginForm() {
         }
       })
       .then((data) => {
-        authCtx.login(data.data.token.access, data.data.user.first_name, data.data.user.last_name, data.data.user.avatar);
+        authCtx.login(data.data.token.access, data.data.user.first_name, data.data.user.last_name, data.data.user.avatar,data.data.user.role);
         // console.log(authCtx.isLoggedIn);
         navigate('/dashboard/app', { replace: true });
       })
