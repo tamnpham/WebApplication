@@ -74,7 +74,7 @@ import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } fro
 
           var data = new FormData();
           data.append("title", values.title);
-          // data.append("content", content);
+          data.append("content", content);
           // data.append("image", "");
 
           const request = {

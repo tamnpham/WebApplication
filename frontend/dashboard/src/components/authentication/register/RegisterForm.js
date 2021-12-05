@@ -62,8 +62,8 @@ export default function RegisterForm() {
           body: JSON.stringify({
             email: values.email,
             password: values.password,
-            firstName: values.firstName,
-            lastName: values.lastName,
+            first_name: values.firstName,
+            last_name: values.lastName,
         }),
         //header
         headers: {
