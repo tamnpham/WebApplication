@@ -157,12 +157,6 @@ export default function AddQuestion(questionData) {
                       ))}
                   </Select>
                 </FormControl>
-                {/* <TextField
-                  label="Title"
-                  variant="outlined"
-                  {...getFieldProps("title")}
-                  inputProps={{ className: classes.inputSelect }}
-                /> */}
                 <TextField
                   label="Question"
                   variant="outlined"
@@ -199,43 +193,57 @@ export default function AddQuestion(questionData) {
                     <div>
                       {values.answers && values.answers.length > 0 ? (
                         values.answers.map((answer, index) => (
-                          <div key={index}>
-                            <Field
-                              variant="outlined"
-                              name={`answers.${index}`}
-                              inputProps={{
-                                className: classes.inputSelect,
-                              }}
-                              style={{width: '300px'}}
-                              component="textarea"
-                            >
-                              {/* <TextField
+                          <Grid container key={index}>
+                            <Grid item xs="6" sm="8" sx={{mb:2}}>
+                              <Field
                                 variant="outlined"
-                              /> */}
-                            </Field>
-                            <Button
-                              type="button"
-                              variant="contained"
-                              sx={{ m: 1 }}
-                              onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                            >
-                              -
-                            </Button>
-                            <Button
-                              type="button"
-                              variant="contained"
-                              sx={{ m: 1 }}
-                              onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
-                            >
-                              +
-                            </Button>
-                          </div>
+                                name={`answers.${index}`}
+                                inputProps={{
+                                  className: classes.inputSelect,
+                                }}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  boxSizing: "border-box",
+                                  borderRadius: "7px",
+                                  backgroundColor: "#161d31",
+                                  color: "white",
+                                  fontSize: "17px",
+                                }}
+                                component="textarea"
+                              ></Field>
+                            </Grid>
+                            <Grid item xs="6" sm="2">
+                              <center>
+                                <Button
+                                  type="button"
+                                  variant="contained"
+                                  sx={{ m: 1 }}
+                                  onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                                >
+                                  -
+                                </Button>
+                              </center>
+                            </Grid>
+                            <Grid item xs="6" sm="2">
+                              <center>
+                                <Button
+                                  type="button"
+                                  variant="contained"
+                                  sx={{ m: 1 }}
+                                  onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
+                                >
+                                  +
+                                </Button>
+                              </center>
+                            </Grid>
+                          </Grid>
                         ))
                       ) : (
                         <Button
                           type="button"
                           variant="contained"
-                          sx={{ m: 1 }}
+                          sx={{ m: 2 }}
                           onClick={() => arrayHelpers.push("")}
                         >
                           Add an Answer

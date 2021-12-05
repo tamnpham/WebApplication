@@ -150,11 +150,11 @@ export default function EditQuestion() {
                 method: "DELETE",
                 headers: {
                   Authorization: "Bearer " + auth,
-                }
+                },
               };
 
               let url = `http://34.72.189.169:8080/api/question/${question.id}`;
-              console.log(url)
+              console.log(url);
               fetch(url, requestOption)
                 // HTTP response
                 .then((response) => {
@@ -174,15 +174,12 @@ export default function EditQuestion() {
                 })
                 .then(() => {
                   alert("Delete successfully");
-                  // navigate("/dashboard/admin");
-                  refreshPage()
+                  refreshPage();
                 })
                 .catch((err) => {
-                  console.log(err)
+                  console.log(err);
                   alert(err.message);
                 });
-              // navigate("/dashboard/app");
-              // console.log(values);
             }}
             render={({ values, getFieldProps, setFieldValue }) => (
               <Form>
@@ -212,7 +209,11 @@ export default function EditQuestion() {
                     name="answers"
                     render={(arrayHelpers) => (
                       <div>
-                        {values.answers && values.answers.length > 0 && (
+                        <center>
+                          <Typography variant="h5">Answsers </Typography>
+                        </center>
+                        {values.answers &&
+                          values.answers.length > 0 &&
                           values.answers.map((answer, index) => (
                             <div key={index}>
                               <Field
@@ -222,11 +223,19 @@ export default function EditQuestion() {
                                 inputProps={{
                                   className: classes.inputSelect,
                                 }}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  boxSizing: "border-box",
+                                  borderRadius: "7px",
+                                  backgroundColor: "#161d31",
+                                  color: "white",
+                                  fontSize: "17px",
+                                }}
+                                component="textarea"
                               />
-                            </div> 
-                          ))
-                        )
-                      }
+                            </div>
+                          ))}
                       </div>
                     )}
                   />
