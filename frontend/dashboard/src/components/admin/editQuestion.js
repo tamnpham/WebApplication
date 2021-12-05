@@ -103,6 +103,9 @@ export default function EditQuestion() {
       });
   }, []);
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
 
   if (questions.length > 0) {
   return (
@@ -190,6 +193,7 @@ export default function EditQuestion() {
               .then((data) => {
                 console.log(data);
                 alert("Edit successfully");
+                refreshPage();
               })
               .catch((err) => {
                 alert(err.message);

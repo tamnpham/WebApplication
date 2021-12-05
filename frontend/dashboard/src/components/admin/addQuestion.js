@@ -44,6 +44,10 @@ export default function AddQuestion(questionData) {
     const classes = useStyles();
 
     const [categories, setCategories] = useState([]);
+
+    function refreshPage() {
+      window.location.reload(false);
+    }
     
     useEffect(() => {
       try {
@@ -126,6 +130,7 @@ export default function AddQuestion(questionData) {
               .then((data) => {
                 console.log(data);
                 alert("Create successfully");
+                refreshPage();
               })
               .catch((err) => {
                 alert(err.message);
