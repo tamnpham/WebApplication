@@ -52,7 +52,7 @@ import {
             onSubmit={(values) => {
               const auth = localStorage.getItem("token");
               let data = new FormData();
-              data.append("name", values.category);
+              data.append("name", values.name);
 
               const requestOption = {
                 method: "POST",
@@ -96,7 +96,7 @@ import {
                     variant="outlined"
                     sx={{ m: 1, width: "100%", pb: "5%" }}
                   >
-                    <InputLabel>Category Name</InputLabel>
+                    {/* <InputLabel>Category Name</InputLabel> */}
                     <TextField
                       label="Category Name"
                       variant="outlined"

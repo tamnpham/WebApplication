@@ -46,17 +46,17 @@ export default function AddQuestion(questionData) {
     const [categories, setCategories] = useState([]);
     
     useEffect(() => {
+      try {
         const apiUrl = `http://34.72.189.169:8080/api/category`;
         const auth = localStorage.getItem("token");
         const requestOption = {
-        method: "GET",
-        headers: {
+          method: "GET",
+          headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
             Authorization: "Bearer " + auth,
-        },
+          },
         };
-        try {
           fetch(apiUrl, requestOption)
             .then((res) => res.json())
             .then((response) => {
@@ -170,7 +170,7 @@ export default function AddQuestion(questionData) {
                   multiline
                   inputProps={{ className: classes.inputSelect }}
                 />
-                <Grid container spacing={2}>
+                <Grid container spacing={4}>
                   <Grid item xs={6}>
                     <input
                       accept="image/*"
@@ -183,7 +183,7 @@ export default function AddQuestion(questionData) {
                       type="file"
                     />
                   </Grid>
-                  <Grid item xs={8}>
+                  <Grid item xs={6}>
                     <TextField
                       label="True Answer (0->A,1->B,2->C,3->D,...)"
                       variant="outlined"
@@ -206,7 +206,13 @@ export default function AddQuestion(questionData) {
                               inputProps={{
                                 className: classes.inputSelect,
                               }}
-                            />
+                              style={{width: '300px'}}
+                              component="textarea"
+                            >
+                              {/* <TextField
+                                variant="outlined"
+                              /> */}
+                            </Field>
                             <Button
                               type="button"
                               variant="contained"
