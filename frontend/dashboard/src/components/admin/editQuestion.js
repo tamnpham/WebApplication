@@ -199,8 +199,8 @@ export default function EditQuestion() {
                   multiline
                   inputProps={{ className: classes.inputSelect }}
                 />
-                <center>
-                  <Paper variant="outlined" sx={{ m: 2, width: "300px" }}>
+                <center style={{ marginTop:"10px", marginBottom:"10px"}} >
+                  <Paper variant="outlined" sx={{ width: "50%", height: "50%", mb:1, mt:1 }}>
                     <img src={question.image} />
                   </Paper>
                 </center>

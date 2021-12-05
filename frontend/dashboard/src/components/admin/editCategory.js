@@ -188,7 +188,6 @@ export default function EditCategory() {
                 .catch((err) => {
                   alert(err.message);
                 });
-              // console.log(values);
             }}
             render={({ values, getFieldProps, setFieldValue }) => (
               <Form>

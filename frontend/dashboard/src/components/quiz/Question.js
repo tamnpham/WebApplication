@@ -38,15 +38,9 @@ export default function Question({
   chooseSelectedAnswer,
 }) {
   const classes = useStyles();
-  // console.log(question)
-  // console.log(question.image);
+
   return (
     <Container>
-      {/* <Box>
-        <Typography variant="h4" sx={{ p: 1 }}>
-          Câu hỏi {index}
-        </Typography>
-      </Box> */}
       <Box
         sx={{
           border: 1,
@@ -75,7 +69,7 @@ export default function Question({
             <img
               src={question.image}
               alt="img question"
-              style={{ marginTop: "20px" }}
+              style={{ marginTop: "20px" , width:"50%", height:"50%"}}
             ></img>
           </center>
         )}
