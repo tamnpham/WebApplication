@@ -62,7 +62,7 @@ import {
                 body: data,
               };
 
-              let url = "http://34.72.189.169:8080/api/category/";
+              let url = "https://34.72.189.169:8080/api/category/";
 
               fetch(url, requestOption)
                 // HTTP response

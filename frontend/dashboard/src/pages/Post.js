@@ -66,7 +66,7 @@ export default function Post(props) {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = "http://34.72.189.169:8080/api/blog/" + id;
+    const apiUrl = "https://34.72.189.169:8080/api/blog/" + id;
     const auth = localStorage.getItem("token");
 
     const request = {

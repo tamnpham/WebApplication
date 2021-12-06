@@ -51,7 +51,7 @@ export default function RegisterForm() {
       console.log(values.email);
       console.log(values.password);
       
-      let url = 'http://34.72.189.169:8080/api/user/create/';
+      let url = 'https://34.72.189.169:8080/api/user/create/';
 
       fetch(
         //URL

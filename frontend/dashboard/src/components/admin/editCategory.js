@@ -61,7 +61,7 @@ export default function EditCategory() {
 
   useEffect(() => {
     try {
-      const apiUrl = `http://34.72.189.169:8080/api/category/${categoryId}/`;
+      const apiUrl = `https://34.72.189.169:8080/api/category/${categoryId}/`;
       const auth = localStorage.getItem("token");
       const requestOption = {
         method: "GET",
@@ -79,7 +79,7 @@ export default function EditCategory() {
     } catch (err) {
       console.log(err);
     }
-    const apiUrl = `http://34.72.189.169:8080/api/category/`;
+    const apiUrl = `https://34.72.189.169:8080/api/category/`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -99,7 +99,7 @@ export default function EditCategory() {
 
   useEffect(() => {
     try {
-      const apiUrl = `http://34.72.189.169:8080/api/category/${categoryId}/`;
+      const apiUrl = `https://34.72.189.169:8080/api/category/${categoryId}/`;
       const auth = localStorage.getItem("token");
       const requestOption = {
         method: "GET",
@@ -168,7 +168,7 @@ export default function EditCategory() {
                 body: data,
               };
 
-              let url = "http://34.72.189.169:8080/api/category/update/";
+              let url = "https://34.72.189.169:8080/api/category/update/";
 
               fetch(url, requestOption)
                 // HTTP response

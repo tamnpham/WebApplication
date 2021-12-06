@@ -108,7 +108,7 @@ export default function AddQuestion(questionData) {
               body: data,
             };
 
-            let url = "http://34.72.189.169:8080/api/question/";
+            let url = "https://34.72.189.169:8080/api/question/";
 
             fetch(url, requestOption)
               // HTTP response

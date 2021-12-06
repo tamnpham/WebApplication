@@ -50,7 +50,7 @@ export default function EditPost() {
   const [postGetEdit, setPostGetEdit] = useState([]);
 
   useEffect(() => {
-    const apiUrl = `http://34.72.189.169:8080/api/blog/`;
+    const apiUrl = `https://34.72.189.169:8080/api/blog/`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -73,7 +73,7 @@ export default function EditPost() {
     const { name, value } = e.target;
     console.log(value);
 
-    const apiUrl = "http://34.72.189.169:8080/api/blog/" + value;
+    const apiUrl = "https://34.72.189.169:8080/api/blog/" + value;
     const auth = localStorage.getItem("token");
 
     const request = {
@@ -119,7 +119,7 @@ export default function EditPost() {
               body: data,
             };
 
-            let url = "http://34.72.189.169:8080/api/blog/update/";
+            let url = "https://34.72.189.169:8080/api/blog/update/";
 
             fetch(url, requestOption)
               // HTTP response

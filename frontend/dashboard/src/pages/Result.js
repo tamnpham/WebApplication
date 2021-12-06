@@ -83,7 +83,7 @@ export default function Quiz() {
           }),
         };
 
-        fetch("http://34.72.189.169:8080/api/quiz/score/", requestOption)
+        fetch("https://34.72.189.169:8080/api/quiz/score/", requestOption)
           .then((res) => res.json())
           .then((response) => {
             console.log(response);

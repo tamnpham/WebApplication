@@ -60,7 +60,7 @@ export default function EditQuestion() {
   };
 
   useEffect(() => {
-    const apiUrl = `http://34.72.189.169:8080/api/question/${questionId}`;
+    const apiUrl = `https://34.72.189.169:8080/api/question/${questionId}`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -85,7 +85,7 @@ export default function EditQuestion() {
   }, [questionId])
 
   useEffect(() => {
-    const apiUrl = `http://34.72.189.169:8080/api/question`;
+    const apiUrl = `https://34.72.189.169:8080/api/question`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -171,7 +171,7 @@ export default function EditQuestion() {
               body: data,
             };
 
-            let url = "http://34.72.189.169:8080/api/question/update/";
+            let url = "https://34.72.189.169:8080/api/question/update/";
 
             fetch(url, requestOption)
               // HTTP response

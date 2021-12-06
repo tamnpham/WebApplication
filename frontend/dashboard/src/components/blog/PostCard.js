@@ -24,7 +24,7 @@ export default function ActionAreaCard() {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = `http://34.72.189.169:8080/api/blog/`;
+    const apiUrl = `https://34.72.189.169:8080/api/blog/`;
     const auth = localStorage.getItem("token");
 
     const request = {

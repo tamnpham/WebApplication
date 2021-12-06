@@ -55,7 +55,7 @@ export default function DeletePost() {
   
 
   useEffect(() => {
-    const apiUrl = `http://34.72.189.169:8080/api/blog/`;
+    const apiUrl = `https://34.72.189.169:8080/api/blog/`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -77,7 +77,7 @@ export default function DeletePost() {
   const handleOnClick = (e) => {
 
     console.log(postDeleteId);
-    const apiUrl = 'http://34.72.189.169:8080/api/blog/'+postDeleteId+'/';
+    const apiUrl = 'https://34.72.189.169:8080/api/blog/'+postDeleteId+'/';
     const auth = localStorage.getItem("token");
     const request = {
       method: "DELETE",

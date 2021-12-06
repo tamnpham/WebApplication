@@ -61,7 +61,7 @@ import {
   
     useEffect(() => {
       try{
-        const apiUrl = `http://34.72.189.169:8080/api/category/`;
+        const apiUrl = `https://34.72.189.169:8080/api/category/`;
         const auth = localStorage.getItem("token");
         const requestOption = {
           method: "GET",
@@ -83,7 +83,7 @@ import {
     
     useEffect(() => {
       try{
-        const apiUrl = `http://34.72.189.169:8080/api/category/${categoryId}/`;
+        const apiUrl = `https://34.72.189.169:8080/api/category/${categoryId}/`;
         const auth = localStorage.getItem("token");
         const requestOption = {
           method: "GET",
@@ -142,7 +142,7 @@ import {
                 }
               };
   
-              let url = `http://34.72.189.169:8080/api/category/${category.id}`;
+              let url = `https://34.72.189.169:8080/api/category/${category.id}`;
   
               fetch(url, requestOption)
                 // HTTP response

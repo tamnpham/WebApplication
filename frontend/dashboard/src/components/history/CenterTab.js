@@ -52,7 +52,7 @@ export default function CenteredTab() {
   const [ok, setOK] = useState(false);
 
   useEffect(() => {
-    const apiUrl = `http://34.72.189.169:8080/api/category`;
+    const apiUrl = `https://34.72.189.169:8080/api/category`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -72,7 +72,7 @@ export default function CenteredTab() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    const apiUrl = `http://34.72.189.169:8080/api/quiz/result/`;
+    const apiUrl = `https://34.72.189.169:8080/api/quiz/result/`;
     const auth = localStorage.getItem("token");
 
     const request = {

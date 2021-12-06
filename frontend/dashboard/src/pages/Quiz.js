@@ -81,7 +81,7 @@ export default function Quiz() {
   useEffect(() => {
     if (questionOptions.categoryId) {
       try {
-        const apiUrl = `http://34.72.189.169:8080/api/quiz/create/`;
+        const apiUrl = `https://34.72.189.169:8080/api/quiz/create/`;
         const auth = localStorage.getItem("token");
         const requestOption = {
           method: "POST",

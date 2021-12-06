@@ -53,7 +53,7 @@ export default function AccountPopover() {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = `http://34.72.189.169:8080/api/user/profile/`;
+    const apiUrl = `https://34.72.189.169:8080/api/user/profile/`;
     const auth = authCtx.token;
 
     const request = {

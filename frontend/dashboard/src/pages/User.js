@@ -81,7 +81,7 @@ export default function User() {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = `http://34.72.189.169:8080/api/user/profile/`;
+    const apiUrl = `https://34.72.189.169:8080/api/user/profile/`;
     const auth = localStorage.getItem("token");
 
     const request = {
@@ -163,7 +163,7 @@ export default function User() {
         };
 
 
-        let url = "http://34.72.189.169:8080/api/user/profile/";
+        let url = "https://34.72.189.169:8080/api/user/profile/";
 
         if (count !== 0) {
           console.log(count)

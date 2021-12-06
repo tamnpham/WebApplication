@@ -92,7 +92,7 @@ import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } fro
             body: data
           };
   
-          let url = "http://34.72.189.169:8080/api/blog/";
+          let url = "https://34.72.189.169:8080/api/blog/";
   
            fetch(url, request)
             // HTTP response

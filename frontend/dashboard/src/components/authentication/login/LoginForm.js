@@ -51,7 +51,7 @@ export default function LoginForm() {
       console.log(values.email);
       console.log(values.password);
 
-      let url = 'http://34.72.189.169:8080/api/user/login/';
+      let url = 'https://34.72.189.169:8080/api/user/login/';
 
       fetch(
         //URL

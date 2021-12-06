@@ -113,7 +113,7 @@ export default function DashboardApp() {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    const apiUrl = `http://34.72.189.169:8080/api/category`;
+    const apiUrl = `https://34.72.189.169:8080/api/category`;
     const auth = authCtx.token;
     const requestOption = {
       method: "GET",
