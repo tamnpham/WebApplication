@@ -27,5 +27,11 @@ sudo docker-compose up -d --build'''
       }
     }
 
+    stage('Clean') {
+      steps {
+        cleanWs(cleanWhenSuccess: true, cleanWhenFailure: true)
+      }
+    }
+
   }
 }
