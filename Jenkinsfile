@@ -11,12 +11,7 @@ pipeline {
         }
 
         stage('Client') {
-          agent {
-            node {
-              label 'master'
-            }
-
-          }
+          agent any
           steps {
             sh 'pwd'
           }
