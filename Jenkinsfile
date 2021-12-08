@@ -7,8 +7,8 @@ pipeline {
           agent any
           steps {
             sh '''cd backend
-docker-compose down
-docker-compose up -d --build'''
+sudo docker-compose down
+sudo docker-compose up -d --build'''
           }
         }
 
@@ -16,8 +16,8 @@ docker-compose up -d --build'''
           agent any
           steps {
             sh '''cd frontend/dashboard
-docker-compose down
-docker-compose up -d --build'''
+sudo docker-compose down
+sudo docker-compose up -d --build'''
           }
         }
 
