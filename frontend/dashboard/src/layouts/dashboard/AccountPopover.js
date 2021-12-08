@@ -12,6 +12,9 @@ import MenuPopover from '../../components/MenuPopover';
 //
 import account from '../../_mocks_/account';
 import { AuthContext } from '../../store/auth-context';
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +56,7 @@ export default function AccountPopover() {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = `https://34.72.189.169:8080/api/user/profile/`;
+    const apiUrl = `${API_SERVER}/api/user/profile/`;
     const auth = authCtx.token;
 
     const request = {

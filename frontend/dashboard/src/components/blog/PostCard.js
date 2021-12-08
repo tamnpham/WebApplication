@@ -9,6 +9,9 @@ import Paper from "@mui/material/Paper";
 import { NavLink } from 'react-router-dom'
 import Page from "../../components/Page";
 import { useEffect, useState } from 'react';
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -24,7 +27,7 @@ export default function ActionAreaCard() {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = `https://34.72.189.169:8080/api/blog/`;
+    const apiUrl = `${API_SERVER}/api/blog/`;
     const auth = localStorage.getItem("token");
 
     const request = {

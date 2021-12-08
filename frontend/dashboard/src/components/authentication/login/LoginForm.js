@@ -18,7 +18,9 @@ import {
   FormControlLabel
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -51,7 +53,7 @@ export default function LoginForm() {
       console.log(values.email);
       console.log(values.password);
 
-      let url = 'https://34.72.189.169:8080/api/user/login/';
+      let url = `${API_SERVER}/api/user/login/`;
 
       fetch(
         //URL

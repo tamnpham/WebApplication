@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
@@ -6,6 +8,7 @@ import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
+
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -15,6 +18,8 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 
 // ----------------------------------------------------------------------
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 const useStyles = makeStyles({
   input: {
@@ -51,7 +56,7 @@ export default function RegisterForm() {
       console.log(values.email);
       console.log(values.password);
       
-      let url = 'https://34.72.189.169:8080/api/user/create/';
+      let url = `${API_SERVER}/api/user/create/`;
 
       fetch(
         //URL

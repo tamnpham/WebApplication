@@ -22,6 +22,9 @@ import {
 // components
 import Page from "../components/Page";
 import { AuthContext } from '../store/auth-context';
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // -----------------------------Variable and State--------------------------
 
 
@@ -81,7 +84,7 @@ export default function User() {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = `https://34.72.189.169:8080/api/user/profile/`;
+    const apiUrl = `${API_SERVER}/api/user/profile/`;
     const auth = localStorage.getItem("token");
 
     const request = {
@@ -163,7 +166,7 @@ export default function User() {
         };
 
 
-        let url = "https://34.72.189.169:8080/api/user/profile/";
+        let url = `${API_SERVER}/api/user/profile/`;
 
         if (count !== 0) {
           console.log(count)

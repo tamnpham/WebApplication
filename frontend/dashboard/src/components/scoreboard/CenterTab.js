@@ -17,6 +17,9 @@ import ScoreTable from './ScoreTable';
 import { makeStyles } from "@material-ui/core/styles";
 import LinearProgress from '@mui/material/LinearProgress';
 import Page from "../../components/Page";
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 const useStyles = makeStyles({
   input: {
@@ -52,7 +55,7 @@ export default function CenteredTab() {
   const [ok, setOK] = useState(false);
 
   useEffect(() => {
-    const apiUrl = `https://34.72.189.169:8080/api/category`;
+    const apiUrl = `${API_SERVER}/api/category`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -72,7 +75,7 @@ export default function CenteredTab() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    const apiUrl = `https://34.72.189.169:8080/api/quiz/scoreboard/`;
+    const apiUrl = `${API_SERVER}/api/quiz/scoreboard/`;
     const auth = localStorage.getItem("token");
 
     const request = {
