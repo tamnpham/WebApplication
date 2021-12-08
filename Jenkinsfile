@@ -6,14 +6,18 @@ pipeline {
         stage('Server') {
           agent any
           steps {
-            sh 'pwd'
+            sh '''cd backend
+docker-compose down
+docker-compose up -d --build'''
           }
         }
 
         stage('Client') {
           agent any
           steps {
-            sh 'pwd'
+            sh '''cd frontend/dashboard
+docker-compose down
+docker-compose up -d --build'''
           }
         }
 
