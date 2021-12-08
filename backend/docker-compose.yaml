@@ -16,11 +16,13 @@ services:
   
   lsexam-api:
     build: .
-    command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8080"
+    command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
+    expose:
+      - 8000
     ports:
-      - "8080:8080"
+      - "8000:8000"
     depends_on:
       - postgres
     links:
