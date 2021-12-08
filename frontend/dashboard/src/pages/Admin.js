@@ -13,7 +13,9 @@ import {AddPost, AddQuestion, DeleteQuestion, EditQuestion, EditPost, DeletePost
 
 //React
 import { useState, useEffect } from "react";
-
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -77,7 +79,7 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    const apiUrl = `https://34.72.189.169:8080/api/category`;
+    const apiUrl = `${API_SERVER}/api/category`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",

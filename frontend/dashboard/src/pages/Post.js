@@ -20,6 +20,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountPopover from "../layouts/dashboard/AccountPopover";
 import DashboardNavbar from "../layouts/dashboard/DashboardNavbar";
 import DashboardSidebar from '../layouts/dashboard/DashboardSidebar';
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // import Box from '@mui/material/Box';
 // import Container from '@mui/material/Container';
 
@@ -66,7 +69,7 @@ export default function Post(props) {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = "https://34.72.189.169:8080/api/blog/" + id;
+    const apiUrl = `${API_SERVER}/api/blog/` + id;
     const auth = localStorage.getItem("token");
 
     const request = {

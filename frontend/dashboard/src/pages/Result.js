@@ -9,6 +9,9 @@ import Page from "../components/Page";
 // Redux
 import { useSelector } from "react-redux";
 import { selectSubmitAnswers } from "../redux/store/answersSlice";
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 // ----------------------------------------------------------------------
 
@@ -83,7 +86,7 @@ export default function Quiz() {
           }),
         };
 
-        fetch("https://34.72.189.169:8080/api/quiz/score/", requestOption)
+        fetch(`${API_SERVER}/api/quiz/score/`, requestOption)
           .then((res) => res.json())
           .then((response) => {
             console.log(response);

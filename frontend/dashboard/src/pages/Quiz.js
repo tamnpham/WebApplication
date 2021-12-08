@@ -21,7 +21,9 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 import AccountPopover from "../layouts/dashboard/AccountPopover";
 import MenuIcon from '@mui/icons-material/Menu';
-
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -81,7 +83,7 @@ export default function Quiz() {
   useEffect(() => {
     if (questionOptions.categoryId) {
       try {
-        const apiUrl = `https://34.72.189.169:8080/api/quiz/create/`;
+        const apiUrl = `${API_SERVER}/api/quiz/create/`;
         const auth = localStorage.getItem("token");
         const requestOption = {
           method: "POST",

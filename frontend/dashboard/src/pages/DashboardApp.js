@@ -24,6 +24,9 @@ import { useDispatch } from "react-redux";
 import { getQuestionOptions } from "../redux/store/questionSlice";
 import { AuthContext } from "../store/auth-context";
 import LinearProgress from '@mui/material/LinearProgress';
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 // ----------------------------------------------------------------------
 
@@ -113,7 +116,7 @@ export default function DashboardApp() {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    const apiUrl = `https://34.72.189.169:8080/api/category`;
+    const apiUrl = `${API_SERVER}/api/category`;
     const auth = authCtx.token;
     const requestOption = {
       method: "GET",
