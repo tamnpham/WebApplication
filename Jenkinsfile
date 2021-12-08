@@ -1,20 +1,10 @@
 pipeline {
-  agent {
-    node {
-      label 'Built-In Node'
-    }
-
-  }
+  agent any
   stages {
     stage('Server') {
       parallel {
         stage('Server') {
-          agent {
-            node {
-              label 'Built-In Node'
-            }
-
-          }
+          agent any
           steps {
             sh 'pwd'
           }
