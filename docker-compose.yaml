@@ -32,7 +32,7 @@ services:
     environment:
       PYTHONDONTWRITEBYTECODE: 1
     volumes:
-      - .:/code
+      - ./backend:/code
     expose:
       - 8000
     ports:
