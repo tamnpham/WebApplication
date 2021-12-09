@@ -4,6 +4,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.core.views import CustomMixin
 
+from .filters import BlogFilter, CommentFilter
 from .models import Blog, Comment
 from .serializers import BlogSerializer, CommentSerializer
 
@@ -23,6 +24,7 @@ class BlogViewSetAPI(
         IsAuthenticated,
     )
     model = Blog
+    filterset_class = BlogFilter
 
 
 class CommentViewSet(
@@ -40,3 +42,4 @@ class CommentViewSet(
         IsAuthenticated,
     )
     model = Comment
+    filterset_class = CommentFilter

@@ -1,13 +1,30 @@
-from .responses import client_error, client_success
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 
+from .paginations import StandardPagination
+from .responses import client_error, client_success
+
 
 class CustomMixin:
     """Custom mixin support partially instance updating by post method."""
     model = None
+    # pagination_class = StandardPagination
+    filterset_class = None
+
+    def get_filterset_class(self):
+        """Return filterset class"""
+        return self.filterset_class
+
+    def get_queryset(self):
+        """Apply filter for queryset."""
+        queryset = super().get_queryset()
+        filterset_class = self.get_filterset_class()
+        if filterset_class:
+            filter = filterset_class(self.request.GET, queryset=queryset)
+            queryset = filter.qs
+        return queryset
 
     def get_model(self):
         """Get appropriate model."""

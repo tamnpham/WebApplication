@@ -1,19 +1,32 @@
 # API guideline
 
-## Table of contents
+# Table of contents
 - [API guideline](#api-guideline)
-  - [Table of contents](#table-of-contents)
-  - [Note](#note)
+- [Table of contents](#table-of-contents)
+- [Note](#note)
+- [Pagination](#pagination)
+- [Model](#model)
   - [User](#user)
   - [Question](#question)
+    - [Filter](#filter)
   - [Category](#category)
+    - [Filter](#filter-1)
   - [Blog](#blog)
+    - [Filter](#filter-2)
   - [Quiz](#quiz)
   - [Comment](#comment)
 
-## Note
+# Note
 - Except login and register, other features require JWT token to proceed.
 - Only teacher can create new questions.
+
+# Pagination
+Note: This feature is disabled by purpose.
+Query parameters:
+- `page_size`: number of elements per page
+- `page`: page number in pagination
+
+# Model
 
 ## User
 /api/user/profile/
@@ -313,6 +326,10 @@
 }
 ```
 
+### Filter
+- `content`: get question by given content keywords
+- `code`: get question by given code keywords
+
 ## Category
 
 /api/category/
@@ -404,6 +421,10 @@
   "data": null
 }
 ```
+
+### Filter
+- `name`: get question by given name keywords
+- `code`: get question by given code keywords
 
 ## Blog
 
@@ -508,6 +529,10 @@
   "data": null
 }
 ```
+
+### Filter
+- `title`: get question by given title keywords
+- `content`: get question by given content keywords
 
 ## Quiz
 

@@ -7,6 +7,7 @@ from apps.core import responses
 from apps.core.permissions import IsTeacherUser
 from apps.core.views import CustomMixin
 
+from .filters import CategoryFilter, QuestionFilter
 from .models import Category, Question
 from .serializers import CategorySerializer, QuestionSerializer
 
@@ -37,6 +38,7 @@ class QuestionViewSet(
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     model = Question
+    filterset_class = QuestionFilter
 
     def get_permissions(self):
         """Get permission based on action."""
@@ -82,3 +84,4 @@ class CategoryViewSet(
         IsAuthenticated,
     )
     model = Category
+    filterset_class = CategoryFilter
