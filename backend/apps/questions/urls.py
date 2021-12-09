@@ -17,7 +17,7 @@ urlpatterns = [
     ),
     path(
         "update/",
-        views.QuestionViewSet.as_view({"post": "update_question"}),
+        views.QuestionViewSet.as_view({"post": "post_update"}),
         name="question-update",
     ),
 ]
@@ -34,7 +34,7 @@ category_router.register(
 category_urlpatterns = [
     path(
         "category/update/",
-        views.CategoryViewSet.as_view({"post": "update_category"}),
+        views.CategoryViewSet.as_view({"post": "post_update"}),
         name="category-update",
     ),
 ]

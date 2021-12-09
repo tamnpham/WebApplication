@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from apps.blogs.factories import BlogFactory
+from apps.blogs.factories import BlogFactory, CommentFactory
 from apps.questions.factories import CategoryFactory, QuestionFactory
 from apps.quizzes.factories import QuizFactory
 from apps.users.factories import StudentFactory, TeacherFactory
@@ -15,6 +15,7 @@ class Command(BaseCommand):
         "question": QuestionFactory,
         "blog": BlogFactory,
         "quiz": QuizFactory,
+        "comment": CommentFactory,
     }
 
     def add_arguments(self, parser):

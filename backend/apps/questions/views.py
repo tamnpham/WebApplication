@@ -1,12 +1,13 @@
-from rest_framework import mixins, status
+from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from apps.core import responses
 from apps.core.permissions import IsTeacherUser
+from apps.core.views import CustomMixin
 
+from .filters import CategoryFilter, QuestionFilter
 from .models import Category, Question
 from .serializers import CategorySerializer, QuestionSerializer
 
@@ -17,6 +18,7 @@ class QuestionViewSet(
     mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
+    CustomMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing questions."""
@@ -28,13 +30,15 @@ class QuestionViewSet(
             IsAuthenticated,    # For testing
             # IsTeacherUser,
         ),
-        "update_question": (
+        "post_update": (
             IsAuthenticated,    # For testing
             # IsTeacherUser,
         ),
     }
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    model = Question
+    filterset_class = QuestionFilter
 
     def get_permissions(self):
         """Get permission based on action."""
@@ -64,48 +68,13 @@ class QuestionViewSet(
             ]
         )
 
-    @action(detail=False, methods=("post",))
-    def update_question(self, request, *args, **kwargs):
-        """Update a question given question's ID."""
-        question_id = request.data.get("id")
-        question = Question.objects.filter(pk=question_id)
-        if not question_id or not question:
-            return Response(
-                data={
-                    "status": "error",
-                    "message": "Question not found.",
-                },
-                status=status.HTTP_404_NOT_FOUND
-            )
-        question = question.get()       # Get object from queryset
-        serializer = self.get_serializer(
-            question,
-            data=request.data,
-            partial=True,
-        )
-        if not serializer.is_valid():
-            return responses.client_error("Invalid data.")
-        serializer.save()
-        return responses.client_success(data=None)
-
-
-class QuestionCreateViewSet(
-    mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
-    GenericViewSet,
-):
-    """ViewSet for creating questions."""
-    serializer_class = QuestionSerializer
-    permission_classes = (
-        IsTeacherUser,
-    )
-
 
 class CategoryViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
+    CustomMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing categories."""
@@ -114,27 +83,5 @@ class CategoryViewSet(
     permission_classes = (
         IsAuthenticated,
     )
-
-    @action(detail=False, methods=("post",))
-    def update_category(self, request, *args, **kwargs):
-        """Update a category given category's ID."""
-        category_id = request.data.get("id")
-        category = Category.objects.filter(pk=category_id)
-        if not category_id or not category:
-            return Response(
-                data={
-                    "status": "error",
-                    "message": "Category not found.",
-                },
-                status=status.HTTP_404_NOT_FOUND
-            )
-        category = category.get()       # Get object from queryset
-        serializer = self.get_serializer(
-            category,
-            data=request.data,
-            partial=True,
-        )
-        if not serializer.is_valid():
-            return responses.client_error("Invalid data.")
-        serializer.save()
-        return responses.client_success(data=None)
+    model = Category
+    filterset_class = CategoryFilter

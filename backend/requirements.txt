@@ -24,3 +24,4 @@ django-better-admin-arrayfield==1.4.2
 ipython
 ipdb
 requests
+django_filters

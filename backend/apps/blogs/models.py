@@ -39,3 +39,27 @@ class Blog(BaseModel):
 
     def __str__(self) -> str:
         return self.title
+
+
+class Comment(BaseModel):
+    """Manage user's comments on blog."""
+    user = models.ForeignKey(
+        "users.User",
+        on_delete=models.CASCADE,
+        verbose_name=_("User"),
+    )
+    content = models.TextField(
+        verbose_name=_("Content"),
+    )
+    blog = models.ForeignKey(
+        "blogs.Blog",
+        on_delete=models.CASCADE,
+        verbose_name=_("Blog"),
+    )
+
+    class Meta:
+        verbose_name = _("Comment")
+        verbose_name_plural = _("Comments")
+
+    def __str__(self) -> str:
+        return f"{self.content[:30]}..."

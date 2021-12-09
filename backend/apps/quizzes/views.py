@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from apps.core import responses
+from apps.core.paginations import StandardPagination
 from apps.questions.models import Category, Question
 
 from .models import Quiz, Result
@@ -142,12 +143,26 @@ class ResultViewAPI(GenericAPIView):
         "get",
         "post",
     )
+    # pagination_class = StandardPagination
 
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
+        # Pagination
+        # Ref:https://stackoverflow.com/a/45670649
+        # queryset = super().get_queryset().filter(user=self.request.user)
+        # page = self.paginate_queryset(queryset)
+        # return page
+        
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
+        # Pagination
+        # Ref:https://stackoverflow.com/a/45670649
+        # page = self.paginate_queryset(queryset)
+        # if page is not None:
+        #     serializer = self.serializer_class(page, many=True)
+        #     return self.get_paginated_response(serializer.data)
+        
         return responses.client_success(
             [
                 self.serializer_class(result).data
@@ -171,6 +186,12 @@ class ResultViewAPI(GenericAPIView):
             category = category.get()
             queryset = self.filter_by_category(queryset, category)
 
+        # Pagination
+        # Ref:https://stackoverflow.com/a/45670649
+        # page = self.paginate_queryset(queryset)
+        # if page is not None:
+        #     serializer = self.serializer_class(page, many=True)
+        #     return self.get_paginated_response(serializer.data)
         return responses.client_success(
             [
                 self.serializer_class(result).data
@@ -237,6 +258,7 @@ class ScoreboardViewAPI(
 ):
     """API for viewing scoreboard."""
     queryset = Result.objects.all()
+    pagination_class = StandardPagination
 
     def get_queryset(self):
         """Apply scoreboard rule to queryset."""

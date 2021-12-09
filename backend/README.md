@@ -1,18 +1,32 @@
 # API guideline
 
-## Table of contents
+# Table of contents
 - [API guideline](#api-guideline)
-  - [Table of contents](#table-of-contents)
-  - [Note](#note)
+- [Table of contents](#table-of-contents)
+- [Note](#note)
+- [Pagination](#pagination)
+- [Model](#model)
   - [User](#user)
   - [Question](#question)
+    - [Filter](#filter)
   - [Category](#category)
+    - [Filter](#filter-1)
   - [Blog](#blog)
+    - [Filter](#filter-2)
   - [Quiz](#quiz)
+  - [Comment](#comment)
 
-## Note
+# Note
 - Except login and register, other features require JWT token to proceed.
 - Only teacher can create new questions.
+
+# Pagination
+Note: This feature is disabled by purpose.
+Query parameters:
+- `page_size`: number of elements per page
+- `page`: page number in pagination
+
+# Model
 
 ## User
 /api/user/profile/
@@ -312,6 +326,10 @@
 }
 ```
 
+### Filter
+- `content`: get question by given content keywords
+- `code`: get question by given code keywords
+
 ## Category
 
 /api/category/
@@ -365,13 +383,13 @@
 **Response**:
 ```json
 {
-    "id": <int>,
-    "created": <str>,
-    "modified": <str>,
-    "name": <str>,
-    "level": <int>,
-    "code": <str>
-    }
+  "id": <int>,
+  "created": <str>,
+  "modified": <str>,
+  "name": <str>,
+  "level": <int>,
+  "code": <str>
+}
 ```
 
 **Expected status**: 200 OK
@@ -403,6 +421,10 @@
   "data": null
 }
 ```
+
+### Filter
+- `name`: get question by given name keywords
+- `code`: get question by given code keywords
 
 ## Blog
 
@@ -507,6 +529,10 @@
   "data": null
 }
 ```
+
+### Filter
+- `title`: get question by given title keywords
+- `content`: get question by given content keywords
 
 ## Quiz
 
@@ -718,5 +744,108 @@
     },
     ...
   ]
+}
+```
+
+## Comment
+
+/api/comment/
+
+**Method**: GET
+
+**Response**:
+```json
+[
+  {
+    "id": <int>,
+    "user": {
+      "first_name": <str>,
+      "last_name": <str>,
+      "avatar_url": <str>
+    },
+    "created": <str>,
+    "modified": <str>,
+    "content": <str>,
+    "blog": <int> // blog's id
+  },
+  ...
+]
+```
+
+**Expected status**: 200 OK
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "blog": <int>, // blog's id
+  "content": <str>
+}
+```
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "user": {
+    "first_name": <str>,
+    "last_name": <str>,
+    "avatar_url": <str>
+  },
+  "created": <str>,
+  "modified": <str>,
+  "content": <str>,
+  "blog": <int> // blog's id
+}
+```
+
+<hr>
+
+/api/comment/\<int:comment_id\>/
+
+**Method**: GET
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "user": {
+    "first_name": <str>,
+    "last_name": <str>,
+    "avatar_url": <str>
+  },
+  "created": <str>,
+  "modified": <str>,
+  "content": <str>,
+  "blog": <int> // blog's id
+}
+```
+
+**Expected status**: 200 OK
+
+**Method**: DELETE
+
+**Expected status**: 204 No content
+
+<hr>
+
+/api/comment/update/
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "blog": <int>,  // blog's id
+  "content": <str>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": null
 }
 ```
