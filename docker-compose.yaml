@@ -1,0 +1,47 @@
+version: '3.1'
+
+services:
+  frontend:
+    build: 
+      context: ./frontend/dashboard
+    command: npm start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    links:
+      - "api:backend"
+    restart: always
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: always
+
+  api:
+    build: 
+      context: ./backend
+    command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    environment:
+      PYTHONDONTWRITEBYTECODE: 1
+    volumes:
+      - .:/code
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    links:
+      - "postgres:db"
+    restart: always
+
+volumes:
+    postgres:
