@@ -25,7 +25,9 @@ import Page from "../Page";
 //React
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // --------------------------------------------
 
 const useStyles = makeStyles({
@@ -61,7 +63,7 @@ export default function EditQuestion() {
   }
 
   useEffect(() => {
-    const apiUrl = `https://34.72.189.169:8080/api/question/${questionId}`;
+    const apiUrl = `${API_SERVER}/api/question/${questionId}`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -84,7 +86,7 @@ export default function EditQuestion() {
   }, [questionId]);
 
   useEffect(() => {
-    const apiUrl = `https://34.72.189.169:8080/api/question`;
+    const apiUrl = `${API_SERVER}/api/question`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -154,7 +156,7 @@ export default function EditQuestion() {
                 },
               };
 
-              let url = `https://34.72.189.169:8080/api/question/${question.id}`;
+              let url = `${API_SERVER}/api/question/${question.id}`;
               console.log(url);
               fetch(url, requestOption)
                 // HTTP response

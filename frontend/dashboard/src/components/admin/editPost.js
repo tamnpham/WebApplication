@@ -17,6 +17,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } from "formik";
 import MDEditor from '@uiw/react-md-editor';
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 const useStyles = makeStyles({
   input: {
@@ -50,7 +53,7 @@ export default function EditPost() {
   const [postGetEdit, setPostGetEdit] = useState([]);
 
   useEffect(() => {
-    const apiUrl = `https://34.72.189.169:8080/api/blog/`;
+    const apiUrl = `${API_SERVER}/api/blog/`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -73,7 +76,7 @@ export default function EditPost() {
     const { name, value } = e.target;
     console.log(value);
 
-    const apiUrl = "https://34.72.189.169:8080/api/blog/" + value;
+    const apiUrl = `${API_SERVER}/api/blog/` + value;
     const auth = localStorage.getItem("token");
 
     const request = {
@@ -119,7 +122,7 @@ export default function EditPost() {
               body: data,
             };
 
-            let url = "https://34.72.189.169:8080/api/blog/update/";
+            let url = `${API_SERVER}/api/blog/update/`;
 
             fetch(url, requestOption)
               // HTTP response

@@ -17,6 +17,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } from "formik";
 import MDEditor from '@uiw/react-md-editor';
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 const useStyles = makeStyles({
   input: {
@@ -55,7 +58,7 @@ export default function DeletePost() {
   
 
   useEffect(() => {
-    const apiUrl = `https://34.72.189.169:8080/api/blog/`;
+    const apiUrl = `${API_SERVER}/api/blog/`;
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -77,7 +80,7 @@ export default function DeletePost() {
   const handleOnClick = (e) => {
 
     console.log(postDeleteId);
-    const apiUrl = 'https://34.72.189.169:8080/api/blog/'+postDeleteId+'/';
+    const apiUrl = `${API_SERVER}/api/blog/`+postDeleteId+`/`;
     const auth = localStorage.getItem("token");
     const request = {
       method: "DELETE",

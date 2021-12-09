@@ -21,7 +21,9 @@ import {
   import Page from "../Page";
   //React
   import { useState, useEffect } from "react";
-  
+  import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
   
   // --------------------------------------------
   
@@ -62,7 +64,7 @@ import {
                 body: data,
               };
 
-              let url = "https://34.72.189.169:8080/api/category/";
+              let url = `${API_SERVER}/api/category/`;
 
               fetch(url, requestOption)
                 // HTTP response

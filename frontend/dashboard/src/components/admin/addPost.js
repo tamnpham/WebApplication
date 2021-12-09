@@ -22,7 +22,9 @@ import {
   import React from "react";
 import MDEditor from '@uiw/react-md-editor';
 import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } from "formik";
-
+import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
   // --------------------------------------------
   
   
@@ -92,7 +94,7 @@ import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } fro
             body: data
           };
   
-          let url = "https://34.72.189.169:8080/api/blog/";
+          let url = `${API_SERVER}/api/blog/`;
   
            fetch(url, request)
             // HTTP response

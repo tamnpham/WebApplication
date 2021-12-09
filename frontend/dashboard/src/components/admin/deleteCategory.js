@@ -23,7 +23,9 @@ import {
   import Page from "../Page";
   //React
   import { useState, useEffect } from "react";
-  
+  import dotenv from "dotenv";
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
   // --------------------------------------------
   
   const useStyles = makeStyles({
@@ -61,7 +63,7 @@ import {
   
     useEffect(() => {
       try{
-        const apiUrl = `https://34.72.189.169:8080/api/category/`;
+        const apiUrl = `${API_SERVER}/api/category/`;
         const auth = localStorage.getItem("token");
         const requestOption = {
           method: "GET",
@@ -83,7 +85,7 @@ import {
     
     useEffect(() => {
       try{
-        const apiUrl = `https://34.72.189.169:8080/api/category/${categoryId}/`;
+        const apiUrl = `${API_SERVER}/api/category/${categoryId}/`;
         const auth = localStorage.getItem("token");
         const requestOption = {
           method: "GET",
@@ -142,7 +144,7 @@ import {
                 }
               };
   
-              let url = `https://34.72.189.169:8080/api/category/${category.id}`;
+              let url = `${API_SERVER}/api/category/${category.id}`;
   
               fetch(url, requestOption)
                 // HTTP response
