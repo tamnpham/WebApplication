@@ -19,7 +19,11 @@ class QuestionSerializer(serializers.ModelSerializer):
 
         if instance.image and instance.image.url:
             image_url = instance.image.url
-            image_url = request.build_absolute_uri(image_url)
+            # image_url = request.build_absolute_uri(image_url)
+            full_domain = 'http://' + request.META['HTTP_HOST']
+            if request.META["SERVER_PORT"] not in full_domain:
+                full_domain += ':' + request.META["SERVER_PORT"]
+            image_url = full_domain + image_url
         return image_url
 
 
