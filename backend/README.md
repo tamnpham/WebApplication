@@ -173,6 +173,7 @@ Query parameters:
     ],
     "trueAnswer": <int>,
     "image": <str:url>,
+    "image_url": <str:url>,
     "category": <int>
   },
   ...
@@ -216,6 +217,7 @@ Query parameters:
   ],
   "true": <int>,
   "image": <str:url>,
+  "image_url": <str:url>,
   "category": <int>
 },
 ```
@@ -233,6 +235,7 @@ Query parameters:
 {
   "id": <int>,
   "image": <str:url>,
+  "image_url": <str:url>,
   "created": <str:timestamp>,
   "modified": <str:timestamp>,
   "code": <str>,
@@ -286,6 +289,7 @@ Query parameters:
       ],
       "trueAnswer": <int>,
       "image": <str:url>,
+      "image_url": <str:url>,
       "category": <int>
     },
     ...
@@ -327,6 +331,7 @@ Query parameters:
 ```
 
 ### Filter
+Query parameter:
 - `content`: get question by given content keywords
 - `code`: get question by given code keywords
 
@@ -423,6 +428,7 @@ Query parameters:
 ```
 
 ### Filter
+Query parameter:
 - `name`: get question by given name keywords
 - `code`: get question by given code keywords
 
@@ -443,7 +449,8 @@ Query parameters:
     "content": <str>,
     "author": <int>,
     "category": <int>,
-    "image": (optional) <str:url>
+    "image": (optional) <str:url>,
+    "image_url": (optional) <str:url>
   },
   ...
 ]
@@ -472,7 +479,8 @@ Query parameters:
   "content": <str>,
   "author": <int>,
   "category": <int>,
-  "image": <str:url>
+  "image": <str:url>,
+  "image_url": <str:url>
 }
 ```
 **Expected status**: 201 Created
@@ -497,7 +505,8 @@ Query parameters:
     "avatar_url": <str:url>
   },
   "category": <int>,
-  "image": <str:url>
+  "image": <str:url>,
+  "image_url": <str:url>
 }
 ```
 
@@ -531,6 +540,7 @@ Query parameters:
 ```
 
 ### Filter
+Query parameter:
 - `title`: get question by given title keywords
 - `content`: get question by given content keywords
 
@@ -571,6 +581,7 @@ Query parameters:
             <str>
         ],
         "image": <str:url>,
+        "image_url": <str:url>,
         "category": <int>
       },
       ...
