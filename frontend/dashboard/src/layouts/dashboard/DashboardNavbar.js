@@ -33,7 +33,7 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     minHeight: APPBAR_DESKTOP,
     padding: theme.spacing(0, 5),
-    backgroundImage: `url("https://archive-media-0.nyafuu.org/wg/image/1510/51/1510512877961.gif")`,
+    backgroundImage: `url("https://archive-media-2.nyafuu.org/wg/image/1510/51/1510512877961.gif")`,
     // backgroundColor: '#b8b9d1',
   }
 }));

@@ -17,6 +17,7 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { Link } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 
+import Comments from "./Comments"
 import AccountPopover from "../layouts/dashboard/AccountPopover";
 import DashboardNavbar from "../layouts/dashboard/DashboardNavbar";
 import DashboardSidebar from '../layouts/dashboard/DashboardSidebar';
@@ -112,7 +113,11 @@ export default function Post(props) {
           <CssBaseline />
           <ElevationScroll {...props}>
             <AppBar>
-              <Toolbar sx={{ backgroundImage: `url("https://archive-media-0.nyafuu.org/wg/image/1510/51/1510512877961.gif")` }}>
+              <Toolbar
+                sx={{
+                  backgroundImage: `url("https://archive-media-0.nyafuu.org/wg/image/1510/51/1510512877961.gif")`,
+                }}
+              >
                 <img
                   src="/favicon/LSExam-logo.png"
                   alt="LSE exam"
@@ -249,6 +254,10 @@ export default function Post(props) {
                   <Grid item xs={12} sm={12} md={12} xl={12}>
                     <ReactMarkdown>{postState.content}</ReactMarkdown>
                   </Grid>
+
+                  <Grid item xs={12} sm={12} md={12} xl={12}>
+                    <Comments postId={postState.id} />
+                  </Grid>
                 </Grid>
               </Container>
             </Page>
@@ -283,6 +292,8 @@ export default function Post(props) {
             <LinearProgress color="success" />
           </div>
         </Page>
+
+
       </>
     );
   }
