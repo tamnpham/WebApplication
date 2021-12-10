@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+
 import * as Yup from 'yup';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
@@ -6,6 +8,7 @@ import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
+
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -15,6 +18,8 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 
 // ----------------------------------------------------------------------
+dotenv.config();
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 
 const useStyles = makeStyles({
   input: {
@@ -42,7 +47,6 @@ export default function RegisterForm() {
       lastName: '',
       email: '',
       password: '',
-      role: ''
     },
     validationSchema: RegisterSchema,
     onSubmit: (values, actions) => {
@@ -51,10 +55,8 @@ export default function RegisterForm() {
       console.log(values.lastName);
       console.log(values.email);
       console.log(values.password);
-      console.log(values.role);
       
-      // let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAjyNQx0JeGtAkOlJDhQADGBo2OIjcfLM0';
-      let url = 'http://34.72.189.169:8080/api/user/create';
+      let url = `${API_SERVER}/api/user/create/`;
 
       fetch(
         //URL
@@ -65,9 +67,8 @@ export default function RegisterForm() {
           body: JSON.stringify({
             email: values.email,
             password: values.password,
-            firstName: values.firstName,
-            lastName: values.lastName,
-            role: values.role,
+            first_name: values.firstName,
+            last_name: values.lastName,
         }),
         //header
         headers: {
@@ -124,8 +125,8 @@ export default function RegisterForm() {
               fullWidth
               label="First name"
               {...getFieldProps("firstName")}
-              // error={Boolean(touched.firstName && errors.firstName)}
-              // helperText={touched.firstName && errors.firstName}
+              error={Boolean(touched.firstName && errors.firstName)}
+              helperText={touched.firstName && errors.firstName}
               inputProps={{ className: classes.input}}
             />
 
@@ -173,7 +174,7 @@ export default function RegisterForm() {
             inputProps={{ className: classes.input}}
           />
 
-          <FormControl fullWidth>
+          {/* <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Role</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -186,7 +187,7 @@ export default function RegisterForm() {
               <MenuItem value={'Student'}>Student</MenuItem>
               <MenuItem value={'Teacher'}>Teacher</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
 
           <LoadingButton
             fullWidth

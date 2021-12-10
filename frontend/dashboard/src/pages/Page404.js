@@ -14,7 +14,9 @@ const RootStyle = styled(Page)(({ theme }) => ({
   minHeight: '100%',
   alignItems: 'center',
   paddingTop: theme.spacing(15),
-  paddingBottom: theme.spacing(10)
+  paddingBottom: theme.spacing(10),
+  backgroundColor: '#161d31',
+  color: 'white'
 }));
 
 // ----------------------------------------------------------------------
@@ -30,7 +32,7 @@ export default function Page404() {
                 Sorry, page not found!
               </Typography>
             </motion.div>
-            <Typography sx={{ color: 'text.secondary' }}>
+            <Typography sx={{ color: 'white' }}>
               Sorry, we couldn’t find the page you’re looking for. Perhaps you’ve mistyped the URL?
               Be sure to check your spelling.
             </Typography>
@@ -43,7 +45,7 @@ export default function Page404() {
               />
             </motion.div>
 
-            <Button to="/" size="large" variant="contained" component={RouterLink}>
+            <Button to="/dashboard/app" size="large" variant="contained" component={RouterLink}>
               Go to Home
             </Button>
           </Box>

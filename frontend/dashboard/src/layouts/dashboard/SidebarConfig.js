@@ -23,6 +23,11 @@ const sidebarConfig = [
     icon: getIcon(peopleFill)
   },
   {
+    title: 'History',
+    path: '/dashboard/history',
+    icon: getIcon(fileTextFill)
+  },
+  {
     title: 'Score Board',
     path: '/dashboard/products',
     icon: getIcon(shoppingBagFill)
@@ -30,11 +35,6 @@ const sidebarConfig = [
   {
     title: 'Blogs',
     path: '/dashboard/blog',
-    icon: getIcon(fileTextFill)
-  },
-  {
-    title: 'Admin',
-    path: '/dashboard/admin',
     icon: getIcon(fileTextFill)
   },
 ];

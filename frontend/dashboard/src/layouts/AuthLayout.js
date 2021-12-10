@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 import Logo from '../components/Logo';
 //
 import { MHidden } from '../components/@material-extend';
-
+import { useLocation } from 'react-router-dom';
 // ----------------------------------------------------------------------
 
 const HeaderStyle = styled('header')(({ theme }) => ({
@@ -34,10 +34,13 @@ AuthLayout.propTypes = {
 };
 
 export default function AuthLayout({ children }) {
+  const location = useLocation();
+  
   return (
     <HeaderStyle>
       <RouterLink to="/">
-        <Logo />
+ 
+        {/* <Logo /> */}
       </RouterLink>
 
       <MHidden width="smDown">
