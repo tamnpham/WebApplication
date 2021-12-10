@@ -51,7 +51,13 @@ class UserLoginAPI(TokenObtainPairView):
             user.last_login = timezone.now()
             user.save()
 
-            avatar = user.avatar.url if user.avatar else ""
+            avatar = ""
+            if user.avatar and user.avatar.url:
+                # avatar = "http://13.229.40.64:8888" + user.avatar.url
+                full_domain = 'http://' + request.META['HTTP_HOST']
+                if request.META["SERVER_PORT"] not in full_domain:
+                    full_domain += ':' + request.META["SERVER_PORT"]
+                avatar = full_domain + user.avatar.url
             data = {
                 "token": serializer.validated_data,
                 "user": {
@@ -59,7 +65,8 @@ class UserLoginAPI(TokenObtainPairView):
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "role": user.role,
-                    "avatar": request.build_absolute_uri(avatar),
+                    # "avatar": request.build_absolute_uri(avatar),
+                    "avatar": avatar,
                 }
             }
             return responses.client_success(data)
