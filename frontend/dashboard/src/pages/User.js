@@ -102,7 +102,7 @@ export default function User() {
         console.log(response);
         const userInfo = response.data.user;
         console.log('here')
-        authCtx.update(userInfo.first_name, userInfo.last_name, userInfo.avatar);
+        authCtx.update(userInfo.first_name, userInfo.last_name, userInfo.avatar_url);
         setUserState(response.data.user);
         
       });

@@ -51,29 +51,6 @@ export default function Comments(props) {
   const postId = props.postId;
   const [commentState, setCommentState] = useState(null);
 
-//   useEffect(() => {
-//     //fetch data from server
-//     const apiUrl = `${API_SERVER}/api/comment/`;
-//     const auth = localStorage.getItem("token");
-
-//     const request = {
-//       method: "GET",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//         Authorization: "Bearer " + auth,
-//       },
-//     };
-
-//     fetch(apiUrl, request)
-//       .then((res) => res.json())
-//       .then((response) => {
-//           console.log(response);
-//         setCommentState(response);
-
-//       });
-//   }, []);
-
   useEffect(() => {
     const interval = setInterval(() => {
     console.log("This will run every second!");

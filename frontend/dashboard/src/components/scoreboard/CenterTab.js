@@ -2,21 +2,11 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {
   Box,
-  Grid,
-  Container,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Slider,
-  Button,
-  Stack,
+  TextField
 } from "@mui/material";
 import ScoreTable from './ScoreTable';
+import Autocomplete from '@mui/material/Autocomplete';
 import { makeStyles } from "@material-ui/core/styles";
-import LinearProgress from '@mui/material/LinearProgress';
-import Page from "../../components/Page";
 import dotenv from "dotenv";
 dotenv.config();
 const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
@@ -54,6 +44,9 @@ export default function CenteredTab() {
   const [options, setOptions] = useState([]);
   const [ok, setOK] = useState(false);
 
+  const [value, setValue] = React.useState(options[0]);
+  const [inputValue, setInputValue] = React.useState('');
+
   useEffect(() => {
     const apiUrl = `${API_SERVER}/api/category`;
     const auth = localStorage.getItem("token");
@@ -68,12 +61,14 @@ export default function CenteredTab() {
     fetch(apiUrl, requestOption)
       .then((res) => res.json())
       .then((response) => {
-        setOptions(response);
+        const categories = response.map((category) => {
+          return { label: category.name, id: category.id };
+        });
+        setOptions(categories);
       });
-  },[]);
+  }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
 
     const apiUrl = `${API_SERVER}/api/quiz/scoreboard/`;
     const auth = localStorage.getItem("token");
@@ -102,29 +97,43 @@ export default function CenteredTab() {
   return (
     <>
       <Box sx={{ width: "100%", typography: "body1", pt: "5%" }}>
-        <Box
-          sx={{ textAlign: "center" }}
-        >
-          <FormControl variant="standard" sx={{ m: 1, width: "50%", pb: "5%" }}>
-            <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
-            <Select
-              name="categoryId"
-              // value={questionOptions.categoryId}
-              onChange={handleInputChange}
-              inputProps={{ className: classes.inputSelect }}
-            >
-              {options &&
-                options.length > 0 &&
-                options.map((option) => (
-                  <MenuItem value={option.id} key={option.id}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
+        <Box sx={{ textAlign: "center", mb: "5%" }}>
+          <center>
+            {/* <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
+            <div>{`inputValue: '${inputValue}'`}</div> */}
+            <Autocomplete
+              value={value}
+              onChange={(event, newValue) => {
+                if (newValue !== null) {
+                  setValue(newValue.id);
+                  handleInputChange(newValue.id);
+                }
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={options}
+              sx={{ width: "50%" }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  label="Category"
+                  inputProps={{
+                    ...params.inputProps,
+                    className: classes.input,
+                  }}
+                />
+              )}
+            />
+          </center>
         </Box>
 
-        {ok === true && <ScoreTable data={scoreData} length={scoreData.length} />}
+        {ok === true && (
+          <ScoreTable data={scoreData} length={scoreData.length} />
+        )}
       </Box>
     </>
   );
