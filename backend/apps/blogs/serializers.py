@@ -22,9 +22,13 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class BlogSerializer(serializers.ModelSerializer):
     """Serializer for representing `Blog`."""
-    author = BlogAuthorSerializer(read_only=True)
+    author = BlogAuthorSerializer(read_only=True, required=False)
     image_url = serializers.SerializerMethodField()
-    comments = CommentSerializer(source="comment_set", many=True)
+    comments = CommentSerializer(
+        source="comment_set",
+        many=True,
+        required=False,
+    )
 
     class Meta:
         model = Blog
