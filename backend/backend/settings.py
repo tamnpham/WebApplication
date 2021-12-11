@@ -227,3 +227,6 @@ def _default_media_path(model_instance, filename):
 
 
 DEFAULT_MEDIA_PATH = _default_media_path
+
+# Domain server
+DOMAIN_URL = "https://13.229.40.64:8888"
