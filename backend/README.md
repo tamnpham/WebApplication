@@ -7,6 +7,7 @@
 - [Pagination](#pagination)
 - [Model](#model)
   - [User](#user)
+  - [Admin](#admin)
   - [Question](#question)
     - [Filter](#filter)
   - [Category](#category)
@@ -147,6 +148,55 @@ Query parameters:
   "data": {
     "message": <str>
   }
+}
+```
+
+## Admin
+/api/admin/
+
+**Method**: GET
+
+**Response**:
+```json
+[
+  {
+    "id": <int>,
+    "avatar_url": <str:url>,
+    "last_login": <str>,
+    "is_superuser": <bool>,
+    "created": <str>,
+    "modified": <str>,
+    "first_name": <str>,
+    "last_name": <str>,
+    "is_staff": <bool>,
+    "is_active": <bool>,
+    "avatar": <str:url>,
+    "email": <str>,
+    "role": <str>,
+    "phone": <str>,
+    "school": <str>,
+    "major": <str>,
+    "groups": <list>,
+    "user_permissions": <list>
+  }
+  ...
+]
+```
+
+**Method**: POST
+
+**Request**:
+```json
+{
+  "userId": <str>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str>,
+  "data": null,
 }
 ```
 

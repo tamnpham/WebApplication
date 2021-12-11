@@ -1,16 +1,21 @@
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
+from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.core import responses
+from apps.core.views import CustomMixin
 from apps.quizzes.models import Result
 from apps.quizzes.views import ScoreboardMixin
 from apps.users.models import User
 
-from .serializers import UserCreateSerializer, UserSerializer
+from .serializers import (ProfileSerializer, UserCreateSerializer,
+                          UserManagementSerializer)
 
 
 class UserCreateAPI(CreateAPIView):
@@ -80,7 +85,7 @@ class UserAPI(
     RetrieveUpdateAPIView,
     ScoreboardMixin,
 ):
-    serializer_class = UserSerializer
+    serializer_class = ProfileSerializer
     permission_classes = (
         IsAuthenticated,
     )
@@ -136,3 +141,31 @@ class UserAPI(
             return responses.client_error("Invalid data.")
         serializer.save()
         return responses.client_success(data=None)
+
+
+class AdminManagementViewSet(
+    CustomMixin,
+    ListModelMixin,
+    RetrieveModelMixin,
+    GenericViewSet,
+):
+    """Management class for admin to promote other user to admin"""
+    queryset = User.objects.all()
+    serializer_class = UserManagementSerializer
+    permission_classes = (
+        IsAuthenticated,
+        IsAdminUser,
+    )
+    http_method_names = (
+        'get',
+        'post',
+    )
+
+    @action(detail=False, methods=("post",))
+    def promote(self, request, *args, **kwargs):
+        """Promote a normal user to become an administrator."""
+        self.kwargs["pk"] = self.request.data.get("userId")
+        user = self.get_object()
+        user.is_staff = True
+        user.save()
+        return responses.client_success(None)
