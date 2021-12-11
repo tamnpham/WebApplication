@@ -2,17 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {
   Box,
-  Grid,
-  Container,
-  Typography,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Slider,
-  Button,
-  Stack,
 } from "@mui/material";
 import ScoreTable from './ScoreTable';
 import { makeStyles } from "@material-ui/core/styles";
