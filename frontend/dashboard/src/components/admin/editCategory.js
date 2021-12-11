@@ -13,9 +13,11 @@ import {
   FormControl,
   Paper,
   InputLabel,
+  Autocomplete
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 
 //formik
 import { Form, FieldArray, Field, Formik } from "formik";
@@ -24,6 +26,7 @@ import Page from "../Page";
 //React
 import { useState, useEffect } from "react";
 import dotenv from "dotenv";
+
 dotenv.config();
 const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // --------------------------------------------
@@ -40,6 +43,10 @@ const useStyles = makeStyles({
   inputSelect: {
     color: "white",
   },
+  input: {
+    color: "white",
+    textAlign: "center"
+  },
 });
 
 export default function EditCategory() {
@@ -50,37 +57,42 @@ export default function EditCategory() {
   const [category, setCategory] = useState({});
   const [categoryId, setCategoryId] = useState(null);
 
+  const [options, setOptions] = useState([]);
+  const [value, setValue] = useState(options[0]);
+  const [inputValue, setInputValue] = useState('');
+
+  const navigate = useNavigate();
   
   function refreshPage() {
     window.location.reload(false);
   }
-  
 
-  const handleInputChange = (e) => {
-    console.log(e.target.value);
-    setCategoryId(e.target.value);
-  };
-
-  useEffect(() => {
+  const handleInputChange = (value) => {
+    console.log(value);
+    const apiUrl = `${API_SERVER}/api/category/${value}`;
+    console.log(apiUrl);
+    const auth = localStorage.getItem("token");
+    const requestOption = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    };
     try {
-      const apiUrl = `${API_SERVER}/api/category/${categoryId}/`;
-      const auth = localStorage.getItem("token");
-      const requestOption = {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
-        },
-      };
       fetch(apiUrl, requestOption)
         .then((res) => res.json())
         .then((response) => {
+          console.log(response);
           setCategory(response);
         });
     } catch (err) {
       console.log(err);
     }
+  };
+
+  useEffect(() => {
     const apiUrl = `${API_SERVER}/api/category/`;
     const auth = localStorage.getItem("token");
     const requestOption = {
@@ -119,35 +131,68 @@ export default function EditCategory() {
         });
     } catch (err) {
       console.log(err);
+      
     }
   }, [categoryId]);
 
   console.log(categories)
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+    const apiUrl = `${API_SERVER}/api/category`;
+    const auth = localStorage.getItem("token");
+    const requestOption = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    };
+    fetch(apiUrl, requestOption)
+      .then((res) => res.json())
+      .then((response) => {
+        const categories = response.map((category) => {
+          return {label: category.name, id: category.id};
+        });
+        setOptions(categories);
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   if (categories.length > 0) {
     return (
       <Container>
-        <Stack>
-          <FormControl
-            variant="standard"
-            sx={{ m: 1, width: "100%", pb: "5%" }}
-          >
-            <InputLabel>Category</InputLabel>
-            <Select
-              name="categories"
-              onChange={handleInputChange}
-              inputProps={{ className: classes.inputSelect }}
-            >
-              {categories &&
-                categories.length &&
-                categories.map((category) => (
-                  <MenuItem value={category.id} key={category.id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        </Stack>
+        <Stack sx={{mb: "30px", width: "100%"}}>
+        <Autocomplete
+              value={value}
+              onChange={(event, newValue) => {
+                if (newValue !== null) {
+                  console.log(newValue.id);
+                  setValue(newValue.id);
+                  handleInputChange(newValue.id);
+                }
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={options}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  label="Question"
+                  inputProps={{
+                    ...params.inputProps,
+                    className: classes.input
+                  }}
+                />
+              )}
+            />
+      </Stack>
 
         {category.id && (
           <Formik

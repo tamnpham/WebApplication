@@ -116,7 +116,8 @@ export default function DashboardApp() {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
-    const apiUrl = `${API_SERVER}/api/category`;
+    try{
+      const apiUrl = `${API_SERVER}/api/category`;
     const auth = authCtx.token;
     const requestOption = {
       method: "GET",
@@ -131,6 +132,12 @@ export default function DashboardApp() {
       .then((response) => {
         setOptions(response);
       });
+    }
+    catch (err) {
+      console.log(err);
+      navigate("/login");
+    }
+    
   },[]);
 
   if (options.length > 0) {
