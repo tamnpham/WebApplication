@@ -13,9 +13,10 @@ import {
   FormControl,
   Paper,
   InputLabel,
-  LinearProgress
+  LinearProgress,
+  Autocomplete
 } from "@mui/material";
-import { TabPanel, TabList, TabContext } from "@mui/lab";
+
 import { makeStyles } from "@material-ui/core";
 
 //formik
@@ -42,6 +43,10 @@ const useStyles = makeStyles({
   inputSelect: {
     color: "white",
   },
+  input: {
+    color: "white",
+    textAlign: "center"
+  },
 });
 
 export default function EditQuestion() {
@@ -53,17 +58,21 @@ export default function EditQuestion() {
   const [questionId, setQuestionId] = useState(null);
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    console.log(e.target.value);
-    setQuestionId(e.target.value);
-  };
+    
+  const [options, setOptions] = useState([]);
+  const [value, setValue] = useState(options[0]);
+  const [inputValue, setInputValue] = useState('');
+  const [ok, setOk] = useState(false);
+
 
   function refreshPage() {
     window.location.reload(false);
   }
 
-  useEffect(() => {
-    const apiUrl = `${API_SERVER}/api/question/${questionId}`;
+  const handleInputChange = (value) => {
+    console.log(value);
+    const apiUrl = `${API_SERVER}/api/question/${value}`;
+    console.log(apiUrl);
     const auth = localStorage.getItem("token");
     const requestOption = {
       method: "GET",
@@ -77,13 +86,37 @@ export default function EditQuestion() {
       fetch(apiUrl, requestOption)
         .then((res) => res.json())
         .then((response) => {
-          // console.log(response);
           setQuestion(response);
+          setOk(true);
         });
     } catch (err) {
       console.log(err);
     }
-  }, [questionId]);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+    const apiUrl = `${API_SERVER}/api/question/`;
+    const auth = localStorage.getItem("token");
+    const requestOption = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth,
+      },
+    };
+    fetch(apiUrl, requestOption)
+      .then((res) => res.json())
+      .then((response) => {
+        const questions = response.map((question) => {
+          return {label: question.content, id: question.id};
+        });
+        setOptions(questions);
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const apiUrl = `${API_SERVER}/api/question`;
@@ -107,32 +140,37 @@ export default function EditQuestion() {
   if (questions.length > 0) {
     return (
       <Container>
-        <Stack>
-          <FormControl
-            variant="standard"
-            sx={{ m: 1, width: "100%", pb: "5%" }}
-          >
-            <InputLabel>Question</InputLabel>
-            <Select
-              name="questions"
-              // value={questionData.categoryId}
-              // value={""}
-              onChange={handleInputChange}
-              inputProps={{ className: classes.inputSelect }}
-              // className={classes.inputSelect}
-            >
-              {questions &&
-                questions.length &&
-                questions.map((question) => (
-                  <MenuItem value={question.id} key={question.id}>
-                    {question.content}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
-        </Stack>
+        <Stack sx={{mb: "30px", width: "100%"}}>
+        <Autocomplete
+              value={value}
+              onChange={(event, newValue) => {
+                if (newValue !== null) {
+                  console.log(newValue.id);
+                  setValue(newValue.id);
+                  handleInputChange(newValue.id);
+                }
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={options}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  label="Question"
+                  inputProps={{
+                    ...params.inputProps,
+                    className: classes.input
+                  }}
+                />
+              )}
+            />
+      </Stack>
 
-        {question.id && (
+        {question.id && ok === true && (
           <Formik
             enableReinitialize
             initialValues={{
@@ -177,7 +215,8 @@ export default function EditQuestion() {
                 })
                 .then(() => {
                   alert("Delete successfully");
-                  refreshPage();
+                  // refreshPage();
+                  setOk(false)
                 })
                 .catch((err) => {
                   console.log(err);

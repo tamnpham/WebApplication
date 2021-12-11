@@ -1,5 +1,19 @@
 // material
-import { Box, Grid, Container, Typography, Button, Stack , IconButton, Tooltip, Menu, MenuItem, AppBar, Toolbar } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Container,
+  Typography,
+  Button,
+  Stack,
+  IconButton,
+  Tooltip,
+  Menu,
+  MenuItem,
+  AppBar,
+  Toolbar,
+  Pagination
+} from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useNavigate, Link } from "react-router-dom";
@@ -19,10 +33,13 @@ import {
 import Clock from "../components/quiz/Clock";
 import LinearProgress from "@mui/material/LinearProgress";
 
+// ------------------------------
 import AccountPopover from "../layouts/dashboard/AccountPopover";
 import MenuIcon from '@mui/icons-material/Menu';
+
 import dotenv from "dotenv";
 dotenv.config();
+
 const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // ----------------------------------------------------------------------
 
@@ -42,6 +59,12 @@ const useStyles = makeStyles({
     p: 2,
     backgroundColor: "#ABEBC6",
     color: "#145A32",
+  },
+  ul: {
+    "& .MuiPaginationItem-root": {
+      color: "#fff",
+    },
+    justifyContent: "center"
   },
 });
 
@@ -163,6 +186,11 @@ export default function Quiz() {
     navigate("/result");
   };
 
+  const handlePageChange = (event, value) => {
+    console.log(`active page is ${value}`);
+    setCurrentQuestion(value-1);
+  }
+
   if (questions.length > 0) {
     return (
       <div style={{ height: "100%", backgroundColor: "#161d31" }}>
@@ -184,7 +212,7 @@ export default function Quiz() {
                         display: "flex",
                         justifyContent: "right",
                         alignItems: "right",
-                        mr: '5%'
+                        mr: "5%",
                       }}
                     >
                       <Typography variant="h4" sx={{ paddingTop: 2 }}>
@@ -198,7 +226,7 @@ export default function Quiz() {
                         display: "flex",
                         justifyContent: "left",
                         alignItems: "left",
-                        ml: '5%'
+                        ml: "5%",
                       }}
                     >
                       <Clock initTime={questionOptions.time}></Clock>
@@ -214,29 +242,23 @@ export default function Quiz() {
                       chooseSelectedAnswer={chooseSelectedAnswer}
                     ></Question>
                   </Grid>
-
-                  <Grid item xs="4" sm="4">
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "left",
-                        alignItems: "left",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
+                  <Grid item xs="12" sm="12">
+                    <center>
+                      <Pagination
+                        count={questions.length}
                         color="primary"
-                        type="submit"
-                        sx={{ mt: "10%", width: "100%" }}
-                        onClick={previous}
-                        disabled={currentQuestion === 0}
-                      >
-                        Previous
-                      </Button>
-                    </Box>
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        size="large"
+                        showFirstButton
+                        showLastButton
+                        classes={{ ul: classes.ul }}
+                        sx={{mt:"2%"}}
+                      />
+                    </center>
                   </Grid>
 
-                  <Grid item xs="4" sm="4">
+                  <Grid item xs="12" sm="12">
                     <Box
                       sx={{
                         display: "flex",
@@ -248,34 +270,14 @@ export default function Quiz() {
                         variant="contained"
                         color="primary"
                         type="submit"
-                        sx={{ mt: "10%", width: "50%" }}
+                        sx={{mt:"2%",width: "50%" }}
                         onClick={submitHandler}
                       >
                         Submit
                       </Button>
                     </Box>
                   </Grid>
-
-                  <Grid item xs="4" sm="4">
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "right",
-                        alignItems: "right",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                        sx={{ mt: "10%", width: "100%" }}
-                        onClick={next}
-                        disabled={currentQuestion + 1 === questions.length}
-                      >
-                        Next
-                      </Button>
-                    </Box>
-                  </Grid>
+                 
                 </Grid>
               </Container>
             </Page>

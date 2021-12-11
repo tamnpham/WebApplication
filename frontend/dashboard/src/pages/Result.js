@@ -1,5 +1,5 @@
 // material
-import { Box, Container, Typography, Button, Stack, Grid } from "@mui/material";
+import { Box, Container, Typography, Button, Stack, Grid, Pagination } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
@@ -43,6 +43,12 @@ const useStyles = makeStyles({
   nullAnswer: {
     backgroundColor: "#FFFF00",
     color: "#145A32",
+  },
+  ul: {
+    "& .MuiPaginationItem-root": {
+      color: "#fff",
+    },
+    justifyContent: "center"
   },
 });
 
@@ -111,6 +117,10 @@ export default function Quiz() {
     e.preventDefault();
     navigate("/dashboard/app");
   };
+  const handlePageChange = (event, value) => {
+    console.log(`active page is ${value}`);
+    setCurrentQuestion(value-1);
+  }
   if ((questions.length > 0) && (score !== null)) {
     return (
       <div style={{ height: "100%", backgroundColor: "#161d31" }}>
@@ -267,29 +277,23 @@ export default function Quiz() {
                 </Box>
               </Container>
 
-              <Grid container>
-                <Grid item xs="4" sm="4">
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "left",
-                      alignItems: "left",
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      sx={{ mt: "10%", width: "100%" }}
-                      onClick={previous}
-                      disabled={currentQuestion === 0}
-                    >
-                      Previous
-                    </Button>
-                  </Box>
-                </Grid>
+              <Grid item xs="12" sm="12">
+                <center>
+                  <Pagination
+                    count={questions.length}
+                    color="primary"
+                    onChange={handlePageChange}
+                    variant="outlined"
+                    size="large"
+                    showFirstButton
+                    showLastButton
+                    classes={{ ul: classes.ul }}
+                    sx={{ mt: "2%" }}
+                  />
+                </center>
+              </Grid>
 
-                <Grid item xs="4" sm="4">
+              <Grid item xs="12" sm="12">
                   <Box
                     sx={{
                       display: "flex",
@@ -301,35 +305,14 @@ export default function Quiz() {
                       variant="contained"
                       color="primary"
                       type="submit"
-                      sx={{ mt: "10%", width: "50%" }}
+                      sx={{ mt: "2%", width: "50%" }}
                       onClick={goHome}
                     >
                       Home
                     </Button>
                   </Box>
                 </Grid>
-
-                <Grid item xs="4" sm="4">
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "right",
-                      alignItems: "right",
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      sx={{ mt: "10%", width: "100%" }}
-                      onClick={next}
-                      disabled={currentQuestion + 1 === questions.length}
-                    >
-                      Next
-                    </Button>
-                  </Box>
-                </Grid>
-              </Grid>
+             
             </Container>
           </Page>
         </Box>
