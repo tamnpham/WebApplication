@@ -4,8 +4,6 @@ from rest_framework import serializers
 from apps.questions.serializers import CategorySerializer
 
 from .models import User
-from apps.core.serializers import UserSerializerMixin
-
 
 class UserCreateSerializer(serializers.ModelSerializer):
     """Serializer for representing User when creating."""
