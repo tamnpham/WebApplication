@@ -9,7 +9,8 @@ import {
   
   import Page from "../components/Page";
   import {
-    GetUsers
+    GetUsers,
+    PromoteUser,
   } from "../components/userManage/";
   
   
@@ -73,7 +74,7 @@ import {
                   classes={{ root: classes.root, scroller: classes.scroller }}
                 >
                   <Tab label="All Users" className={classes.tab1} value="1" />
-                  <Tab label="Promote User" className={classes.tab2} value="2" />
+                  <Tab label="Change Role User" className={classes.tab2} value="2" />
                   <Tab label="Kick User" className={classes.tab3} value="3" />
                 </TabList>
               </Box>
@@ -81,7 +82,7 @@ import {
                 <GetUsers />
               </TabPanel>
               <TabPanel value="2">
-                {/* <EditQuestion /> */}
+                <PromoteUser />
               </TabPanel>
               <TabPanel value="3">
                 {/* <DeleteQuestion /> */}
