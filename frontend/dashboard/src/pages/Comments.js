@@ -53,26 +53,27 @@ export default function Comments(props) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-    console.log("This will run every second!");
+      try {
+        console.log("This will run every second!");
 
-    const apiUrl = `${API_SERVER}/api/blog/` + postId;
-    const auth = localStorage.getItem("token");
+        const apiUrl = `${API_SERVER}/api/blog/` + postId;
+        const auth = localStorage.getItem("token");
 
-    const request = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
+        const request = {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth,
+          },
+        };
 
-    fetch(apiUrl, request)
-      .then((res) => res.json())
-      .then((response) => {
-        setCommentState(response.comments);
-      });
-
+        fetch(apiUrl, request)
+          .then((res) => res.json())
+          .then((response) => {
+            setCommentState(response.comments);
+          });
+      } catch (err) {}
     }, 1000);
     return () => clearInterval(interval);
   }, []);

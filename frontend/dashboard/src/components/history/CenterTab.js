@@ -43,53 +43,61 @@ export default function CenteredTab() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-    const apiUrl = `${API_SERVER}/api/category`;
-    const auth = localStorage.getItem("token");
-    const requestOption = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
-    fetch(apiUrl, requestOption)
-      .then((res) => res.json())
-      .then((response) => {
-        const categories = response.map((category) => {
-          return {label: category.name, id: category.id};
-        });
-        setOptions(categories);
-      });
+      try {
+        const apiUrl = `${API_SERVER}/api/category`;
+        const auth = localStorage.getItem("token");
+        const requestOption = {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth,
+          },
+        };
+        fetch(apiUrl, requestOption)
+          .then((res) => res.json())
+          .then((response) => {
+            const categories = response.map((category) => {
+              return { label: category.name, id: category.id };
+            });
+            setOptions(categories);
+          });
+      } catch (err) {
+        alert(err);
+      }
     }, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
   const handleInputChange = (categoryId) => {
     console.log(categoryId);
+    try {
+      const apiUrl = `${API_SERVER}/api/quiz/result/`;
+      const auth = localStorage.getItem("token");
 
-    const apiUrl = `${API_SERVER}/api/quiz/result/`;
-    const auth = localStorage.getItem("token");
+      const request = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+        body: JSON.stringify({
+          categoryId: categoryId,
+        }),
+      };
 
-    const request = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-      body: JSON.stringify({
-        categoryId: categoryId,
-      }),
-    };
-
-    fetch(apiUrl, request)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-        setScoreData(response.data);
-        setOK(true);
-      });
+      fetch(apiUrl, request)
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response);
+          setScoreData(response.data);
+          setOK(true);
+        });
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (

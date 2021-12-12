@@ -49,50 +49,54 @@ export default function CenteredTab() {
   const [inputValue, setInputValue] = React.useState('');
 
   useEffect(() => {
-    const apiUrl = `${API_SERVER}/api/category`;
-    const auth = localStorage.getItem("token");
-    const requestOption = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
-    fetch(apiUrl, requestOption)
-      .then((res) => res.json())
-      .then((response) => {
-        const categories = response.map((category) => {
-          return { label: category.name, id: category.id };
+    try {
+      const apiUrl = `${API_SERVER}/api/category`;
+      const auth = localStorage.getItem("token");
+      const requestOption = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      };
+      fetch(apiUrl, requestOption)
+        .then((res) => res.json())
+        .then((response) => {
+          const categories = response.map((category) => {
+            return { label: category.name, id: category.id };
+          });
+          setOptions(categories);
         });
-        setOptions(categories);
-      });
+    } catch (err) {
+      alert(err);
+    }
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (cateId) => {
+    try {
+      const apiUrl = `${API_SERVER}/api/quiz/scoreboard/`;
+      const auth = localStorage.getItem("token");
 
-    const apiUrl = `${API_SERVER}/api/quiz/scoreboard/`;
-    const auth = localStorage.getItem("token");
+      var data = new FormData();
+      data.append("categoryId", cateId);
 
-    const request = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-      body: JSON.stringify({
-        categoryId: value,
-      }),
-    };
+      const request = {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+        body: data,
+      };
 
-    fetch(apiUrl, request)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-        setScoreData(response.data);
-        setOK(true)
-      });
+      fetch(apiUrl, request)
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response);
+          setScoreData(response.data);
+          setOK(true);
+        });
+    } catch (err) {}
   };
 
   return (

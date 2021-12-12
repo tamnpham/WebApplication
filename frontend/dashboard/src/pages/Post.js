@@ -70,69 +70,74 @@ export default function Post(props) {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = `${API_SERVER}/api/blog/` + id;
-    const auth = localStorage.getItem("token");
+    try {
+      const apiUrl = `${API_SERVER}/api/blog/` + id;
+      const auth = localStorage.getItem("token");
 
-    const request = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
+      const request = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      };
 
-    fetch(apiUrl, request)
-      .then((res) => res.json())
-      .then((response) => {
-        const dateCreated = new Date(response.created);
-        const days = [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-        ];
-        const months = [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-          "August",
-          "September",
-          "October",
-          "November",
-          "December",
-        ];
+      fetch(apiUrl, request)
+        .then((res) => res.json())
+        .then((response) => {
+          const dateCreated = new Date(response.created);
+          const days = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+          ];
+          const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ];
 
-        var day = dateCreated.getDay();
-        var date = dateCreated.getDate();
-        var month = dateCreated.getMonth();
-        var year = dateCreated.getFullYear();
-        var timeCreared =
-          days[day] + ", " + date + " " + months[month] + " " + year;
+          var day = dateCreated.getDay();
+          var date = dateCreated.getDate();
+          var month = dateCreated.getMonth();
+          var year = dateCreated.getFullYear();
+          var timeCreared =
+            days[day] + ", " + date + " " + months[month] + " " + year;
 
-        const dateModified = new Date(response.modified);
-        day = dateModified.getDay();
-        date = dateModified.getDate();
-        month = dateModified.getMonth();
-        year = dateModified.getFullYear();
-        var timeModified =
-          days[day] + ", " + date + " " + months[month] + " " + year;
-        setPostState({
-          ...response,
-          created: timeCreared,
-          modified: timeModified,
+          const dateModified = new Date(response.modified);
+          day = dateModified.getDay();
+          date = dateModified.getDate();
+          month = dateModified.getMonth();
+          year = dateModified.getFullYear();
+          var timeModified =
+            days[day] + ", " + date + " " + months[month] + " " + year;
+          setPostState({
+            ...response,
+            created: timeCreared,
+            modified: timeModified,
+          });
+          console.log("here");
+          console.log(response);
         });
-        console.log("here");
-        console.log(response);
-      });
+    } catch (err) {
+      alert(err);
+    }
   }, []);
+  
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
