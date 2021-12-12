@@ -33,6 +33,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     """Serializer for representing `Category`."""
+    numberQuestions = serializers.IntegerField(required=False)
 
     class Meta:
         model = Category

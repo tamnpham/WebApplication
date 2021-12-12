@@ -23,6 +23,10 @@ class Category(BaseModel):
         max_length=255,
     )
 
+    def numberQuestions(self):
+        """Return number of questions corresponding to the category."""
+        return self.question_set.count()
+
     class Meta:
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
