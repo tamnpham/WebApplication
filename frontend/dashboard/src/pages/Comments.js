@@ -91,8 +91,12 @@ export default function Comments(props) {
                 </Item>
                 <Item>
                   <Box>
-                    {comment.user.first_name}
-                    {comment.user.last_name}: {comment.content}
+                    <Typography variant="body" color="#00ab55">
+                      <strong>
+                        {comment.user.first_name} {comment.user.last_name}
+                      </strong>
+                    </Typography>
+                    : {comment.content}
                   </Box>
                 </Item>
               </Stack>
@@ -140,7 +144,7 @@ export default function Comments(props) {
                     })
                     .then((data) => {
                       console.log(data);
-                    //   alert("Comment successfully");
+                      //   alert("Comment successfully");
                     })
                     .catch((err) => {
                       alert(err.message);

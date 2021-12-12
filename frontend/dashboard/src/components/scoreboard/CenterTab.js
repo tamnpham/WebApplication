@@ -13,7 +13,8 @@ const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER;
 
 const useStyles = makeStyles({
   input: {
-    color: "white"
+    color: "white",
+    textAlign: "center"
   },
   typography: {
     position: "absolute",
@@ -99,8 +100,6 @@ export default function CenteredTab() {
       <Box sx={{ width: "100%", typography: "body1", pt: "5%" }}>
         <Box sx={{ textAlign: "center", mb: "5%" }}>
           <center>
-            {/* <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
-            <div>{`inputValue: '${inputValue}'`}</div> */}
             <Autocomplete
               value={value}
               onChange={(event, newValue) => {
