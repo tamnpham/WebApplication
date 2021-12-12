@@ -146,6 +146,10 @@ export default function DashboardApp() {
       .then((res) => res.json())
       .then((response) => {
         setOptions(response);
+      })
+      .catch((err) => {
+        alert(err.message);
+        navigate("/error");
       });
     }
     catch (err) {
