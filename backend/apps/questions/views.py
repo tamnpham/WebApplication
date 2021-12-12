@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
 from apps.core import responses
-from apps.core.permissions import IsAdminOrTeacher, IsAdminRoleUser
+from apps.core.permissions import IsAdminOrTeacher
 from apps.core.views import CustomMixin
 
 from .filters import CategoryFilter, QuestionFilter
@@ -25,7 +25,7 @@ class QuestionViewSet(
         "default": (IsAuthenticated,),
         "create": (IsAuthenticated, IsAdminOrTeacher,),
         "destroy": (IsAuthenticated, IsAdminOrTeacher,),
-        "post_update": (IsAuthenticated, IsAdminRoleUser,),
+        "post_update": (IsAuthenticated, IsAdminOrTeacher,),
     }
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
