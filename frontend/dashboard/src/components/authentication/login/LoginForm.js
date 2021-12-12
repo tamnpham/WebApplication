@@ -102,7 +102,7 @@ export default function LoginForm() {
             navigate("/dashboard/app", { replace: true });
           })
           .catch((err) => {
-            alert(err.message);
+            alert('Something went wrong!');
           });
         actions.setSubmitting(false);
       } catch (err) {
