@@ -19,6 +19,7 @@ from .serializers import (ProfileSerializer, UserCreateSerializer,
 
 
 class UserCreateAPI(CreateAPIView):
+    """API View for User register."""
     serializer_class = UserCreateSerializer
     permission_classes = (AllowAny,)
 
@@ -42,7 +43,7 @@ class UserCreateAPI(CreateAPIView):
 
 
 class UserLoginAPI(TokenObtainPairView):
-
+    """API View for User log-in."""
     serializer_class = TokenObtainPairSerializer
 
     def post(self, request):
@@ -85,6 +86,7 @@ class UserAPI(
     RetrieveUpdateAPIView,
     ScoreboardMixin,
 ):
+    """API View for user's profile"""
     serializer_class = ProfileSerializer
     permission_classes = (
         IsAuthenticated,
@@ -144,9 +146,9 @@ class UserAPI(
 
 
 class AdminManagementViewSet(
-    CustomMixin,
     ListModelMixin,
     RetrieveModelMixin,
+    CustomMixin,
     GenericViewSet,
 ):
     """Management class for admin to promote other user to admin"""
@@ -160,12 +162,13 @@ class AdminManagementViewSet(
         'get',
         'post',
     )
+    model = User
 
     @action(detail=False, methods=("post",))
     def promote(self, request, *args, **kwargs):
-        """Promote a normal user to become an administrator."""
+        """Promote a normal user to become a teacher user."""
         self.kwargs["pk"] = self.request.data.get("userId")
         user = self.get_object()
-        user.is_staff = True
+        user.role = User.TEACHER
         user.save()
         return responses.client_success(None)
