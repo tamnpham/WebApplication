@@ -219,6 +219,7 @@ export default function DashboardApp() {
                     />
                   </div>
                 </Grid>
+                
                 {categoryId && <Grid
                   item
                   xs={10}

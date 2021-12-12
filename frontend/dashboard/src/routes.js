@@ -16,6 +16,7 @@ import Admin from "./pages/Admin";
 import Quiz from "./pages/Quiz";
 import Result from "./pages/Result";
 import Post from "./pages/Post";
+import UsersManage from "./pages/UsersManage";
 import { useContext } from "react";
 import { AuthContext } from "./store/auth-context";
 // ----------------------------------------------------------------------
@@ -43,6 +44,7 @@ export default function Router() {
             <Route path="blog" element={<Blog />} />
             <Route path="admin" element={<Admin />} />
             <Route path="history" element={<History />} />
+            <Route path="usersManage" element={<UsersManage />} />
           </Route>
           <Route path="/" element={<Navigate to="/dashboard/app" />} />
           <Route path="post/:id" element={<Post />} />

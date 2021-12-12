@@ -41,9 +41,6 @@ const useStyles = makeStyles({
   inputSelect: {
     color: "white",
   },
-  input: {
-    color: "white",
-  }
 });
 
 export default function DeleteCategory() {
