@@ -24,7 +24,7 @@ import { LicenseInfo } from "@mui/x-data-grid-pro";
 import Page from "../Page";
 //React
 import { useState, useEffect, useContext } from "react";
-
+import { useNavigate } from "react-router-dom";
 import dotenv from "dotenv";
 dotenv.config();
 const API_SERVER = process.env.REACT_APP_LSEXAM_API_SERVER;
@@ -76,7 +76,7 @@ export default function GetUsers() {
   const authCtx = useContext(AuthContext);
 
   const [usersInfo, setUsersInfo] = useState([]); 
-
+  const navigate = useNavigate();
   useEffect(() => {
     try {
       const apiUrl = `${API_SERVER}/api/admin/`;
@@ -116,7 +116,12 @@ export default function GetUsers() {
             })
           setUsersInfo(reformatUsers);
           console.log(reformatUsers);
+        })
+        .catch((err) => {
+          alert(err.message);
+          navigate("/error");
         });
+        
     } catch (err) {
       console.log(err);
       //   navigate("/login");

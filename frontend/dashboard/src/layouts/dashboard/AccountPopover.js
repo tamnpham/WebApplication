@@ -83,7 +83,7 @@ export default function AccountPopover() {
           setUserState(response.data.user);
         })
         .catch((err) => {
-          alert("You're so fast please slowdown :)");
+          alert(err.message);
           navigate("/error");
         });
     } catch (err) {

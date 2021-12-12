@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 
 //formik
 import { Form, FieldArray, Field, Formik } from "formik";
@@ -44,6 +45,7 @@ const useStyles = makeStyles({
 
 export default function AddQuestion(questionData) {
     const classes = useStyles();
+    const navigate = useNavigate();
 
     const [categories, setCategories] = useState([]);
 
@@ -68,6 +70,10 @@ export default function AddQuestion(questionData) {
             .then((response) => {
               console.log(response.length);
               setCategories(response);
+            })
+            .catch((err) => {
+              alert(err.message);
+              navigate("/error");
             });
         }
         catch (err) {
