@@ -44,9 +44,9 @@ class CommentViewSet(
     serializer_class = CommentSerializer
     permission_classes_map = {
         "default": (IsAuthenticated,),
-        "create": (IsTeacherUser,),
-        "destroy": (IsTeacherUser,),
-        "post_update": (IsTeacherUser,),
+        "create": (IsAuthenticated,),
+        "destroy": (IsAuthenticated,),
+        "post_update": (IsAuthenticated,),
     }
     model = Comment
     filterset_class = CommentFilter
