@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.core.models import BaseModel
+from apps.quizzes.models import Badge
 
 
 class UserManager(DjangoUserManager):
@@ -25,10 +26,14 @@ class UserManager(DjangoUserManager):
         """Create superuser instance (used by `createsuperuser` cmd)."""
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("role", User.TEACHER)
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")
         if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+        # Ensure superuser also has Teacher privilege
+        if extra_fields.get("role") is not User.TEACHER:
             raise ValueError("Superuser must have is_superuser=True.")
 
         return self._create_user(email, password, **extra_fields)
@@ -113,21 +118,28 @@ class User(
         null=True,
     )
 
-    INFORMATION_SECURITY = "Information Security"
-    COMPUTER_SCIENCE = "Computer Science"
-    NETWORK_COMMUNICATION = "Computer Networks and Data Communications"
-    MAJORS = (
-        (INFORMATION_SECURITY, "Information Security"),
-        (NETWORK_COMMUNICATION, "Computer Networks and Data Communications"),
-        (COMPUTER_SCIENCE, "Computer Science"),
-    )
-
     major = models.CharField(
         verbose_name=_("Major"),
         max_length=255,
-        choices=MAJORS,
-        default=INFORMATION_SECURITY,
+        null=True,
+        blank=True,
     )
+
+    badges = models.ManyToManyField(
+        "quizzes.Badge",
+        verbose_name=_("Badge based on the highest score"),
+    )
+
+    def check_and_add_badges(self):
+        """Check badge's requirements and add if all conditions are met."""
+        achieved_badges = self.badges.values("id")
+        remaining_badges = Badge.objects.exclude(pk__in=achieved_badges)
+        result = []
+        for badge in remaining_badges:
+            if badge.is_sastified(self):
+                self.badges.add(badge)
+                result.append(badge)
+        return result
 
     @property
     def full_name(self):

@@ -4,25 +4,43 @@ import {
   Grid,
   Container,
   Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Slider,
   Button,
   Stack,
+  IconButton,
+  Tooltip,
+  Menu,
+  MenuItem,
+  AppBar,
+  Toolbar,
+  Pagination
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
+import { useNavigate, Link } from "react-router-dom";
 // components
 import Page from "../components/Page";
-import { Question } from "../components/quiz/";
+import { Question, Timer } from "../components/quiz/";
 
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { selectQuestionOptions } from "../redux/store/questionSlice";
+import {
+  setSubmitAnswers,
+  setQuizId,
+  setResultQuestions,
+  setDuration,
+} from "../redux/store/answersSlice";
+import Clock from "../components/quiz/Clock";
+import LinearProgress from "@mui/material/LinearProgress";
+
+// ------------------------------
+import AccountPopover from "../layouts/dashboard/AccountPopover";
+import MenuIcon from '@mui/icons-material/Menu';
+
+import dotenv from "dotenv";
+dotenv.config();
+
+const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
 // ----------------------------------------------------------------------
 
 const useStyles = makeStyles({
@@ -42,120 +60,258 @@ const useStyles = makeStyles({
     backgroundColor: "#ABEBC6",
     color: "#145A32",
   },
+  ul: {
+    "& .MuiPaginationItem-root": {
+      color: "#fff",
+    },
+    justifyContent: "center"
+  },
 });
-
-const questions = [
-  {
-    questionId: 1,
-    question: "Where does it come from?",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-  {
-    questionId: 2,
-    question:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-  {
-    questionId: 3,
-    question: "Where can I get some?",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-  {
-    questionId: 4,
-    question:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-    answers: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    ],
-  },
-];
-
-const answers = Array.apply(null, Array(questions.length)).map(function () {return -1});
 
 // ----------------------------------------------------------------------
 
 export default function Quiz() {
   const classes = useStyles();
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const next = () => {
     setCurrentQuestion((currentQuestion) => currentQuestion + 1);
   };
   const previous = () => {
     setCurrentQuestion((currentQuestion) => currentQuestion - 1);
   };
-  
 
-  const [answer, setAnswer] = useState(answers);
+  const questionOptions = useSelector(selectQuestionOptions);
+  const [answers, setAnswers] = useState([]);
+  const [questions, setQuestions] = useState([]);
+
+  // Set up for Result
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [quiz, setQuiz] = useState(0);
+  const [trueAnswers, setTrueAnswers] = useState([]);
+  const [seconds, setSeconds] = useState(questionOptions.time * 60);
+
+  // const [timer, setTimer] = useState("00:00:00");
 
   const chooseAnswer = (index, value) => {
-    const newAnswer = answer.slice();
+    const newAnswer = answers.slice();
     newAnswer[index] = value;
-    setAnswer(newAnswer);
+    setAnswers(newAnswer);
+  };
+
+  useEffect(() => {
+    if (questionOptions.categoryId) {
+      try {
+        const apiUrl = `${API_SERVER}/api/quiz/create/`;
+        const auth = localStorage.getItem("token");
+        const requestOption = {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth,
+          },
+          body: JSON.stringify({
+            categoryId: questionOptions.categoryId,
+            numberQuestions: questionOptions.numberQuestion,
+          }),
+        };
+        fetch(apiUrl, requestOption)
+          .then((res) => res.json())
+          .then((response) => {
+            console.log(response.data);
+            setQuestions(response.data.questions);
+            setQuiz(response.data.quizId);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    else {
+      navigate("/dashboard/app")
+    }
+  }, []);
+
+  useEffect(() => {
+    const initValue = questions.map((question) => {
+      return { questionId: question.id, answer: null };
+    });
+    setSelectedAnswers(initValue);
+  }, [questions]);
+
+  useEffect(() => {
+    const initValue = questions.map((question) => {
+      return { questionId: question.id, trueAnswer: question.trueAnswer };
+    });
+    setTrueAnswers(initValue);
+  }, [questions]);
+
+  useEffect(() => {
+    if (seconds > 0) {
+      setTimeout(() => setSeconds(seconds - 1), 1000);
+    } else {
+      submitHandler();
+    }
+  });
+
+  const chooseSelectedAnswer = (index, value) => {
+    const newAnswers = selectedAnswers.slice();
+    newAnswers[index].answer = value;
+    setAnswers(newAnswers);
+  };
+
+  console.log(selectedAnswers);
+
+  // SubmitHandler
+  const submitHandler = () => {
+    // e.preventDefault();
+    dispatch(setSubmitAnswers(selectedAnswers));
+    dispatch(setQuizId(quiz));
+    dispatch(setResultQuestions(questions));
+    let timeout = questionOptions.time * 60 - seconds;
+    const hours = Math.floor(timeout / 3600);
+    const minutes = Math.floor((timeout - hours * 3600) / 60);
+    const second = timeout - hours * 3600 - minutes * 60;
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(second);
+    var duration =
+      date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    dispatch(setDuration(duration));
+    navigate("/result");
+  };
+
+  const handlePageChange = (event, value) => {
+    console.log(`active page is ${value}`);
+    setCurrentQuestion(value-1);
   }
 
-  console.log(answer);
+  if (questions.length > 0) {
+    return (
+      <div style={{ height: "100%", backgroundColor: "#161d31" }}>
+        <React.Fragment>
+          <Box>
+            <Page
+              title="Quiz"
+              sx={{
+                p: "5%",
+                backgroundColor: "#161d31",
+                color: "white",
+              }}
+            >
+              <Container>
+                <Grid container>
+                  <Grid item xs="6" sm="6">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "right",
+                        alignItems: "right",
+                        mr: "5%",
+                      }}
+                    >
+                      <Typography variant="h4" sx={{ paddingTop: 2 }}>
+                        Câu hỏi {currentQuestion + 1}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs="6" sm="6">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "left",
+                        alignItems: "left",
+                        ml: "5%",
+                      }}
+                    >
+                      <Clock initTime={questionOptions.time}></Clock>
+                    </Box>
+                  </Grid>
 
-  return (
-    <Page title="Quiz">
-      <Container>
+                  <Grid item xs="12" sm="12">
+                    <Question
+                      question={questions[currentQuestion]}
+                      index={currentQuestion + 1}
+                      answerIndex={answers[currentQuestion]}
+                      chooseAnswer={chooseAnswer}
+                      chooseSelectedAnswer={chooseSelectedAnswer}
+                    ></Question>
+                  </Grid>
+                  <Grid item xs="12" sm="12">
+                    <center>
+                      <Pagination
+                        count={questions.length}
+                        color="primary"
+                        onChange={handlePageChange}
+                        variant="outlined"
+                        size="large"
+                        showFirstButton
+                        showLastButton
+                        classes={{ ul: classes.ul }}
+                        sx={{mt:"2%"}}
+                      />
+                    </center>
+                  </Grid>
 
-        <Question
-          question={questions[currentQuestion]}
-          index={currentQuestion + 1}
-          answerIndex={answer[currentQuestion]}
-          chooseAnswer={chooseAnswer}
-        ></Question>
-
-        <Box sx={{ textAlign: "center" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            sx={{ m: 2, width: 100 }}
-            onClick={previous}
-            disabled={currentQuestion === 0}
+                  <Grid item xs="12" sm="12">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        type="submit"
+                        sx={{mt:"2%",width: "50%" }}
+                        onClick={submitHandler}
+                      >
+                        Submit
+                      </Button>
+                    </Box>
+                  </Grid>
+                 
+                </Grid>
+              </Container>
+            </Page>
+          </Box>
+        </React.Fragment>
+      </div>
+    );
+  } else {
+    return (
+      <>
+        <Page
+          sx={{
+            p: "5%",
+            backgroundColor: "#161d31",
+            color: "white",
+            height: "100%",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              width: "80%",
+              transform: "translate(-50%, -50%)",
+            }}
           >
-            Previous
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            sx={{ m: 2 }}
-          >
-            Submit
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            sx={{ m: 2, width: 100 }}
-            onClick={next}
-            disabled={currentQuestion + 1 === questions.length}
-          >
-            Next
-          </Button>
-        </Box>
-      </Container>
-    </Page>
-  );
+            <Typography variant="h1" color="white" textAlign="center">
+              Loading...
+            </Typography>
+            <LinearProgress color="success" />
+          </div>
+        </Page>
+      </>
+    );
+  }
 }

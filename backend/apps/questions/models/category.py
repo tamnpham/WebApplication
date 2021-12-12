@@ -15,11 +15,17 @@ class Category(BaseModel):
     code = models.CharField(
         verbose_name=_("Code"),
         max_length=30,
+        null=True,
+        blank=True,
     )
     name = models.CharField(
         verbose_name=_("Category name"),
         max_length=255,
     )
+
+    def numberQuestions(self):
+        """Return number of questions corresponding to the category."""
+        return self.question_set.count()
 
     class Meta:
         verbose_name = _("Category")

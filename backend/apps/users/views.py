@@ -1,19 +1,25 @@
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
+from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from rest_framework import mixins
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.core import responses
+from apps.core.views import CustomMixin
 from apps.quizzes.models import Result
 from apps.quizzes.views import ScoreboardMixin
 from apps.users.models import User
 
-from .serializers import UserCreateSerializer, UserSerializer
+from .serializers import (ProfileSerializer, UserCreateSerializer,
+                          UserManagementSerializer)
 
 
 class UserCreateAPI(CreateAPIView):
+    """API View for User register."""
     serializer_class = UserCreateSerializer
     permission_classes = (AllowAny,)
 
@@ -37,7 +43,7 @@ class UserCreateAPI(CreateAPIView):
 
 
 class UserLoginAPI(TokenObtainPairView):
-
+    """API View for User log-in."""
     serializer_class = TokenObtainPairSerializer
 
     def post(self, request):
@@ -51,14 +57,22 @@ class UserLoginAPI(TokenObtainPairView):
             user.last_login = timezone.now()
             user.save()
 
-            avatar = user.avatar.url if user.avatar else ""
+            avatar = ""
+            if user.avatar and user.avatar.url:
+                avatar = "http://13.229.40.64:8888" + user.avatar.url
+                # full_domain = 'http://' + request.META['HTTP_HOST']
+                # if request.META["SERVER_PORT"] not in full_domain:
+                #     full_domain += ':' + request.META["SERVER_PORT"]
+                # avatar = full_domain + user.avatar.url
             data = {
                 "token": serializer.validated_data,
                 "user": {
+                    "id": user.id,
                     "first_name": user.first_name,
                     "last_name": user.last_name,
                     "role": user.role,
-                    "avatar": request.build_absolute_uri(avatar),
+                    # "avatar": request.build_absolute_uri(avatar),
+                    "avatar": avatar,
                 }
             }
             return responses.client_success(data)
@@ -72,7 +86,8 @@ class UserAPI(
     RetrieveUpdateAPIView,
     ScoreboardMixin,
 ):
-    serializer_class = UserSerializer
+    """API View for user's profile"""
+    serializer_class = ProfileSerializer
     permission_classes = (
         IsAuthenticated,
     )
@@ -118,18 +133,39 @@ class UserAPI(
     def post(self, request, *args, **kwargs):
         user_id = request.user.id
         user = self.get_object(user_id)
-        fields = (
-            "first_name",
-            "last_name",
-            "phone",
-            "avatar",
-            "school",
-            "major",
+        serializer = self.get_serializer(
+            user,
+            data=request.data,
+            partial=True,
         )
-        for field in fields:
-            value = request.data.get(field)
-            if value:
-                setattr(user, field, value)
 
-        user.save()
+        if not serializer.is_valid():
+            return responses.client_error("Invalid data.")
+        serializer.save()
         return responses.client_success(data=None)
+
+
+class AdminManagementViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+    CustomMixin,
+    GenericViewSet,
+):
+    """Management class for admin to promote other user to admin"""
+    queryset = User.objects.all()
+    serializer_class = UserManagementSerializer
+    permission_classes = (
+        IsAuthenticated,
+        IsAdminUser,
+    )
+    model = User
+
+    @action(detail=False, methods=("post",))
+    def promote(self, request, *args, **kwargs):
+        """Promote a normal user to become a teacher user."""
+        self.kwargs["pk"] = self.request.data.get("userId")
+        user = self.get_object()
+        user.role = User.TEACHER
+        user.save()
+        return responses.client_success(None)

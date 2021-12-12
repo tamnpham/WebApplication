@@ -1,7 +1,7 @@
 version: "3.9"
    
 services:
-  frontend:
+  lsexam-frontend:
     build: .
     command: npm start
     ports:

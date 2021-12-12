@@ -2,17 +2,21 @@ from datetime import datetime, timedelta
 
 from django.db.models import Q
 from django.db.models.aggregates import Max
-from rest_framework import status
+from rest_framework import mixins, status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
 
 from apps.core import responses
+from apps.core.paginations import StandardPagination
+from apps.core.permissions import IsTeacherUser
+from apps.core.views import CustomMixin
 from apps.questions.models import Category, Question
-from apps.users.models import User
+from apps.quizzes.models.badge import Badge
 
 from .models import Quiz, Result
-from .serializers import QuizSerializer, ResultSerializer
+from .serializers import BadgeSerializer, QuizSerializer, ResultSerializer
 
 BASE_SCORE = 1
 
@@ -127,6 +131,10 @@ class QuizScoringAPI(GenericAPIView):
         result.numberCorrects = numberCorrects
         result.save()
 
+        # Check if the user met requirements to receive new achievement
+        user = request.user
+        badges = user.check_and_add_badges()
+
         return responses.client_success(
             self.serializer_class(result).data,
         )
@@ -143,12 +151,29 @@ class ResultViewAPI(GenericAPIView):
         "get",
         "post",
     )
+    # pagination_class = StandardPagination
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+        # Pagination
+        # Ref:https://stackoverflow.com/a/45670649
+        # queryset = super().get_queryset().filter(user=self.request.user)
+        # page = self.paginate_queryset(queryset)
+        # return page
 
     def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        # Pagination
+        # Ref:https://stackoverflow.com/a/45670649
+        # page = self.paginate_queryset(queryset)
+        # if page is not None:
+        #     serializer = self.serializer_class(page, many=True)
+        #     return self.get_paginated_response(serializer.data)
+
         return responses.client_success(
             [
                 self.serializer_class(result).data
-                for result in self.get_queryset()
+                for result in queryset
             ],
         )
 
@@ -168,18 +193,12 @@ class ResultViewAPI(GenericAPIView):
             category = category.get()
             queryset = self.filter_by_category(queryset, category)
 
-        # Filter by user
-        user_id = request.data.get("userId")
-        user = User.objects.filter(pk=user_id)
-        if user_id:
-            if not user:
-                return Response(
-                    data={"error": "User not found."},
-                    status=status.HTTP_404_NOT_FOUND,
-                )
-            user = user.get()
-            queryset = self.filter_by_user(queryset, user)
-
+        # Pagination
+        # Ref:https://stackoverflow.com/a/45670649
+        # page = self.paginate_queryset(queryset)
+        # if page is not None:
+        #     serializer = self.serializer_class(page, many=True)
+        #     return self.get_paginated_response(serializer.data)
         return responses.client_success(
             [
                 self.serializer_class(result).data
@@ -246,8 +265,29 @@ class ScoreboardViewAPI(
 ):
     """API for viewing scoreboard."""
     queryset = Result.objects.all()
+    pagination_class = StandardPagination
 
     def get_queryset(self):
         """Apply scoreboard rule to queryset."""
-        queryset = super().get_queryset()
+        queryset = self.queryset
         return self.filter_results(queryset)
+
+
+class BadgeViewSet(
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    CustomMixin,
+    GenericViewSet,
+):
+    """ViewSet for viewing Badge."""
+    queryset = Badge.objects.all()
+    serializer_class = BadgeSerializer
+    permission_classes_map = {
+        "default": (IsAuthenticated,),
+        "create": (IsTeacherUser,),
+        "destroy": (IsTeacherUser,),
+        "post_update": (IsTeacherUser,),
+    }
+    model = Badge

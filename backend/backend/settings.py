@@ -85,17 +85,36 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': '34.72.189.169',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': '13.212.141.73',
+        'HOST': 'postgres',
         'PORT': '5432',
     }
 }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': '13.229.40.64',
+#         'PORT': '5432',
+#     }
+# }
 
 # Authentication
 AUTH_USER_MODEL = 'users.User'
@@ -208,3 +227,9 @@ def _default_media_path(model_instance, filename):
 
 
 DEFAULT_MEDIA_PATH = _default_media_path
+
+# Domain server
+DOMAIN_URL = "https://13.229.40.64:8888"
+
+# Default point for Badge requirements
+DEFAULT_BADGE_REQUIRED_VALUES = 0
