@@ -116,6 +116,7 @@ class UserManagementSerializer(
         model = User
         exclude = (
             "password",
+            "is_superuser",
         )
         read_only_fields = (
             "email",
