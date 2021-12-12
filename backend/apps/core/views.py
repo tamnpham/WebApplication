@@ -20,7 +20,7 @@ class CustomMixin:
         if not self.permission_classes_map:
             return super().get_permissions()
         action = self.action
-        if not action:
+        if action not in self.permission_classes_map:
             action = self.permission_default_field
         return (
             permission()
