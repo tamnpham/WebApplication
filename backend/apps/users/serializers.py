@@ -5,6 +5,7 @@ from apps.questions.serializers import CategorySerializer
 
 from .models import User
 
+
 class UserCreateSerializer(serializers.ModelSerializer):
     """Serializer for representing User when creating."""
     class Meta:
