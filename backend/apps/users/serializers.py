@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
+from apps.core.serializers import CustomSerializerMixin
 from apps.questions.serializers import CategorySerializer
+from apps.quizzes.serializers import BadgeSerializer
 
 from .models import User
 
@@ -18,12 +20,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
         )
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class ProfileSerializer(
+    serializers.HyperlinkedModelSerializer,
+    CustomSerializerMixin,
+):
     """Serializer for representing User."""
-    # avatar_url = serializers.SerializerMethodField()
-    avatar = serializers.SerializerMethodField(source="avatar")
+    avatar_url = serializers.SerializerMethodField()
     max_score = serializers.SerializerMethodField("get_max_score")
     top_3_scores = serializers.SerializerMethodField("get_top_3_scores")
+    badges = BadgeSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -34,12 +39,13 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'avatar',
             'school',
             'major',
+            'avatar',
+            'badges',
 
             'email',
             'role',
 
-            # 'avatar_url',
-            'avatar',
+            'avatar_url',
             'max_score',
             'top_3_scores',
         )
@@ -48,38 +54,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             "role",
         )
 
-    # https://stackoverflow.com/a/35522896
-    def get_avatar(self, instance):
+    def get_avatar_url(self, instance):
         """Customize image serialization method."""
-        request = self.context.get("request")
-        image_url = None
-        if instance.avatar and instance.avatar.url:
-            image_url = instance.avatar.url
-
-            # full_domain = 'http://' + request.META['HTTP_HOST']
-            # if request.META["SERVER_PORT"] not in full_domain:
-            #     full_domain += ':' + request.META["SERVER_PORT"]
-            # image_url = full_domain + image_url
-
-            image_url = "http://13.229.40.64:8888" + image_url
-        return image_url
-
-    # # https://stackoverflow.com/a/35522896
-    # def get_avatar_url(self, instance):
-    #     """Customize image serialization method."""
-    #     request = self.context.get("request")
-    #     image_url = None
-    #     if instance.avatar and instance.avatar.url:
-    #         image_url = instance.avatar.url
-    #         # image_url = request.build_absolute_uri(image_url)
-
-    #         # full_domain = 'http://' + request.META['HTTP_HOST']
-    #         # if request.META["SERVER_PORT"] not in full_domain:
-    #         #     full_domain += ':' + request.META["SERVER_PORT"]
-    #         # image_url = full_domain + image_url
-
-    #         image_url = "http://13.229.40.64:8888" + image_url
-    #     return image_url
+        return self.to_url(instance.avatar)
 
     def get_max_score(self, instance):
         """Get max score among categories for a given user."""
@@ -107,49 +84,44 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return top_3
 
 
-class BlogAuthorSerializer(serializers.HyperlinkedModelSerializer):
+class BlogAuthorSerializer(
+    serializers.HyperlinkedModelSerializer,
+    CustomSerializerMixin,
+):
     """Serializer for representing Blog's Author."""
-    # avatar_url = serializers.SerializerMethodField()
-    avatar = serializers.SerializerMethodField(source="avatar")
+    avatar_url = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = (
             "first_name",
             "last_name",
-            # "avatar_url",
+            "avatar_url",
             "avatar",
         )
 
-    # https://stackoverflow.com/a/35522896
-    def get_avatar(self, instance):
+    def get_avatar_url(self, instance):
         """Customize image serialization method."""
-        request = self.context.get("request")
-        image_url = None
-        if instance.avatar and instance.avatar.url:
-            image_url = instance.avatar.url
+        return self.to_url(instance.avatar)
 
-            # full_domain = 'http://' + request.META['HTTP_HOST']
-            # if request.META["SERVER_PORT"] not in full_domain:
-            #     full_domain += ':' + request.META["SERVER_PORT"]
-            # image_url = full_domain + image_url
 
-            image_url = "http://13.229.40.64:8888" + image_url
-        return image_url
+class UserManagementSerializer(
+    serializers.ModelSerializer,
+    CustomSerializerMixin,
+):
+    """Serializer for representing User Management feature."""
+    avatar_url = serializers.SerializerMethodField()
 
-    # # https://stackoverflow.com/a/35522896
-    # def get_avatar_url(self, instance):
-    #     """Customize image serialization method."""
-    #     request = self.context.get("request")
-    #     image_url = None
-    #     if instance.avatar and instance.avatar.url:
-    #         image_url = instance.avatar.url
-    #         # image_url = request.build_absolute_uri(image_url)
+    class Meta:
+        model = User
+        exclude = (
+            "password",
+            "is_superuser",
+        )
+        read_only_fields = (
+            "email",
+        )
 
-    #         # full_domain = 'http://' + request.META['HTTP_HOST']
-    #         # if request.META["SERVER_PORT"] not in full_domain:
-    #         #     full_domain += ':' + request.META["SERVER_PORT"]
-    #         # image_url = full_domain + image_url
-
-    #         image_url = "http://13.229.40.64:8888" + image_url
-    #     return image_url
+    def get_avatar_url(self, instance):
+        """Customize image serialization method."""
+        return self.to_url(instance.avatar)

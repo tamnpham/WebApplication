@@ -16,44 +16,21 @@ class QuestionViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     CustomMixin,
     GenericViewSet,
 ):
     """ViewSet for viewing questions."""
-    permission_classes_by_action = {
-        "default": (
-            IsAuthenticated,
-        ),
-        "create": (
-            IsAuthenticated,    # For testing
-            # IsTeacherUser,
-        ),
-        "post_update": (
-            IsAuthenticated,    # For testing
-            # IsTeacherUser,
-        ),
+    permission_classes_map = {
+        "default": (IsAuthenticated,),
+        "create": (IsTeacherUser,),
+        "destroy": (IsTeacherUser,),
+        "post_update": (IsTeacherUser,),
     }
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     model = Question
     filterset_class = QuestionFilter
-
-    def get_permissions(self):
-        """Get permission based on action."""
-        try:
-            # return permission_classes depending on `action`
-            return (
-                permission()
-                for permission in self.permission_classes_by_action[self.action]
-            )
-        except KeyError:
-            # action is not set return default permission_classes
-            return (
-                permission()
-                for permission in self.permission_classes_by_action["default"]
-            )
 
     @action(detail=False, methods=("post",))
     def filter(self, request, *args, **kwargs):
@@ -80,8 +57,11 @@ class CategoryViewSet(
     """ViewSet for viewing categories."""
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = (
-        IsAuthenticated,
-    )
+    permission_classes_map = {
+        "default": (IsAuthenticated,),
+        "create": (IsTeacherUser,),
+        "destroy": (IsTeacherUser,),
+        "post_update": (IsTeacherUser,),
+    }
     model = Category
     filterset_class = CategoryFilter

@@ -1,55 +1,30 @@
+from django.conf import settings
 from rest_framework import serializers
 
 from .models import Category, Question
+from apps.core.serializers import CustomSerializerMixin
 
 
-class QuestionSerializer(serializers.ModelSerializer):
+class QuestionSerializer(
+    serializers.ModelSerializer,
+    CustomSerializerMixin,
+):
     """Serializer for representing `Question`."""
-    # image_url = serializers.SerializerMethodField()
-    image = serializers.SerializerMethodField(source="image")
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Question
         fields = "__all__"
 
     # https://stackoverflow.com/a/35522896
-    def get_image(self, instance):
+    def get_image_url(self, instance):
         """Customize image serialization method."""
-        request = self.context.get("request")
-        image_url = None
-
-        if instance.image and instance.image.url:
-            image_url = instance.image.url
-
-            # full_domain = 'http://' + request.META['HTTP_HOST']
-            # if request.META["SERVER_PORT"] not in full_domain:
-            #     full_domain += ':' + request.META["SERVER_PORT"]
-            # image_url = full_domain + image_url
-
-            image_url = "http://13.229.40.64:8888" + image_url
-        return image_url
-
-    # # https://stackoverflow.com/a/35522896
-    # def get_image_url(self, instance):
-    #     """Customize image serialization method."""
-    #     request = self.context.get("request")
-    #     image_url = None
-
-    #     if instance.image and instance.image.url:
-    #         image_url = instance.image.url
-    #         # image_url = request.build_absolute_\uri(image_url)
-
-    #         # full_domain = 'http://' + request.META['HTTP_HOST']
-    #         # if request.META["SERVER_PORT"] not in full_domain:
-    #         #     full_domain += ':' + request.META["SERVER_PORT"]
-    #         # image_url = full_domain + image_url
-
-    #         image_url = "http://13.229.40.64:8888" + image_url
-    #     return image_url
+        return self.to_url(instance.image)
 
 
 class CategorySerializer(serializers.ModelSerializer):
     """Serializer for representing `Category`."""
+    numberQuestions = serializers.IntegerField(required=False)
 
     class Meta:
         model = Category

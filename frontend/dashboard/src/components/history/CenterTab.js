@@ -2,17 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {
   Box,
-  Grid,
-  Container,
-  Typography,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Slider,
-  Button,
-  Stack,
 } from "@mui/material";
 import ScoreTable from './ScoreTable';
 import { makeStyles } from "@material-ui/core/styles";
@@ -107,8 +97,6 @@ export default function CenteredTab() {
       <Box sx={{ width: "100%", typography: "body1", pt: "5%" }}>
         <Box sx={{ textAlign: "center", mb: "5%" }}>
           <center>
-            {/* <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
-            <div>{`inputValue: '${inputValue}'`}</div> */}
             <Autocomplete
               value={value}
               onChange={(event, newValue) => {
@@ -123,7 +111,7 @@ export default function CenteredTab() {
               }}
               id="controllable-states-demo"
               options={options}
-              sx={{ width: '50%' }}
+              sx={{ width: "50%" }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -131,7 +119,7 @@ export default function CenteredTab() {
                   label="Category"
                   inputProps={{
                     ...params.inputProps,
-                    className: classes.input
+                    className: classes.input,
                   }}
                 />
               )}

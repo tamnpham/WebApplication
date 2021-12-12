@@ -7,14 +7,59 @@
 - [Pagination](#pagination)
 - [Model](#model)
   - [User](#user)
+    - [Profile](#profile)
+      - [Get user profile](#get-user-profile)
+      - [Update profile](#update-profile)
+    - [Login](#login)
+    - [Register](#register)
+  - [Admin](#admin)
+    - [List of users](#list-of-users)
+    - [Promote a student role to teacher role](#promote-a-student-role-to-teacher-role)
+    - [Get user by ID](#get-user-by-id)
+    - [Update user](#update-user)
+    - [Delete user](#delete-user)
   - [Question](#question)
+    - [List of questions](#list-of-questions)
+    - [Create a new question](#create-a-new-question)
+    - [Get question by ID](#get-question-by-id)
+    - [Delete question by ID](#delete-question-by-id)
+    - [Get question by Category ID](#get-question-by-category-id)
+    - [Update question](#update-question)
     - [Filter](#filter)
   - [Category](#category)
+    - [List of categories](#list-of-categories)
+    - [Create a new category](#create-a-new-category)
+    - [Get category by ID](#get-category-by-id)
+    - [Delete category by ID](#delete-category-by-id)
+    - [Update category](#update-category)
     - [Filter](#filter-1)
   - [Blog](#blog)
+    - [List of blogs](#list-of-blogs)
+    - [Create new blog](#create-new-blog)
+    - [Get blog by ID](#get-blog-by-id)
+    - [Delete blog by ID](#delete-blog-by-id)
+    - [Update blog](#update-blog)
     - [Filter](#filter-2)
   - [Quiz](#quiz)
+    - [Create a quiz](#create-a-quiz)
+    - [Scoring](#scoring)
+    - [List of results](#list-of-results)
+    - [Filter by category](#filter-by-category)
+    - [Scoreboard](#scoreboard)
+      - [Get scoreboard](#get-scoreboard)
+      - [Filter scoreboard by category or user](#filter-scoreboard-by-category-or-user)
   - [Comment](#comment)
+    - [List of comments](#list-of-comments)
+    - [Create a new comment](#create-a-new-comment)
+    - [Get comment by ID](#get-comment-by-id)
+    - [Delete comment by ID](#delete-comment-by-id)
+    - [Update comment](#update-comment)
+  - [Badge](#badge)
+    - [List of badges](#list-of-badges)
+    - [Create a new badges](#create-a-new-badges)
+    - [Get badge by ID](#get-badge-by-id)
+    - [Delete badge by ID](#delete-badge-by-id)
+    - [Update badge](#update-badge)
 
 # Note
 - Except login and register, other features require JWT token to proceed.
@@ -29,9 +74,15 @@ Query parameters:
 # Model
 
 ## User
+
+### Profile
+
+#### Get user profile
 /api/user/profile/
 
 **Method**: GET
+
+**Permission**: User
 
 **Response**:
 ```json
@@ -47,6 +98,17 @@ Query parameters:
       "role": <str>,
       "school": <str>,
       "major": <str>,
+      "badges": [
+        {
+          "id": <int>,
+          "image_url": <str:url>,
+          "title": <str>,
+          "image": <str:url>,
+          "required_points": <float>,   // str
+          "required_exams": <int>
+        },
+        ...
+      ]
       "max_score": {
         "id": <int>,  // category ID
         "level": <int>,
@@ -69,7 +131,13 @@ Query parameters:
 }
 ```
 
+#### Update profile
+
+/api/user/profile/
+
 **Method**: POST
+
+**Permission**: User
 
 **Request**: All field are *optional*
 ```json
@@ -91,11 +159,13 @@ Query parameters:
 }
 ```
 
-<hr>
+### Login
 
 /api/user/login/
 
 **Method**: POST
+
+**Permission**: Any
 
 **Request**:
 ```json
@@ -124,11 +194,13 @@ Query parameters:
 }
 ```
 
-<hr>
+### Register
 
 /api/user/create/
 
 **Method**: POST
+
+**Permission**: Any
 
 **Request**:
 ```json
@@ -150,10 +222,156 @@ Query parameters:
 }
 ```
 
+## Admin
+
+### List of users
+/api/admin/
+
+**Method**: GET
+
+**Permission**: Admin
+
+**Response**:
+```json
+[
+  {
+    "id": <int>,
+    "avatar_url": <str:url>,
+    "last_login": <str>,
+    "created": <str>,
+    "modified": <str>,
+    "first_name": <str>,
+    "last_name": <str>,
+    "is_staff": <bool>,
+    "is_active": <bool>,
+    "avatar": <str:url>,
+    "email": <str>,
+    "role": <str>,
+    "phone": <str>,
+    "school": <str>,
+    "major": <str>,
+    "groups": <list>,
+    "user_permissions": <list>
+  }
+  ...
+]
+```
+
+### Promote a student role to teacher role
+/api/admin/
+
+**Method**: POST
+
+**Permission**: Admin
+
+**Request**:
+```json
+{
+  "first_name": <str>,
+  "last_name": <str>,
+  "phone": <str>,
+  "avatar": <file>,   // using file upload
+  "school": <str>,
+  "major": <str>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str>,
+  "data": null,
+}
+```
+
+### Get user by ID
+/api/admin/\<int:user_id\>/
+
+**Method**: GET
+
+**Permission**: Admin
+
+**Request**:
+```json
+{
+  "id": <int>,
+  "avatar_url": <str:url>,
+  "last_login": <str>,
+  "created": <str>,
+  "modified": <str>,
+  "first_name": <str>,
+  "last_name": <str>,
+  "is_staff": <bool>,
+  "is_active": <bool>,
+  "avatar": <str:url>,
+  "email": <str>,
+  "role": <str>,
+  "phone": <str>,
+  "school": <str>,
+  "major": <str>,
+  "groups": <list>,
+  "user_permissions": <list>,
+  "badges": [
+    <int>,  // badge's id
+    <int>
+  ]
+}
+```
+
+### Update user
+/api/admin/update/
+
+**Method**: POST
+
+**Permission**: Admin
+
+**Request**:
+```json
+{
+  "avatar_url": <str:url>,
+  "last_login": <str>,
+  "created": <str>,
+  "modified": <str>,
+  "first_name": <str>,
+  "last_name": <str>,
+  "is_staff": <bool>,
+  "is_active": <bool>,
+  "avatar": <str:url>,
+  "email": <str>,
+  "role": <str>,
+  "phone": <str>,
+  "school": <str>,
+  "major": <str>,
+  "groups": <list>,
+  "user_permissions": <list>
+}
+```
+
+**Response**:
+```json
+{
+  "status": "Success",
+  "data": null
+}
+```
+
+### Delete user
+/api/admin/\<int:user_id\>/
+
+**Method**: DELETE
+
+**Permission**: Admin
+
+**Expected status**: 204 No Content
+
 ## Question
+
+### List of questions
 /api/question/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**:
 ```json
@@ -180,7 +398,12 @@ Query parameters:
 ]
 ```
 
+### Create a new question
+/api/question/
+
 **Method**: POST
+
+**Permission**: Admin, Teacher
 
 **Request**:
 ```json
@@ -219,16 +442,17 @@ Query parameters:
   "image": <str:url>,
   "image_url": <str:url>,
   "category": <int>
-},
+}
 ```
 
 **Expected status**: 201 Created
 
-<hr>
-
+### Get question by ID
 /api/question/\<int:questionId\>/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**:
 ```json
@@ -252,15 +476,22 @@ Query parameters:
 }
 ```
 
+### Delete question by ID
+/api/question/\<int:questionId\>/
+
 **Method**: DELETE
+
+**Permission**: Admin, Teacher
 
 **Expected status**: 204 No content
 
-<hr>
+### Get question by Category ID
 
 /api/question/filter/
 
 **Method**: POST
+
+**Permission**: Admin, Teacher, User
 
 **Request**:
 ```json
@@ -297,11 +528,12 @@ Query parameters:
 }
 ```
 
-<hr>
-
+### Update question
 /api/question/update/
 
 **Method**: POST
+
+**Permission**: Admin, Teacher
 
 **Request**:
 ```json
@@ -337,17 +569,19 @@ Query parameter:
 
 ## Category
 
+### List of categories
 /api/category/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**:
 ```json
 [
   {
     "id": <int>,
-    "created": <str>,
-    "modified": <str>,
+    "numberQuestions": <int>,
     "name": <str>,
     "level": <int>,
     "code": <str>
@@ -358,7 +592,12 @@ Query parameter:
 
 **Expected status**: 200 OK
 
+### Create a new category
+/api/category/
+
 **Method**: POST
+
+**Permission**: Admin, Teacher 
 
 **Request**:
 ```json
@@ -373,24 +612,26 @@ Query parameter:
 ```json
 {
   "id": <int>,
+  "numberQuestions": <int>,
   "name": <str>,
-  "level": (optional) <int>,
-  "code": (optional) <str>
+  "level": <int>,
+  "code": <str>
 }
 ```
 
-<hr>
+### Get category by ID
 
 /api/category/\<int:category_id\>/
 
 **Method**: GET
 
+**Permission**: Admin, Teacher, User
+
 **Response**:
 ```json
 {
   "id": <int>,
-  "created": <str>,
-  "modified": <str>,
+  "numberQuestions": <int>,
   "name": <str>,
   "level": <int>,
   "code": <str>
@@ -399,15 +640,22 @@ Query parameter:
 
 **Expected status**: 200 OK
 
+### Delete category by ID
+
+/api/category/\<int:category_id\>/
+
 **Method**: DELETE
+
+**Permission**: Admin, Teacher
 
 **Expected status**: 204 No content
 
-<hr>
-
+### Update category
 /api/category/update/
 
 **Method**: POST
+
+**Permission**: Admin, Teacher
 
 **Request**:
 ```json
@@ -434,9 +682,12 @@ Query parameter:
 
 ## Blog
 
+### List of blogs
 /api/blog/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**
 ```json
@@ -447,16 +698,42 @@ Query parameter:
     "modified": <str:timestamp>,
     "title": <str>,
     "content": <str>,
-    "author": <int>,
+    "author": {
+      "first_name": <str>,
+      "last_name": <str>,
+      "avatar_url": <str:url>,
+      "avatar": <str:url>
+    },
     "category": <int>,
     "image": (optional) <str:url>,
-    "image_url": (optional) <str:url>
+    "image_url": (optional) <str:url>,
+    "comments": [
+      {
+        "id": <int>,
+        "user": {
+          "first_name": <str>,
+          "last_name": <str>,
+          "avatar_url": <str:url>,
+          "avatar": <str:url>
+        },
+        "created": <str>,
+        "modified": <str>,
+        "content": <str>,
+        "blog": <int>   // blog's id
+      },
+      ...
+    ]
   },
   ...
 ]
 ```
 
+### Create new blog
+/api/blog/
+
 **Method**: POST
+
+**Permission**: Admin, Teacher
 
 **Request**:
 ```json
@@ -477,19 +754,26 @@ Query parameter:
   "modified": <str:timestamp>,
   "title": <str>,
   "content": <str>,
-  "author": <int>,
+  "author": {
+    "first_name": <str>,
+    "last_name": <str>,
+    "avatar_url": <str:url>,
+    "avatar": <str:url>
+  },
   "category": <int>,
-  "image": <str:url>,
-  "image_url": <str:url>
+  "image": (optional) <str:url>,
+  "image_url": (optional) <str:url>,
+  "comments": []
 }
 ```
 **Expected status**: 201 Created
 
-<hr>
-
+### Get blog by ID
 /api/blog/\<int:blog_id\>/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**
 ```json
@@ -502,23 +786,47 @@ Query parameter:
   "author": {
     "first_name": <str>,
     "last_name": <str>,
-    "avatar_url": <str:url>
+    "avatar_url": <str:url>,
+    "avatar": <str:url>
   },
   "category": <int>,
-  "image": <str:url>,
-  "image_url": <str:url>
+  "image": (optional) <str:url>,
+  "image_url": (optional) <str:url>,
+  "comments": [
+    {
+      "id": <int>,
+      "user": {
+        "first_name": <str>,
+        "last_name": <str>,
+        "avatar_url": <str:url>,
+        "avatar": <str:url>
+      },
+      "created": <str>,
+      "modified": <str>,
+      "content": <str>,
+      "blog": <int>   // blog's id
+    },
+    ...
+  ]
 }
 ```
 
+### Delete blog by ID
+/api/blog/\<int:blog_id\>/
+
 **Method**: DELETE
+
+**Permission**: Admin, Teacher
 
 **Status code**: 204 No content
 
-<hr>
+### Update blog
 
 /api/blog/update/
 
 **Method**: POST
+
+**Permission**: Admin, Teacher
 
 **Request**: All fields are optional
 ```json
@@ -546,9 +854,12 @@ Query parameter:
 
 ## Quiz
 
+### Create a quiz
 /api/quiz/create/
 
 **Method**: POST
+
+**Permission**: Admin, Teacher, User
 
 **Request**:
 ```json
@@ -590,11 +901,12 @@ Query parameter:
 }
 ```
 
-<hr>
-
+### Scoring
 /api/quiz/score/
 
 **Method**: POST
+
+**Permission**: Admin, Teacher, User
 
 **Request**:
 ```json
@@ -631,11 +943,12 @@ Query parameter:
 }
 ```
 
-<hr>
-
+### List of results
 /api/quiz/result/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**:
 ```json
@@ -661,7 +974,12 @@ Query parameter:
 }
 ```
 
+### Filter by category
+/api/quiz/result/
+
 **Method**: POST
+
+**Permission**: Admin, Teacher, User
 
 **Request**:
 ```json
@@ -694,11 +1012,14 @@ Query parameter:
 }
 ```
 
-<hr>
+### Scoreboard
 
+#### Get scoreboard
 /api/quiz/scoreboard/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**:
 ```json
@@ -723,8 +1044,12 @@ Query parameter:
   ]
 }
 ```
+#### Filter scoreboard by category or user
+/api/quiz/scoreboard/
 
 **Method**: POST
+
+**Permission**: Admin, Teacher, User
 
 **Request**:
 ```json
@@ -760,9 +1085,12 @@ Query parameter:
 
 ## Comment
 
+### List of comments
 /api/comment/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**:
 ```json
@@ -785,7 +1113,12 @@ Query parameter:
 
 **Expected status**: 200 OK
 
+### Create a new comment
+/api/comment/
+
 **Method**: POST
+
+**Permission**: Admin, Teacher, User
 
 **Request**:
 ```json
@@ -811,11 +1144,12 @@ Query parameter:
 }
 ```
 
-<hr>
-
+### Get comment by ID
 /api/comment/\<int:comment_id\>/
 
 **Method**: GET
+
+**Permission**: Admin, Teacher, User
 
 **Response**:
 ```json
@@ -835,21 +1169,139 @@ Query parameter:
 
 **Expected status**: 200 OK
 
+### Delete comment by ID
+/api/comment/\<int:comment_id\>/
+
 **Method**: DELETE
+
+**Permission**: Admin, User
 
 **Expected status**: 204 No content
 
-<hr>
-
+### Update comment
 /api/comment/update/
 
 **Method**: POST
+
+**Permission**: Admin, User
 
 **Request**:
 ```json
 {
   "blog": <int>,  // blog's id
   "content": <str>
+}
+```
+
+**Response**:
+```json
+{
+  "status": <str:status_message>,
+  "data": null
+}
+```
+
+## Badge
+
+### List of badges
+/api/badge/
+
+**Method**: GET
+
+**Permission**: Admin, Teacher, User
+
+**Response**:
+```json
+[
+  {
+    "id": <int>,
+    "image_url": <str:url>,
+    "title": <str>,
+    "image": <str:url>,
+    "required_points": <float>,   // str
+    "required_exams": <int>
+  },
+  ...
+]
+```
+
+**Expected status**: 200 OK
+
+### Create a new badges
+/api/badge/
+
+**Method**: POST
+
+**Permission**: Admin, Teacher
+
+**Request**:
+```json
+{
+  "title": <str>,
+  "required_points": <float>,
+  "required_exams": <int>,
+  "image": (optional) <file>
+}
+```
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "image_url": <str:url>,
+  "title": <str>,
+  "image": <str:url>,
+  "required_points": <float>, // str
+  "required_exams": <int>
+}
+```
+
+### Get badge by ID
+/api/badge/\<int:badge_id\>/
+
+**Method**: GET
+
+**Permission**: Admin, Teacher, User
+
+**Response**:
+```json
+{
+  "id": <int>,
+  "image_url": <str:url>,
+  "title": <str>,
+  "image": <str:url>,
+  "required_points": <float>,   // str
+  "required_exams": <int>
+}
+```
+
+**Expected status**: 200 OK
+
+### Delete badge by ID
+/api/badge/\<int:badge_id\>/
+
+**Method**: DELETE
+
+**Permission**: Admin, Teacher
+
+**Expected status**: 204 No content
+
+### Update badge
+
+/api/badge/update/
+
+**Method**: POST
+
+**Permission**: Admin, Teacher
+
+**Request**:
+```json
+{
+  "id": <int>,
+  "title": <str>,
+  "image": <file>,
+  "required_points": <float>,
+  "required_exams": <int>
 }
 ```
 

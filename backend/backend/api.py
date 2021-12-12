@@ -1,7 +1,9 @@
 from django.urls import include, path
 
-from apps.questions.urls import category_urlpatterns
 from apps.blogs.urls import comment_urlpatterns
+from apps.questions.urls import category_urlpatterns
+from apps.quizzes.urls import badge_urlpatterns
+from apps.users.urls import admin_urlpatterns
 
 app_name = "api"
 
@@ -15,3 +17,5 @@ urlpatterns = [
 
 urlpatterns += category_urlpatterns
 urlpatterns += comment_urlpatterns
+urlpatterns += admin_urlpatterns
+urlpatterns += badge_urlpatterns

@@ -85,25 +85,62 @@ export default function Post(props) {
     fetch(apiUrl, request)
       .then((res) => res.json())
       .then((response) => {
-        setPostState(response);
+        const dateCreated = new Date(response.created);
+        const days = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+
+        var day = dateCreated.getDay();
+        var date = dateCreated.getDate();
+        var month = dateCreated.getMonth();
+        var year = dateCreated.getFullYear();
+        var timeCreared =
+          days[day] + ", " + date + " " + months[month] + " " + year;
+
+        const dateModified = new Date(response.modified);
+        day = dateModified.getDay();
+        date = dateModified.getDate();
+        month = dateModified.getMonth();
+        year = dateModified.getFullYear();
+        var timeModified =
+          days[day] + ", " + date + " " + months[month] + " " + year;
+        setPostState({
+          ...response,
+          created: timeCreared,
+          modified: timeModified,
+        });
+        console.log("here");
+        console.log(response);
       });
   }, []);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   if (postState !== null) {
@@ -230,12 +267,12 @@ export default function Post(props) {
                   </Grid>
 
                   <Grid item xs={12} sm={12} md={12} xl={12}>
-                    <Typography variant="body1">
-                      By {postState.author.first_name}{" "}
-                      {postState.author.last_name} , created {postState.created}
+                    <Typography variant="body1" color="#00ab55">
+                      <strong>Author: {postState.author.first_name}{" "}{postState.author.last_name} </strong><br></br>
+                      <strong>Created: {postState.created}</strong>
                     </Typography>
-                    <Typography variant="body1">
-                      Last modified {postState.modified}
+                    <Typography variant="body1" color="#00ab55">
+                      <strong>Last modified: {postState.modified}</strong>
                     </Typography>
                   </Grid>
 
