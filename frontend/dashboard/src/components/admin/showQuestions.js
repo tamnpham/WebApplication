@@ -18,7 +18,6 @@ import {
   import { makeStyles } from "@material-ui/core";
   import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
   import { AuthContext } from "../../store/auth-context";
-  import { LicenseInfo } from "@mui/x-data-grid-pro";
   
   // components
   import Page from "../Page";
@@ -30,10 +29,6 @@ import {
   const API_SERVER = process.env.REACT_APP_LSEXAM_API_SERVER;
   
   // --------------------------------------------
-  
-  // LicenseInfo.setLicenseKey(
-  //     'x0jTPl0USVkVZV0SsMjM1kDNyADM5cjM2ETPZJVSQhVRsIDN0YTM6IVREJ1T0b9586ef25c9853decfa7709eee27a1e',
-  //   );
   
   const useStyles = makeStyles({
     typography: {
@@ -47,12 +42,32 @@ import {
     inputSelect: {
       color: "white",
     },
+    dataGrid: {
+      '.MuiDataGrid-cell': {
+        wordBreak: 'break-all',
+        maxHeight: 'fit-content!important',
+        overflow: 'auto',
+        whiteSpace: 'initial!important',
+        lineHeight: '16px!important',
+        display: 'flex!important',
+        alignItems: 'center',
+        paddingTop: '10px!important',
+        paddingBottom: '10px!important'
+        },
+        '.MuiDataGrid-cell div': {
+        maxHeight: 'inherit',
+        width: '100%',
+        whiteSpace: 'initial',
+        lineHeight: '16px'
+        }
+    }
   });
   
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 70 },
     { field: "categoryContent", headerName: "Category", width: 250 },
-    { field: "content", headerName: "Question", width:650, editable: true},
+    { field: "content", headerName: "Question", width:650},
+
   ];
   
   export default function ShowQuestions() {
@@ -86,7 +101,7 @@ import {
               })
               setQuestions(reformatQuestions);
             console.log(reformatQuestions);
-          });
+          })
       } catch (err) {
         console.log(err);
         //   navigate("/login");
@@ -97,7 +112,23 @@ import {
     return (
       <Container>
         <div style={{ height: 500, width: "100%", backgroundColor: "white" }}>
-          <DataGrid rows={questions} columns={columns} />
+          <DataGrid rows={questions} columns={columns} sx={{ '.MuiDataGrid-cell': {
+        wordBreak: 'break-all',
+        maxHeight: 'fit-content!important',
+        overflow: 'auto',
+        whiteSpace: 'initial!important',
+        lineHeight: '16px!important',
+        display: 'flex!important',
+        alignItems: 'center',
+        paddingTop: '10px!important',
+        paddingBottom: '10px!important'
+        },
+        '.MuiDataGrid-cell div': {
+        maxHeight: 'inherit',
+        width: '100%',
+        whiteSpace: 'initial',
+        lineHeight: '16px'
+        }}}/>
         </div>
       </Container>
     );
