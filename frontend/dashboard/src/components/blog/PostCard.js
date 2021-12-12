@@ -24,38 +24,63 @@ export default function ActionAreaCard() {
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
-    //fetch data from server
-    const apiUrl = `${API_SERVER}/api/blog/`;
-    const auth = localStorage.getItem("token");
+    try {
+      //fetch data from server
+      const apiUrl = `${API_SERVER}/api/blog/`;
+      const auth = localStorage.getItem("token");
 
-    const request = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
+      const request = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      };
 
-    fetch(apiUrl, request)
-      .then((res) => res.json())
-      .then((response) => {
-        
-        const processedPost = response.map((p) => {
-          const dateParse = new Date(p.created);
-          const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-          const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      fetch(apiUrl, request)
+        .then((res) => res.json())
+        .then((response) => {
+          const processedPost = response.map((p) => {
+            const dateParse = new Date(p.created);
+            const days = [
+              "Sunday",
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+            ];
+            const months = [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December",
+            ];
 
-          const day = dateParse.getDay();
-          const date = dateParse.getDate();
-          const month = dateParse.getMonth();
-          const year = dateParse.getFullYear();
-          const time = days[day] + ', ' + date + ' ' + months[month] + ' ' + year;
-          console.log(time)
-          return { ...p, created: time};
+            const day = dateParse.getDay();
+            const date = dateParse.getDate();
+            const month = dateParse.getMonth();
+            const year = dateParse.getFullYear();
+            const time =
+              days[day] + ", " + date + " " + months[month] + " " + year;
+            console.log(time);
+            return { ...p, created: time };
+          });
+          setPosts(processedPost);
         });
-        setPosts(processedPost);
-      });
+    } catch (err) {
+      alert(err);
+    }
   }, []);
 
   if (posts != null) {

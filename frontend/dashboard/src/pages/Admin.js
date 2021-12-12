@@ -18,6 +18,7 @@ import {
   AddCategory,
   EditCategory,
   DeleteCategory,
+  ShowQuestions
 } from "../components/admin/";
 
 
@@ -81,6 +82,7 @@ export default function Admin() {
                 variant="scrollable"
                 classes={{ root: classes.root, scroller: classes.scroller }}
               >
+                <Tab label="Show Questions" className={classes.tab1} value="0" />
                 <Tab label="Add question" className={classes.tab1} value="1" />
                 <Tab label="Edit question" className={classes.tab1} value="2" />
                 <Tab label="Delete question" className={classes.tab1} value="3" />
@@ -92,6 +94,9 @@ export default function Admin() {
                 <Tab label="Delete Category" className={classes.tab3} value="9" />
               </TabList>
             </Box>
+            <TabPanel value="0">
+              <ShowQuestions />
+            </TabPanel>
             <TabPanel value="1">
               <AddQuestion />
             </TabPanel>

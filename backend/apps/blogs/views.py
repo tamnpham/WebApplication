@@ -2,7 +2,7 @@ from rest_framework import mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
-from apps.core.permissions import IsTeacherUser
+from apps.core.permissions import IsAdminOrTeacher
 from apps.core.views import CustomMixin
 
 from .filters import BlogFilter, CommentFilter
@@ -23,9 +23,9 @@ class BlogViewSetAPI(
     serializer_class = BlogSerializer
     permission_classes_map = {
         "default": (IsAuthenticated,),
-        "create": (IsTeacherUser,),
-        "destroy": (IsTeacherUser,),
-        "post_update": (IsTeacherUser,),
+        "create": (IsAuthenticated, IsAdminOrTeacher,),
+        "destroy": (IsAuthenticated, IsAdminOrTeacher,),
+        "post_update": (IsAuthenticated, IsAdminOrTeacher,),
     }
     model = Blog
     filterset_class = BlogFilter
@@ -44,9 +44,9 @@ class CommentViewSet(
     serializer_class = CommentSerializer
     permission_classes_map = {
         "default": (IsAuthenticated,),
-        "create": (IsTeacherUser,),
-        "destroy": (IsTeacherUser,),
-        "post_update": (IsTeacherUser,),
+        "create": (IsAuthenticated,),
+        "destroy": (IsAuthenticated,),
+        "post_update": (IsAuthenticated,),
     }
     model = Comment
     filterset_class = CommentFilter

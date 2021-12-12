@@ -392,7 +392,11 @@ Query parameters:
     "trueAnswer": <int>,
     "image": <str:url>,
     "image_url": <str:url>,
-    "category": <int>
+    "category": <int>,
+    "categoryInfo": {
+      "id": <int>,
+      "name": <str>
+    }
   },
   ...
 ]
@@ -441,7 +445,11 @@ Query parameters:
   "true": <int>,
   "image": <str:url>,
   "image_url": <str:url>,
-  "category": <int>
+  "category": <int>,
+  "categoryInfo": {
+    "id": <int>,
+    "name": <str>
+  }
 }
 ```
 
@@ -472,7 +480,11 @@ Query parameters:
       <str>
   ],
   "trueAnswer": <int>,
-  "category": <int>
+  "category": <int>,
+  "categoryInfo": {
+    "id": <int>,
+    "name": <str>
+  }
 }
 ```
 
@@ -521,7 +533,11 @@ Query parameters:
       "trueAnswer": <int>,
       "image": <str:url>,
       "image_url": <str:url>,
-      "category": <int>
+      "category": <int>,
+      "categoryInfo": {
+        "id": <int>,
+        "name": <str>
+      }
     },
     ...
   ]
@@ -740,7 +756,6 @@ Query parameter:
 {
     "title": <str>,
     "content": <str>,
-    "author": <int>,
     "category": (optional) <int>,
     "image": (optional) <file>
 }

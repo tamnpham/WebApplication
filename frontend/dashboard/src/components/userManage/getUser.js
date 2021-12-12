@@ -12,7 +12,7 @@ import {
   FormControl,
   InputLabel,
   LinearProgress,
-  Typography
+  Typography,
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
@@ -24,7 +24,7 @@ import { LicenseInfo } from "@mui/x-data-grid-pro";
 import Page from "../Page";
 //React
 import { useState, useEffect, useContext } from "react";
-
+import { useNavigate } from "react-router-dom";
 import dotenv from "dotenv";
 dotenv.config();
 const API_SERVER = process.env.REACT_APP_LSEXAM_API_SERVER;
@@ -56,18 +56,17 @@ const useStyles = makeStyles({
 // ];
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 30 },
+  { field: "id", headerName: "ID", width: 70 },
   { field: "firstName", headerName: "First Name", width: 130 },
   { field: "lastName", headerName: "Last Name", width: 130 },
   { field: "email", headerName: "Email", width: 220 },
   { field: "school", headerName: "School", width: 150 },
   { field: "major", headerName: "Major", width: 150 },
-  { field: "phone", headerName: "Phone", width: 150 },
-  // { field: "isAdmin", headerName: "Is Admin?", width: 150 },
-  { field: "role", headerName: "Role", width: 130 },
-  { field: "lastLogin", headerName: "Last Login", width: 270 },
-  { field: "created", headerName: "Created", width: 270 },
-  { field: "modified", headerName: "Modified", width: 270 },
+  { field: "phone", headerName: "Phone", width: 120 },
+  { field: "role", headerName: "Role", width: 100 },
+  { field: "lastLogin", headerName: "Last Login", width: 190 },
+  { field: "created", headerName: "Created", width: 190 },
+  { field: "modified", headerName: "Modified", width: 190 },
 ];
 
 export default function GetUsers() {
@@ -75,8 +74,8 @@ export default function GetUsers() {
 
   const authCtx = useContext(AuthContext);
 
-  const [usersInfo, setUsersInfo] = useState([]); 
-
+  const [usersInfo, setUsersInfo] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     try {
       const apiUrl = `${API_SERVER}/api/admin/`;
@@ -92,24 +91,39 @@ export default function GetUsers() {
       fetch(apiUrl, requestOption)
         .then((res) => res.json())
         .then((users) => {
-            let reformatUsers = users.map((user) =>{
-                return {
-                    id: user.id, 
-                    firstName: user.first_name, 
-                    lastName: user.last_name, 
-                    email: user.email,
-                    school: user.school, 
-                    major: user.major, 
-                    phone: user.phone, 
-                    isAdmin: user.is_admin,
-                    role: user.role, 
-                    lastLogin: user.last_login,
-                    created: user.created, 
-                    modified: user.modified
-                }
-            })
-          setUsersInfo(reformatUsers);
-          console.log(reformatUsers);
+          try {
+            let reformatUsers = users.map((user) => {
+              var created = new Date(user.created);
+              created = created.toLocaleString("en-US");
+              var lastLogin = new Date(user.last_login);
+              lastLogin = lastLogin.toLocaleString("en-US");
+              var modified = new Date(user.modified);
+              modified = modified.toLocaleString("en-US");
+              return {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                email: user.email,
+                school: user.school,
+                major: user.major,
+                phone: user.phone,
+                isAdmin: user.is_admin,
+                role: user.role,
+                lastLogin: lastLogin,
+                created: created,
+                modified: modified,
+              };
+            });
+            setUsersInfo(reformatUsers);
+            console.log(reformatUsers);
+          } catch (err) {
+            alert(err.message);
+            navigate("/error");
+          }
+        })
+        .catch((err) => {
+          alert(err.message);
+          navigate("/error");
         });
     } catch (err) {
       console.log(err);
@@ -118,34 +132,34 @@ export default function GetUsers() {
   }, []);
 
   if (usersInfo.length > 0) {
-  return (
-    <Container>
-      <div style={{ height: 500, width: "100%", backgroundColor: "white" }}>
-        <DataGrid rows={usersInfo} columns={columns} />
-      </div>
-    </Container>
-  );
+    return (
+      <Container>
+        <div style={{ height: 500, width: "100%", backgroundColor: "white" }}>
+          <DataGrid rows={usersInfo} columns={columns} />
+        </div>
+      </Container>
+    );
   } else {
     return (
-        <>
-          <Page title="Dashboard | LSExam">
-            <Container maxWidth="xl" >
-              <Box sx={{p: '25%'}}>
-                <center
-                  style={{
-                    width: "80%",
-                  }}
-                >
-                  <Typography variant="h1" color="white" textAlign="center">
-                    {" "}
-                    Loading...{" "}
-                  </Typography>
-                  <LinearProgress color="success" />
-                </center>
-              </Box>
-            </Container>
-          </Page>
-        </>
-      );
+      <>
+        <Page title="Dashboard | LSExam">
+          <Container maxWidth="xl">
+            <Box sx={{ p: "25%" }}>
+              <center
+                style={{
+                  width: "80%",
+                }}
+              >
+                <Typography variant="h1" color="white" textAlign="center">
+                  {" "}
+                  Loading...{" "}
+                </Typography>
+                <LinearProgress color="success" />
+              </center>
+            </Box>
+          </Container>
+        </Page>
+      </>
+    );
   }
 }

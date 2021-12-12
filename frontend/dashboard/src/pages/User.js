@@ -84,40 +84,49 @@ export default function User() {
 
   useEffect(() => {
     //fetch data from server
-    const apiUrl = `${API_SERVER}/api/user/profile/`;
-    const auth = localStorage.getItem("token");
+    try {
+      const apiUrl = `${API_SERVER}/api/user/profile/`;
+      const auth = localStorage.getItem("token");
 
-    const request = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
+      const request = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      };
 
-    fetch(apiUrl, request)
-      .then((res) => res.json())
-      .then((response) => {
-        const userInfo = response.data.user;
-        console.log(userInfo.avatar_url);
-        authCtx.update(userInfo.first_name, userInfo.last_name, userInfo.avatar_url);
-        setUserState(response.data.user);
-      });
+      fetch(apiUrl, request)
+        .then((res) => res.json())
+        .then((response) => {
+          const userInfo = response.data.user;
+          console.log('here')
+          console.log(userInfo.badges.length);
+          authCtx.update(
+            userInfo.first_name,
+            userInfo.last_name,
+            userInfo.avatar_url
+          );
+          setUserState(response.data.user);
 
-    },[])
+        });
+    } catch (err) {
+      alert(err);
+    }
+  }, []);
 
-    const formik = useFormik({
-      initialValues: {
-        firstName: "",
-        lastName: "",
-        major: "",
-        school: "",
-        phone: ""
-      },
-      onSubmit: (values, actions) => {
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      major: "",
+      school: "",
+      phone: "",
+    },
+    onSubmit: (values, actions) => {
+      try {
         const auth = authCtx.token;
-
         var data = new FormData();
         var count = 0;
         if (values.firstName !== "") {
@@ -152,19 +161,19 @@ export default function User() {
           headers: {
             Authorization: "Bearer " + auth,
           },
-          body: data
+          body: data,
         };
 
         let url = `${API_SERVER}/api/user/profile/`;
 
         if (count !== 0) {
-          console.log(count)
-          console.log(data.get('first_name'))
-          console.log(data.get('last_name'))
-          console.log(data.get('major'))
-          console.log(data.get('school'))
-          console.log(data.get('phone'))
-          console.log(data.get('avatar'))
+          console.log(count);
+          console.log(data.get("first_name"));
+          console.log(data.get("last_name"));
+          console.log(data.get("major"));
+          console.log(data.get("school"));
+          console.log(data.get("phone"));
+          console.log(data.get("avatar"));
           fetch(url, request)
             // HTTP response
             .then((response) => {
@@ -194,318 +203,353 @@ export default function User() {
 
         console.log(data);
         setEditMode(false);
-      }})
-      
-      const {
-        handleSubmit,
-        getFieldProps,
-        setFieldValue
-      } = formik;
+      } catch (err) {
+        alert(err);
+      }
+    },
+  });
+
+  const { handleSubmit, getFieldProps, setFieldValue } = formik;
 
   if (userState != null) {
-  return (
-    <Page title="LSExam | Profile">
-      {!isEditMode && (
-        <Container>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            mb={5}
-          >
-            <Typography variant="h4" gutterBottom>
-              Profile
-            </Typography>
-          </Stack>
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={2}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <AvatarImage
-                  alt="Remy Sharp"
-                  src={authCtx.avatar}
-                  sx={{ width: 150, height: 150 }}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={5}>
-              <Item sx={{ height: "100%" }}>
-                <Typography variant="h4">
-                  {userState.first_name} {userState.last_name}
-                </Typography>
-
-                <Typography variant="body1">
-                  <strong>Email:</strong> {userState.email}
-                </Typography>
-
-                <Typography variant="body1">
-                  <strong>Phone:</strong> {userState.phone}
-                </Typography>
-
-                <Typography variant="body1">
-                  <strong>Major:</strong> {userState.major}
-                </Typography>
-
-                <Typography variant="body1">
-                  <strong>School:</strong> {userState.school}
-                </Typography>
-              </Item>
-            </Grid>
-            <Grid item xs={12} sm={5}>
-              <Item sx={{ height: "100%" }}>
-                <Typography variant="h4" sx={{ textAlign: "center" }}>
-                  Max Score
-                </Typography>
-
-                {userState.max_score !== null && (
-                  <Typography
-                    variant="h1"
-                    sx={{ textAlign: "center", color: "#43b581" }}
-                  >
-                    {userState.max_score.score}
-                  </Typography>
-                )}
-              </Item>
-            </Grid>
-
-            <Grid item xs={12} sm={12}>
-              <Item sx={{ height: "100%" }}>
-                <Typography variant="h4" sx={{ textAlign: "center" }}>
-                  Best Subject
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={12} md={4}>
-                    <Item>
-                      {userState.top_3_scores[1] && (
-                        <>
-                          <Box className={classes.badgeBox}>
-                            <img
-                              src="\static\mock-images\badge\top2.png"
-                              className={classes.badgeImage}
-                            />
-                          </Box>
-
-                          <Typography
-                            variant="h4"
-                            sx={{
-                              textAlign: "center",
-                              color: "#fbb03b",
-                              pt: "1%",
-                            }}
-                          >
-                            {userState.top_3_scores[1].name}
-                          </Typography>
-                        </>
-                      )}
-                    </Item>
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <Item>
-                      {userState.top_3_scores[0] && (
-                        <>
-                          <Box className={classes.badgeBox}>
-                            <img
-                              src="\static\mock-images\badge\top1.png"
-                              className={classes.badgeImage}
-                            />
-                          </Box>
-
-                          <Typography
-                            variant="h4"
-                            sx={{
-                              textAlign: "center",
-                              color: "#fbb03b",
-                              pt: "1%",
-                            }}
-                          >
-                            {userState.top_3_scores[0].name}
-                          </Typography>
-                        </>
-                      )}
-                    </Item>
-                  </Grid>
-                  <Grid item xs={12} md={4}>
-                    <Item>
-                      {userState.top_3_scores[2] && (
-                        <>
-                          <Box className={classes.badgeBox}>
-                            <img
-                              src="\static\mock-images\badge\top3.png"
-                              className={classes.badgeImage}
-                            />
-                          </Box>
-
-                          <Typography
-                            variant="h4"
-                            sx={{
-                              textAlign: "center",
-                              color: "#fbb03b",
-                              pt: "1%",
-                            }}
-                          >
-                            {userState.top_3_scores[2].name}
-                          </Typography>
-                        </>
-                      )}
-                    </Item>
-                  </Grid>
-                </Grid>
-              </Item>
-            </Grid>
-          </Grid>
-
-          <Box textAlign="center">
-            <Button
-              onClick={() => setEditMode(true)}
-              variant="contained"
-              color="success"
-              className={classes.buttonEdit}
+    return (
+      <Page title="LSExam | Profile">
+        {!isEditMode && (
+          <Container>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              mb={5}
             >
-              Edit profile
-            </Button>
-          </Box>
-        </Container>
-      )}
+              <Typography variant="h4" gutterBottom>
+                Profile
+              </Typography>
+            </Stack>
 
-      {isEditMode && (
-        <Container>
-          <Formik value={formik}>
-            <Form autoComplete="off" onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={2}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <AvatarImage
                     alt="Remy Sharp"
-                    src={userState.avatar}
-                    sx={{
-                      width: 150,
-                      height: 150,
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      marginTop: "100px",
-                      marginBottom: "50px",
-                    }}
+                    src={authCtx.avatar}
+                    sx={{ width: 150, height: 150 }}
                   />
-                  <Button variant="contained" component="label">
-                    Upload File
-                    <input
-                      accept="image/*"
-                      type="file"
-                      hidden
-                      onChange={(e) => {
-                        setFieldValue("avatar", e.target.files[0]);
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <Item sx={{ height: "100%" }}>
+                  <Typography variant="h4">
+                    {userState.first_name} {userState.last_name}
+                  </Typography>
+
+                  <Typography variant="body1">
+                    <strong>Email:</strong> {userState.email}
+                  </Typography>
+
+                  <Typography variant="body1">
+                    <strong>Phone:</strong> {userState.phone}
+                  </Typography>
+
+                  <Typography variant="body1">
+                    <strong>Major:</strong> {userState.major}
+                  </Typography>
+
+                  <Typography variant="body1">
+                    <strong>School:</strong> {userState.school}
+                  </Typography>
+                </Item>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <Item sx={{ height: "100%" }}>
+                  <Typography variant="h4" sx={{ textAlign: "center" }}>
+                    Max Score
+                  </Typography>
+
+                  {userState.max_score !== null && (
+                    <Typography
+                      variant="h1"
+                      sx={{ textAlign: "center", color: "#43b581" }}
+                    >
+                      {userState.max_score.score}
+                    </Typography>
+                  )}
+                </Item>
+              </Grid>
+
+              <Grid item xs={12} sm={12}>
+                <Item sx={{ height: "100%" }}>
+                  <Typography variant="h4" sx={{ textAlign: "center" }}>
+                    Best Subject
+                  </Typography>
+
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={4}>
+                      <Item>
+                        {userState.top_3_scores[1] && (
+                          <>
+                            <Box className={classes.badgeBox}>
+                              <img
+                                src="\static\mock-images\badge\top2.png"
+                                className={classes.badgeImage}
+                              />
+                            </Box>
+
+                            <Typography
+                              variant="h4"
+                              sx={{
+                                textAlign: "center",
+                                color: "#fbb03b",
+                                pt: "1%",
+                              }}
+                            >
+                              {userState.top_3_scores[1].name}
+                            </Typography>
+                          </>
+                        )}
+                      </Item>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Item>
+                        {userState.top_3_scores[0] && (
+                          <>
+                            <Box className={classes.badgeBox}>
+                              <img
+                                src="\static\mock-images\badge\top1.png"
+                                className={classes.badgeImage}
+                              />
+                            </Box>
+
+                            <Typography
+                              variant="h4"
+                              sx={{
+                                textAlign: "center",
+                                color: "#fbb03b",
+                                pt: "1%",
+                              }}
+                            >
+                              {userState.top_3_scores[0].name}
+                            </Typography>
+                          </>
+                        )}
+                      </Item>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Item>
+                        {userState.top_3_scores[2] && (
+                          <>
+                            <Box className={classes.badgeBox}>
+                              <img
+                                src="\static\mock-images\badge\top3.png"
+                                className={classes.badgeImage}
+                              />
+                            </Box>
+
+                            <Typography
+                              variant="h4"
+                              sx={{
+                                textAlign: "center",
+                                color: "#fbb03b",
+                                pt: "1%",
+                              }}
+                            >
+                              {userState.top_3_scores[2].name}
+                            </Typography>
+                          </>
+                        )}
+                      </Item>
+                    </Grid>
+                  </Grid>
+                </Item>
+              </Grid>
+
+              {/* Badge */}
+              {userState.badges.length > 0 && (
+                <Grid item xs={12} sm={12}>
+                  <Item sx={{ height: "100%" }}>
+                    <Typography variant="h4" sx={{ textAlign: "center" }}>
+                      Badges
+                    </Typography>
+
+                    <Grid container spacing={2}>
+                      {userState.badges.map((badge, index) => (
+                        <Grid item xs={12} md={4}>
+                          <Item>
+                            <>
+                              <Box className={classes.badgeBox}>
+                                <img
+                                  src={`/static/mock-images/badge/${badge.title}.png`}
+                                  className={classes.badgeImage}
+                                />
+                              </Box>
+
+                              <Typography
+                                variant="h4"
+                                sx={{
+                                  textAlign: "center",
+                                  color: "#fbb03b",
+                                  pt: "1%",
+                                }}
+                              >
+                                {badge.title}
+                              </Typography>
+                            </>
+                          </Item>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Item>
+                </Grid>
+              )}
+            </Grid>
+
+            <Box textAlign="center">
+              <Button
+                onClick={() => setEditMode(true)}
+                variant="contained"
+                color="success"
+                className={classes.buttonEdit}
+              >
+                Edit profile
+              </Button>
+            </Box>
+          </Container>
+        )}
+
+        {isEditMode && (
+          <Container>
+            <Formik value={formik}>
+              <Form autoComplete="off" onSubmit={handleSubmit}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={3} sx={{ textAlign: "center" }}>
+                    <AvatarImage
+                      alt="Remy Sharp"
+                      src={userState.avatar}
+                      sx={{
+                        width: 150,
+                        height: 150,
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        marginTop: "100px",
+                        marginBottom: "50px",
                       }}
                     />
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={9} sx={{ textAlign: "center" }}>
-                  <Typography variant="h3" sx={{ pb: 5 }}>
-                    <strong>Update profile</strong>
-                  </Typography>
-                  <Box className={classes.formEdit}>
-                    <FormControl>
-                      {/* <label>Firstname</label> */}
-                      <TextField
-                        id="outlined-basic"
-                        label="Firstname"
-                        variant="outlined"
-                        sx={{ pb: 2 }}
-                        inputProps={{ className: classes.input }}
-                        {...getFieldProps("firstName")}
+                    <Button variant="contained" component="label">
+                      Upload File
+                      <input
+                        accept="image/*"
+                        type="file"
+                        hidden
+                        onChange={(e) => {
+                          setFieldValue("avatar", e.target.files[0]);
+                        }}
                       />
-
-                      {/* <label>Lastname</label> */}
-                      <TextField
-                        id="outlined-basic"
-                        label="Lastname"
-                        variant="outlined"
-                        sx={{ pb: 2 }}
-                        inputProps={{ className: classes.input }}
-                        {...getFieldProps("lastName")}
-                      />
-
-                      {/* <label>Address</label> */}
-                      <TextField
-                        id="outlined-basic"
-                        label="Major"
-                        variant="outlined"
-                        sx={{ pb: 2 }}
-                        inputProps={{ className: classes.input }}
-                        {...getFieldProps("major")}
-                      />
-
-                      {/* <label>Phone</label> */}
-                      <TextField
-                        id="outlined-basic"
-                        label="School"
-                        variant="outlined"
-                        sx={{ pb: 2 }}
-                        inputProps={{ className: classes.input }}
-                        {...getFieldProps("school")}
-                      />
-
-                      {/* <label>Email</label> */}
-                      <TextField
-                        id="outlined-basic"
-                        label="Phone"
-                        variant="outlined"
-                        sx={{ pb: 2 }}
-                        inputProps={{ className: classes.input }}
-                        {...getFieldProps("phone")}
-                      />
-                    </FormControl>
-                  </Box>
-
-                  <Box textAlign="center">
-                    <Button
-                      // onClick={() => setEditMode(false)}
-                      type="submit"
-                      variant="contained"
-                      color="success"
-                      className={classes.buttonEdit}
-                    >
-                      Save
                     </Button>
-                  </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={9} sx={{ textAlign: "center" }}>
+                    <Typography variant="h3" sx={{ pb: 5 }}>
+                      <strong>Update profile</strong>
+                    </Typography>
+                    <Box className={classes.formEdit}>
+                      <FormControl>
+                        {/* <label>Firstname</label> */}
+                        <TextField
+                          id="outlined-basic"
+                          label="Firstname"
+                          variant="outlined"
+                          sx={{ pb: 2 }}
+                          inputProps={{ className: classes.input }}
+                          {...getFieldProps("firstName")}
+                        />
+
+                        {/* <label>Lastname</label> */}
+                        <TextField
+                          id="outlined-basic"
+                          label="Lastname"
+                          variant="outlined"
+                          sx={{ pb: 2 }}
+                          inputProps={{ className: classes.input }}
+                          {...getFieldProps("lastName")}
+                        />
+
+                        {/* <label>Address</label> */}
+                        <TextField
+                          id="outlined-basic"
+                          label="Major"
+                          variant="outlined"
+                          sx={{ pb: 2 }}
+                          inputProps={{ className: classes.input }}
+                          {...getFieldProps("major")}
+                        />
+
+                        {/* <label>Phone</label> */}
+                        <TextField
+                          id="outlined-basic"
+                          label="School"
+                          variant="outlined"
+                          sx={{ pb: 2 }}
+                          inputProps={{ className: classes.input }}
+                          {...getFieldProps("school")}
+                        />
+
+                        {/* <label>Email</label> */}
+                        <TextField
+                          id="outlined-basic"
+                          label="Phone"
+                          variant="outlined"
+                          sx={{ pb: 2 }}
+                          inputProps={{ className: classes.input }}
+                          {...getFieldProps("phone")}
+                        />
+                      </FormControl>
+                    </Box>
+
+                    <Box textAlign="center">
+                      <Button
+                        // onClick={() => setEditMode(false)}
+                        type="submit"
+                        variant="contained"
+                        color="success"
+                        className={classes.buttonEdit}
+                      >
+                        Save
+                      </Button>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Form>
-          </Formik>
-        </Container>
-      )}
-    </Page>
-  );
-              } else {
-                return (
-                  <>
-                    <Page title="Dashboard | LSExam">
-                      <Container maxWidth="xl">
-                        <Box sx={{ p: "25%" }}>
-                          <center
-                            style={{
-                              width: "80%",
-                            }}
-                          >
-                            <Typography
-                              variant="h1"
-                              color="white"
-                              textAlign="center"
-                            >
-                              {" "}
-                              Loading...{" "}
-                            </Typography>
-                            <LinearProgress color="success" />
-                          </center>
-                        </Box>
-                      </Container>
-                    </Page>
-                  </>
-                );
-              }
+              </Form>
+            </Formik>
+          </Container>
+        )}
+      </Page>
+    );
+  } else {
+    return (
+      <>
+        <Page title="Dashboard | LSExam">
+          <Container maxWidth="xl">
+            <Box sx={{ p: "25%" }}>
+              <center
+                style={{
+                  width: "80%",
+                }}
+              >
+                <Typography variant="h1" color="white" textAlign="center">
+                  {" "}
+                  Loading...{" "}
+                </Typography>
+                <LinearProgress color="success" />
+              </center>
+            </Box>
+          </Container>
+        </Page>
+      </>
+    );
+  }
 }

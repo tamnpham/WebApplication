@@ -229,7 +229,7 @@ def _default_media_path(model_instance, filename):
 DEFAULT_MEDIA_PATH = _default_media_path
 
 # Domain server
-DOMAIN_URL = "https://13.229.40.64:8888"
+DOMAIN_URL = "http://13.229.40.64:8000"
 
 # Default point for Badge requirements
 DEFAULT_BADGE_REQUIRED_VALUES = 0

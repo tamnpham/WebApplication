@@ -11,7 +11,7 @@ import fileTextFill from '@iconify/icons-eva/file-text-fill';
 
 const getIcon = (name) => <Icon icon={name} width={22} height={22} />;
 
-const sidebarConfig = [
+const sidebarConfigAdmin = [
   {
     title: 'Take a quiz',
     path: '/dashboard/app',
@@ -37,6 +37,12 @@ const sidebarConfig = [
     path: '/dashboard/blog',
     icon: getIcon(fileTextFill)
   },
+  {
+    title: 'Teacher',
+    path: '/dashboard/teacher',
+    icon: getIcon(fileTextFill)
+  },
+
 ];
 
-export default sidebarConfig;
+export default sidebarConfigAdmin;

@@ -106,7 +106,7 @@ export default function RegisterForm() {
         
       })
       .catch((err) => {
-        alert(err.message);
+        alert('Something went wrong!');
       })
 
       actions.setSubmitting(false);

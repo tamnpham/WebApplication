@@ -7,3 +7,4 @@ export { default as DeletePost } from './deletePost';
 export { default as AddCategory } from './addCategory';
 export { default as EditCategory } from './editCategory';
 export { default as DeleteCategory } from './deleteCategory';
+export { default as ShowQuestions } from './showQuestions';

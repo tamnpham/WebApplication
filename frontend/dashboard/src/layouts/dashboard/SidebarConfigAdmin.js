@@ -29,7 +29,7 @@ const sidebarConfigAdmin = [
   },
   {
     title: 'Score Board',
-    path: '/dashboard/products',
+    path: '/dashboard/scoreboard',
     icon: getIcon(shoppingBagFill)
   },
   {
@@ -38,11 +38,15 @@ const sidebarConfigAdmin = [
     icon: getIcon(fileTextFill)
   },
   {
+    title: 'Teacher',
+    path: '/dashboard/teacher',
+    icon: getIcon(fileTextFill)
+  },
+  {
     title: 'Admin',
     path: '/dashboard/admin',
     icon: getIcon(fileTextFill)
   },
-
 ];
 
 export default sidebarConfigAdmin;
