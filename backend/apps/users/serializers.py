@@ -105,7 +105,10 @@ class BlogAuthorSerializer(
         return self.to_url(instance.avatar)
 
 
-class UserManagementSerializer(serializers.ModelSerializer):
+class UserManagementSerializer(
+    serializers.ModelSerializer,
+    CustomSerializerMixin,
+):
     """Serializer for representing User Management feature."""
     avatar_url = serializers.SerializerMethodField()
 
