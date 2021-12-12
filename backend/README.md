@@ -740,7 +740,6 @@ Query parameter:
 {
     "title": <str>,
     "content": <str>,
-    "author": <int>,
     "category": (optional) <int>,
     "image": (optional) <file>
 }
