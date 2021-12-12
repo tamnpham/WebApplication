@@ -101,13 +101,15 @@ export default function User() {
         .then((res) => res.json())
         .then((response) => {
           const userInfo = response.data.user;
-          console.log(userInfo.avatar_url);
+          console.log('here')
+          console.log(userInfo.badges.length);
           authCtx.update(
             userInfo.first_name,
             userInfo.last_name,
             userInfo.avatar_url
           );
           setUserState(response.data.user);
+
         });
     } catch (err) {
       alert(err);
@@ -366,6 +368,45 @@ export default function User() {
                   </Grid>
                 </Item>
               </Grid>
+
+              {/* Badge */}
+              {userState.badges.length > 0 && (
+                <Grid item xs={12} sm={12}>
+                  <Item sx={{ height: "100%" }}>
+                    <Typography variant="h4" sx={{ textAlign: "center" }}>
+                      Badges
+                    </Typography>
+
+                    <Grid container spacing={2}>
+                      {userState.badges.map((badge, index) => (
+                        <Grid item xs={12} md={4}>
+                          <Item>
+                            <>
+                              <Box className={classes.badgeBox}>
+                                <img
+                                  src={`/static/mock-images/badge/${badge.title}.png`}
+                                  className={classes.badgeImage}
+                                />
+                              </Box>
+
+                              <Typography
+                                variant="h4"
+                                sx={{
+                                  textAlign: "center",
+                                  color: "#fbb03b",
+                                  pt: "1%",
+                                }}
+                              >
+                                {badge.title}
+                              </Typography>
+                            </>
+                          </Item>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </Item>
+                </Grid>
+              )}
             </Grid>
 
             <Box textAlign="center">
