@@ -41,13 +41,16 @@ const useStyles = makeStyles({
   inputSelect: {
     color: "white",
   },
+  input:{
+    color: "white",
+  }
 });
 
-export default function DeleteCategory() {
+export default function PromoteUser() {
   const classes = useStyles();
 
-  const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState({});
+  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState({});
   const [categoryId, setCategoryId] = useState(null);
 
   const [options, setOptions] = useState([]);
@@ -57,7 +60,7 @@ export default function DeleteCategory() {
 
   const handleInputChange = (value) => {
     console.log(value);
-    const apiUrl = `${API_SERVER}/api/category/${value}`;
+    const apiUrl = `${API_SERVER}/api/admin/${value}`;
     console.log(apiUrl);
     const auth = localStorage.getItem("token");
     const requestOption = {
@@ -73,7 +76,7 @@ export default function DeleteCategory() {
         .then((res) => res.json())
         .then((response) => {
           console.log(response);
-          setCategory(response);
+          setUser(response);
           setOk(true);
         });
     } catch (err) {
@@ -88,7 +91,7 @@ export default function DeleteCategory() {
   useEffect(() => {
     try{
       const interval = setInterval(() => {
-        const apiUrl = `${API_SERVER}/api/category`;
+        const apiUrl = `${API_SERVER}/api/admin`;
         const auth = localStorage.getItem("token");
         const requestOption = {
           method: "GET",
@@ -101,10 +104,12 @@ export default function DeleteCategory() {
         fetch(apiUrl, requestOption)
           .then((res) => res.json())
           .then((response) => {
-            const categories = response.map((category) => {
-              return {label: category.name, id: category.id};
+            const users = response.map((user) => {
+              return {label: user.id, id: user.id};
             });
-            setOptions(categories);
+            // console.log(response);
+            setOptions(users);
+            setUsers(response);
           });
         }, 1000);
         return () => clearInterval(interval);
@@ -115,51 +120,7 @@ export default function DeleteCategory() {
     }
   }, []);
 
-  useEffect(() => {
-    try {
-      const apiUrl = `${API_SERVER}/api/category/`;
-      const auth = localStorage.getItem("token");
-      const requestOption = {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
-        },
-      };
-      fetch(apiUrl, requestOption)
-        .then((res) => res.json())
-        .then((response) => {
-          setCategories(response);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      const apiUrl = `${API_SERVER}/api/category/${categoryId}/`;
-      const auth = localStorage.getItem("token");
-      const requestOption = {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
-        },
-      };
-      fetch(apiUrl, requestOption)
-        .then((res) => res.json())
-        .then((response) => {
-          setCategory(response);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  }, [categoryId]);
-
-  if (categories.length > 0) {
+  if (users.length > 0) {
     return (
       <Container>
         <Stack sx={{ mb: "30px", width: "100%" }}>
@@ -182,7 +143,7 @@ export default function DeleteCategory() {
               <TextField
                 {...params}
                 variant="standard"
-                label="Question"
+                label="ID User"
                 inputProps={{
                   ...params.inputProps,
                   className: classes.input,
@@ -192,25 +153,26 @@ export default function DeleteCategory() {
           />
         </Stack>
 
-        {category.id && ok === true && (
+        {user.id && ok === true && (
           <Formik
             enableReinitialize
             initialValues={{
-              id: category.id,
-              name: category.name,
+              id: user.id,
+              role: user.role,
             }}
             onSubmit={(values) => {
               const auth = localStorage.getItem("token");
-
+              let data = new FormData();
+              data.append("role", values.role);
+              data.append("id", user.id);
               const requestOption = {
-                method: "DELETE",
+                method: "POST",
                 headers: {
                   Authorization: "Bearer " + auth,
                 },
+                body: data,
               };
-
-              let url = `${API_SERVER}/api/category/${category.id}`;
-
+              let url = `${API_SERVER}/api/admin/update/`;
               fetch(url, requestOption)
                 // HTTP response
                 .then((response) => {
@@ -223,14 +185,13 @@ export default function DeleteCategory() {
                     //fail
                     return response.json().then((data) => {
                       //show error
-                      let errorMessage = "Delete Category failed!";
+                      let errorMessage = "Update failed";
                       throw new Error(errorMessage);
                     });
                   }
                 })
                 .then(() => {
-                  alert("Delete Category successfully");
-                  // refreshPage();
+                  alert("Update role successfully");
                   setOk(false);
                 })
                 .catch((err) => {
@@ -246,16 +207,19 @@ export default function DeleteCategory() {
                     variant="outlined"
                     sx={{ m: 1, width: "100%", pb: "5%" }}
                   >
-                    {/* <InputLabel>Category Name</InputLabel> */}
-                    <TextField
-                      disabled
-                      label="Category Name"
-                      variant="outlined"
-                      defaultValue={category.name}
-                      {...getFieldProps("name")}
+                    <InputLabel id="roleUserLabel">Role of User</InputLabel>
+                    <Select
+                      labelId="roleUserLabel"
+                      defaultValue={user.id}
+                      label="Role"
+                      {...getFieldProps("role")}
                       inputProps={{ className: classes.inputSelect }}
-                    />
+                    >
+                      <MenuItem value={"Student"}>Student</MenuItem>
+                      <MenuItem value={"Teacher"}>Teacher</MenuItem>
+                    </Select>
                   </FormControl>
+                  <Typography></Typography>
                   <Button type="submit" variant="contained" sx={{ m: 1 }}>
                     Submit
                   </Button>

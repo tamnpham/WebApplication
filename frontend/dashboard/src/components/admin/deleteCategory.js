@@ -108,6 +108,7 @@ export default function DeleteCategory() {
               return {label: category.name, id: category.id};
             });
             setOptions(categories);
+            setCategories(response);
           });
         }, 1000);
         return () => clearInterval(interval);
@@ -115,28 +116,6 @@ export default function DeleteCategory() {
     catch(err){
       console.log(err);
       refreshPage();
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      const apiUrl = `${API_SERVER}/api/category/`;
-      const auth = localStorage.getItem("token");
-      const requestOption = {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth,
-        },
-      };
-      fetch(apiUrl, requestOption)
-        .then((res) => res.json())
-        .then((response) => {
-          setCategories(response);
-        });
-    } catch (err) {
-      console.log(err);
     }
   }, []);
 

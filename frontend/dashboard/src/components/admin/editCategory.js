@@ -93,25 +93,6 @@ export default function EditCategory() {
   };
 
   useEffect(() => {
-    const apiUrl = `${API_SERVER}/api/category/`;
-    const auth = localStorage.getItem("token");
-    const requestOption = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
-    fetch(apiUrl, requestOption)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response)
-        setCategories(response);
-      });
-  }, []);
-
-  useEffect(() => {
     try {
       const apiUrl = `${API_SERVER}/api/category/${categoryId}/`;
       const auth = localStorage.getItem("token");
@@ -156,6 +137,7 @@ export default function EditCategory() {
           return {label: category.name, id: category.id};
         });
         setOptions(categories);
+        setCategories(response);
       });
     }, 1000);
     return () => clearInterval(interval);
