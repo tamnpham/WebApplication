@@ -2,7 +2,7 @@ from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework import mixins
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -146,8 +146,9 @@ class UserAPI(
 
 
 class AdminManagementViewSet(
-    ListModelMixin,
-    RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
     CustomMixin,
     GenericViewSet,
 ):
@@ -157,10 +158,6 @@ class AdminManagementViewSet(
     permission_classes = (
         IsAuthenticated,
         IsAdminUser,
-    )
-    http_method_names = (
-        'get',
-        'post',
     )
     model = User
 

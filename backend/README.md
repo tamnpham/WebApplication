@@ -15,6 +15,9 @@
   - [Admin](#admin)
     - [List of users](#list-of-users)
     - [Promote a student role to teacher role](#promote-a-student-role-to-teacher-role)
+    - [Get user by ID](#get-user-by-id)
+    - [Update user](#update-user)
+    - [Delete user](#delete-user)
   - [Question](#question)
     - [List of questions](#list-of-questions)
     - [Create a new question](#create-a-new-question)
@@ -235,7 +238,6 @@ Query parameters:
     "id": <int>,
     "avatar_url": <str:url>,
     "last_login": <str>,
-    "is_superuser": <bool>,
     "created": <str>,
     "modified": <str>,
     "first_name": <str>,
@@ -256,7 +258,6 @@ Query parameters:
 ```
 
 ### Promote a student role to teacher role
-
 /api/admin/
 
 **Method**: POST
@@ -266,7 +267,12 @@ Query parameters:
 **Request**:
 ```json
 {
-  "userId": <str>
+  "first_name": <str>,
+  "last_name": <str>,
+  "phone": <str>,
+  "avatar": <file>,   // using file upload
+  "school": <str>,
+  "major": <str>
 }
 ```
 
@@ -277,6 +283,86 @@ Query parameters:
   "data": null,
 }
 ```
+
+### Get user by ID
+/api/admin/\<int:user_id\>/
+
+**Method**: GET
+
+**Permission**: Admin
+
+**Request**:
+```json
+{
+  "id": <int>,
+  "avatar_url": <str:url>,
+  "last_login": <str>,
+  "created": <str>,
+  "modified": <str>,
+  "first_name": <str>,
+  "last_name": <str>,
+  "is_staff": <bool>,
+  "is_active": <bool>,
+  "avatar": <str:url>,
+  "email": <str>,
+  "role": <str>,
+  "phone": <str>,
+  "school": <str>,
+  "major": <str>,
+  "groups": <list>,
+  "user_permissions": <list>,
+  "badges": [
+    <int>,  // badge's id
+    <int>
+  ]
+}
+```
+
+### Update user
+/api/admin/update/
+
+**Method**: POST
+
+**Permission**: Admin
+
+**Request**:
+```json
+{
+  "avatar_url": <str:url>,
+  "last_login": <str>,
+  "created": <str>,
+  "modified": <str>,
+  "first_name": <str>,
+  "last_name": <str>,
+  "is_staff": <bool>,
+  "is_active": <bool>,
+  "avatar": <str:url>,
+  "email": <str>,
+  "role": <str>,
+  "phone": <str>,
+  "school": <str>,
+  "major": <str>,
+  "groups": <list>,
+  "user_permissions": <list>
+}
+```
+
+**Response**:
+```json
+{
+  "status": "Success",
+  "data": null
+}
+```
+
+### Delete user
+/api/admin/\<int:user_id\>/
+
+**Method**: DELETE
+
+**Permission**: Admin
+
+**Expected status**: 204 No Content
 
 ## Question
 
