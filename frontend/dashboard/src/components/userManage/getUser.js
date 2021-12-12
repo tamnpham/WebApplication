@@ -12,7 +12,7 @@ import {
   FormControl,
   InputLabel,
   LinearProgress,
-  Typography
+  Typography,
 } from "@mui/material";
 import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
@@ -63,7 +63,6 @@ const columns: GridColDef[] = [
   { field: "school", headerName: "School", width: 150 },
   { field: "major", headerName: "Major", width: 150 },
   { field: "phone", headerName: "Phone", width: 120 },
-  // { field: "isAdmin", headerName: "Is Admin?", width: 150 },
   { field: "role", headerName: "Role", width: 100 },
   { field: "lastLogin", headerName: "Last Login", width: 190 },
   { field: "created", headerName: "Created", width: 190 },
@@ -75,7 +74,7 @@ export default function GetUsers() {
 
   const authCtx = useContext(AuthContext);
 
-  const [usersInfo, setUsersInfo] = useState([]); 
+  const [usersInfo, setUsersInfo] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     try {
@@ -92,36 +91,40 @@ export default function GetUsers() {
       fetch(apiUrl, requestOption)
         .then((res) => res.json())
         .then((users) => {
-            let reformatUsers = users.map((user) =>{
-              var created = new Date(user.created)
+          try {
+            let reformatUsers = users.map((user) => {
+              var created = new Date(user.created);
               created = created.toLocaleString("en-US");
-              var lastLogin = new Date(user.last_login)
+              var lastLogin = new Date(user.last_login);
               lastLogin = lastLogin.toLocaleString("en-US");
-              var modified = new Date(user.modified)
+              var modified = new Date(user.modified);
               modified = modified.toLocaleString("en-US");
-                return {
-                    id: user.id, 
-                    firstName: user.first_name, 
-                    lastName: user.last_name, 
-                    email: user.email,
-                    school: user.school, 
-                    major: user.major, 
-                    phone: user.phone, 
-                    isAdmin: user.is_admin,
-                    role: user.role, 
-                    lastLogin: lastLogin,
-                    created: created, 
-                    modified: modified
-                }
-            })
-          setUsersInfo(reformatUsers);
-          console.log(reformatUsers);
+              return {
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                email: user.email,
+                school: user.school,
+                major: user.major,
+                phone: user.phone,
+                isAdmin: user.is_admin,
+                role: user.role,
+                lastLogin: lastLogin,
+                created: created,
+                modified: modified,
+              };
+            });
+            setUsersInfo(reformatUsers);
+            console.log(reformatUsers);
+          } catch (err) {
+            alert(err.message);
+            navigate("/error");
+          }
         })
         .catch((err) => {
           alert(err.message);
           navigate("/error");
         });
-        
     } catch (err) {
       console.log(err);
       //   navigate("/login");
@@ -129,34 +132,34 @@ export default function GetUsers() {
   }, []);
 
   if (usersInfo.length > 0) {
-  return (
-    <Container>
-      <div style={{ height: 500, width: "100%", backgroundColor: "white" }}>
-        <DataGrid rows={usersInfo} columns={columns} />
-      </div>
-    </Container>
-  );
+    return (
+      <Container>
+        <div style={{ height: 500, width: "100%", backgroundColor: "white" }}>
+          <DataGrid rows={usersInfo} columns={columns} />
+        </div>
+      </Container>
+    );
   } else {
     return (
-        <>
-          <Page title="Dashboard | LSExam">
-            <Container maxWidth="xl" >
-              <Box sx={{p: '25%'}}>
-                <center
-                  style={{
-                    width: "80%",
-                  }}
-                >
-                  <Typography variant="h1" color="white" textAlign="center">
-                    {" "}
-                    Loading...{" "}
-                  </Typography>
-                  <LinearProgress color="success" />
-                </center>
-              </Box>
-            </Container>
-          </Page>
-        </>
-      );
+      <>
+        <Page title="Dashboard | LSExam">
+          <Container maxWidth="xl">
+            <Box sx={{ p: "25%" }}>
+              <center
+                style={{
+                  width: "80%",
+                }}
+              >
+                <Typography variant="h1" color="white" textAlign="center">
+                  {" "}
+                  Loading...{" "}
+                </Typography>
+                <LinearProgress color="success" />
+              </center>
+            </Box>
+          </Container>
+        </Page>
+      </>
+    );
   }
 }
