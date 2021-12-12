@@ -54,10 +54,12 @@ class User(
 
     STUDENT = "Student"
     TEACHER = "Teacher"
+    ADMIN = "Admin"
 
     ROLES = (
         (STUDENT, "Student"),
         (TEACHER, "Teacher"),
+        (ADMIN, "Admin"),
     )
     first_name = models.CharField(
         verbose_name=_("First name"),

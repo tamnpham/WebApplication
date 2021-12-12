@@ -10,7 +10,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from apps.core import responses
 from apps.core.paginations import StandardPagination
-from apps.core.permissions import IsTeacherUser
+from apps.core.permissions import IsAdminOrTeacher
 from apps.core.views import CustomMixin
 from apps.questions.models import Category, Question
 from apps.quizzes.models.badge import Badge
@@ -286,8 +286,8 @@ class BadgeViewSet(
     serializer_class = BadgeSerializer
     permission_classes_map = {
         "default": (IsAuthenticated,),
-        "create": (IsTeacherUser,),
-        "destroy": (IsTeacherUser,),
-        "post_update": (IsTeacherUser,),
+        "create": (IsAuthenticated, IsAdminOrTeacher,),
+        "destroy": (IsAuthenticated, IsAdminOrTeacher,),
+        "post_update": (IsAuthenticated, IsAdminOrTeacher,),
     }
     model = Badge
