@@ -396,8 +396,7 @@ Query parameter:
 [
   {
     "id": <int>,
-    "created": <str>,
-    "modified": <str>,
+    "numberQuestions": <int>,
     "name": <str>,
     "level": <int>,
     "code": <str>
@@ -423,9 +422,10 @@ Query parameter:
 ```json
 {
   "id": <int>,
+  "numberQuestions": <int>,
   "name": <str>,
-  "level": (optional) <int>,
-  "code": (optional) <str>
+  "level": <int>,
+  "code": <str>
 }
 ```
 
@@ -439,8 +439,7 @@ Query parameter:
 ```json
 {
   "id": <int>,
-  "created": <str>,
-  "modified": <str>,
+  "numberQuestions": <int>,
   "name": <str>,
   "level": <int>,
   "code": <str>
