@@ -1,7 +1,8 @@
-from django.conf import settings
 from rest_framework import serializers
 
+from apps.core.serializers import CustomSerializerMixin
 from apps.questions.serializers import CategorySerializer
+from apps.quizzes.serializers import BadgeSerializer
 
 from .models import User
 
@@ -19,11 +20,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
         )
 
 
-class ProfileSerializer(serializers.HyperlinkedModelSerializer):
+class ProfileSerializer(
+    serializers.HyperlinkedModelSerializer,
+    CustomSerializerMixin,
+):
     """Serializer for representing User."""
     avatar_url = serializers.SerializerMethodField()
     max_score = serializers.SerializerMethodField("get_max_score")
     top_3_scores = serializers.SerializerMethodField("get_top_3_scores")
+    badges = BadgeSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -34,12 +39,13 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             'avatar',
             'school',
             'major',
+            'avatar',
+            'badges',
 
             'email',
             'role',
 
             'avatar_url',
-            'avatar',
             'max_score',
             'top_3_scores',
         )
@@ -48,22 +54,9 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
             "role",
         )
 
-    # https://stackoverflow.com/a/35522896
     def get_avatar_url(self, instance):
         """Customize image serialization method."""
-        request = self.context.get("request")
-        image_url = None
-        if instance.avatar and instance.avatar.url:
-            image_url = instance.avatar.url
-            # image_url = request.build_absolute_uri(image_url)
-
-            # full_domain = 'http://' + request.META['HTTP_HOST']
-            # if request.META["SERVER_PORT"] not in full_domain:
-            #     full_domain += ':' + request.META["SERVER_PORT"]
-            # image_url = full_domain + image_url
-
-            image_url = settings.DOMAIN_URL + image_url
-        return image_url
+        return self.to_url(instance.avatar)
 
     def get_max_score(self, instance):
         """Get max score among categories for a given user."""
@@ -91,7 +84,10 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
         return top_3
 
 
-class BlogAuthorSerializer(serializers.HyperlinkedModelSerializer):
+class BlogAuthorSerializer(
+    serializers.HyperlinkedModelSerializer,
+    CustomSerializerMixin,
+):
     """Serializer for representing Blog's Author."""
     avatar_url = serializers.SerializerMethodField()
 
@@ -104,22 +100,9 @@ class BlogAuthorSerializer(serializers.HyperlinkedModelSerializer):
             "avatar",
         )
 
-    # https://stackoverflow.com/a/35522896
     def get_avatar_url(self, instance):
         """Customize image serialization method."""
-        request = self.context.get("request")
-        image_url = None
-        if instance.avatar and instance.avatar.url:
-            image_url = instance.avatar.url
-            # image_url = request.build_absolute_uri(image_url)
-
-            # full_domain = 'http://' + request.META['HTTP_HOST']
-            # if request.META["SERVER_PORT"] not in full_domain:
-            #     full_domain += ':' + request.META["SERVER_PORT"]
-            # image_url = full_domain + image_url
-
-            image_url = settings.DOMAIN_URL + image_url
-        return image_url
+        return self.to_url(instance.avatar)
 
 
 class UserManagementSerializer(serializers.ModelSerializer):
@@ -135,19 +118,6 @@ class UserManagementSerializer(serializers.ModelSerializer):
             "email",
         )
 
-    # https://stackoverflow.com/a/35522896
     def get_avatar_url(self, instance):
         """Customize image serialization method."""
-        request = self.context.get("request")
-        image_url = None
-        if instance.avatar and instance.avatar.url:
-            image_url = instance.avatar.url
-            # image_url = request.build_absolute_uri(image_url)
-
-            # full_domain = 'http://' + request.META['HTTP_HOST']
-            # if request.META["SERVER_PORT"] not in full_domain:
-            #     full_domain += ':' + request.META["SERVER_PORT"]
-            # image_url = full_domain + image_url
-
-            image_url = settings.DOMAIN_URL + image_url
-        return image_url
+        return self.to_url(instance.avatar)
