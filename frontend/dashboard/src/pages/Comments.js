@@ -55,7 +55,7 @@ export default function Comments(props) {
     const interval = setInterval(() => {
     console.log("This will run every second!");
 
-    const apiUrl = `${API_SERVER}/api/comment/`;
+    const apiUrl = `${API_SERVER}/api/blog/` + postId;
     const auth = localStorage.getItem("token");
 
     const request = {
@@ -70,8 +70,7 @@ export default function Comments(props) {
     fetch(apiUrl, request)
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
-        setCommentState(response);
+        setCommentState(response.comments);
       });
 
     }, 1000);
