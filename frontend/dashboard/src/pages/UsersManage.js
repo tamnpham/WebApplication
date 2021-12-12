@@ -75,7 +75,7 @@ import {
                 >
                   <Tab label="All Users" className={classes.tab1} value="1" />
                   <Tab label="Change Role User" className={classes.tab2} value="2" />
-                  <Tab label="Kick User" className={classes.tab3} value="3" />
+                  {/* <Tab label="Kick User" className={classes.tab3} value="3" /> */}
                 </TabList>
               </Box>
               <TabPanel value="1">
@@ -84,9 +84,8 @@ import {
               <TabPanel value="2">
                 <PromoteUser />
               </TabPanel>
-              <TabPanel value="3">
-                {/* <DeleteQuestion /> */}
-              </TabPanel>
+              {/* <TabPanel value="3">
+              </TabPanel> */}
 
             </TabContext>
           </Box>

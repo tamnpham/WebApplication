@@ -118,7 +118,6 @@ export default function Quiz() {
     navigate("/dashboard/app");
   };
   const handlePageChange = (event, value) => {
-    console.log(`active page is ${value}`);
     setCurrentQuestion(value-1);
   }
   if ((questions.length > 0) && (score !== null)) {

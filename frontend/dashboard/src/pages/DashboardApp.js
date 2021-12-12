@@ -55,7 +55,6 @@ const useStyles = makeStyles({
 //----------------------------------------------------------------
 
 export default function DashboardApp() {
-  const [isQuiz, setIsQuiz] = useState(false);
   const [error, setError] = useState(false);
   const [ok, setOk] = useState(false);
   const [categoryId, setCategoryId] = useState(0);
@@ -126,11 +125,6 @@ export default function DashboardApp() {
       dispatch(getQuestionOptions(questionOptions));
       navigate("/quiz");
     }
-  };
-
-  const makeQuizHandler = () => {
-    setIsQuiz(true);
-    console.log(questionOptions.time);
   };
 
   const [options, setOptions] = useState([]);
@@ -220,7 +214,7 @@ export default function DashboardApp() {
                   </div>
                 </Grid>
                 
-                {categoryId && <Grid
+                <Grid
                   item
                   xs={10}
                   sm={6}
@@ -239,7 +233,7 @@ export default function DashboardApp() {
                       width="100%"
                     />
                   </div>
-                </Grid>}
+                </Grid>
                 
                 <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
                   <Button
