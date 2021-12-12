@@ -29,7 +29,7 @@ const sidebarConfig = [
   },
   {
     title: 'Score Board',
-    path: '/dashboard/products',
+    path: '/dashboard/scoreboard',
     icon: getIcon(shoppingBagFill)
   },
   {
