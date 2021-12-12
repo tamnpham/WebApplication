@@ -2,21 +2,10 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import {
   Box,
-  Grid,
-  Container,
-  Typography,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Slider,
-  Button,
-  Stack,
 } from "@mui/material";
 import ScoreTable from './ScoreTable';
 import { makeStyles } from "@material-ui/core/styles";
-import LinearProgress from '@mui/material/LinearProgress';
 import Autocomplete from '@mui/material/Autocomplete';
 import Page from "../Page";
 import dotenv from "dotenv";
@@ -25,7 +14,8 @@ const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER;
 
 const useStyles = makeStyles({
   input: {
-    color: "white"
+    color: "white",
+    textAlign: "center"
   },
   typography: {
     position: "absolute",
@@ -34,14 +24,6 @@ const useStyles = makeStyles({
   },
   center: {
     textAlign: "center",
-  },
-  answer: {
-    textAlign: "left",
-    borderRadius: 4,
-    border: "1px solid",
-    p: 2,
-    backgroundColor: "#ABEBC6",
-    color: "#145A32",
   },
   inputSelect: {
     color: "white",
@@ -60,6 +42,7 @@ export default function CenteredTab() {
   const [inputValue, setInputValue] = React.useState('');
 
   useEffect(() => {
+    const interval = setInterval(() => {
     const apiUrl = `${API_SERVER}/api/category`;
     const auth = localStorage.getItem("token");
     const requestOption = {
@@ -76,9 +59,10 @@ export default function CenteredTab() {
         const categories = response.map((category) => {
           return {label: category.name, id: category.id};
         });
-        console.log(categories);
         setOptions(categories);
       });
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleInputChange = (categoryId) => {
@@ -111,28 +95,10 @@ export default function CenteredTab() {
   return (
     <>
       <Box sx={{ width: "100%", typography: "body1", pt: "5%" }}>
-        <Box sx={{ textAlign: "center" }}>
-          <FormControl variant="standard" sx={{ m: 1, width: "50%", pb: "5%" }}>
-            {/* <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
-            <Select
-              name="categoryId"
-              // value={questionOptions.categoryId}
-              onChange={handleInputChange}
-              inputProps={{ className: classes.inputSelect }}
-            >
-              {options &&
-                options.length > 0 &&
-                options.map((option) => (
-                  <>
-                    <MenuItem value={option.id} key={option.id}>
-                      {option.name}
-                    </MenuItem>
-                  </>
-                ))}
-            </Select> */}
-
-            <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
-            <div>{`inputValue: '${inputValue}'`}</div>
+        <Box sx={{ textAlign: "center", mb: "5%" }}>
+          <center>
+            {/* <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
+            <div>{`inputValue: '${inputValue}'`}</div> */}
             <Autocomplete
               value={value}
               onChange={(event, newValue) => {
@@ -147,18 +113,20 @@ export default function CenteredTab() {
               }}
               id="controllable-states-demo"
               options={options}
-              sx={{ width: 300 }}
-              inputProps={{ className: classes.inputSelect }}
+              sx={{ width: '50%' }}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="standard"
                   label="Category"
-                  
+                  inputProps={{
+                    ...params.inputProps,
+                    className: classes.input
+                  }}
                 />
               )}
             />
-          </FormControl>
+          </center>
         </Box>
 
         {ok === true && (

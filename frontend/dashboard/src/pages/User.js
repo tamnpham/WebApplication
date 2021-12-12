@@ -99,12 +99,10 @@ export default function User() {
     fetch(apiUrl, request)
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         const userInfo = response.data.user;
-        console.log('here')
-        authCtx.update(userInfo.first_name, userInfo.last_name, userInfo.avatar);
+        console.log(userInfo.avatar_url);
+        authCtx.update(userInfo.first_name, userInfo.last_name, userInfo.avatar_url);
         setUserState(response.data.user);
-        
       });
 
     },[])
@@ -119,13 +117,6 @@ export default function User() {
       },
       onSubmit: (values, actions) => {
         const auth = authCtx.token;
-        // actions.setSubmitting(true);
-        console.log(values.firstName);
-        console.log(values.lastName);
-        console.log(values.major);
-        console.log(values.school);
-        console.log(values.phone);
-        console.log(values.avatar);
 
         var data = new FormData();
         var count = 0;
@@ -156,7 +147,6 @@ export default function User() {
           count++;
         }
 
-    
         const request = {
           method: "POST",
           headers: {
@@ -164,7 +154,6 @@ export default function User() {
           },
           body: data
         };
-
 
         let url = `${API_SERVER}/api/user/profile/`;
 
@@ -240,7 +229,7 @@ export default function User() {
               >
                 <AvatarImage
                   alt="Remy Sharp"
-                  src={userState.avatar}
+                  src={authCtx.avatar}
                   sx={{ width: 150, height: 150 }}
                 />
               </Box>

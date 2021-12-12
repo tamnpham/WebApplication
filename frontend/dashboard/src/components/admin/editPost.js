@@ -12,7 +12,8 @@ import {
     Stack,
     Typography,
     InputLabel,
-    FormControl
+    FormControl,
+    Autocomplete
   } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import { useFormik, Form, FormikProvider, FieldArray, getIn, Field, Formik } from "formik";
@@ -52,31 +53,37 @@ export default function EditPost() {
   const [content, setContent] = React.useState("**Hello world!!!**");
   const [postGetEdit, setPostGetEdit] = useState([]);
 
+  const [value, setValue] = React.useState(posts[0]);
+  const [inputValue, setInputValue] = React.useState("");
+
   useEffect(() => {
-    const apiUrl = `${API_SERVER}/api/blog/`;
-    const auth = localStorage.getItem("token");
-    const requestOption = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
+    const interval = setInterval(() => {
+      const apiUrl = `${API_SERVER}/api/blog/`;
+      const auth = localStorage.getItem("token");
+      const requestOption = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      };
 
-    fetch(apiUrl, requestOption)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-        setPosts(response);
-      });
-  },[]);
+      fetch(apiUrl, requestOption)
+        .then((res) => res.json())
+        .then((response) => {
+          const blogs = response.map((blog) => {
+            return { label: blog.title, id: blog.id };
+          });
+          setPosts(blogs);
+          console.log(blogs);
+        });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    console.log(value);
-
-    const apiUrl = `${API_SERVER}/api/blog/` + value;
+  const handleInputChange = (postId) => {
+    const apiUrl = `${API_SERVER}/api/blog/` + postId;
     const auth = localStorage.getItem("token");
 
     const request = {
@@ -91,8 +98,8 @@ export default function EditPost() {
     fetch(apiUrl, request)
       .then((res) => res.json())
       .then((response) => {
-        setPostGetEdit(response)
-        setContent(response.content)
+        setPostGetEdit(response);
+        setContent(response.content);
       });
   };
 
@@ -103,52 +110,51 @@ export default function EditPost() {
       image: "",
     },
     onSubmit: (values, actions) => {
-        console.log(postGetEdit.id)
-        console.log(values.title)
-        console.log(content)
+      console.log(postGetEdit.id);
+      console.log(values.title);
+      console.log(content);
 
-        const auth = localStorage.getItem("token");
-            let data = new FormData();
-            data.append("id", postGetEdit.id);
-            data.append("title", values.title);
-            data.append("content", content);
-            data.append("image", values.image);
+      const auth = localStorage.getItem("token");
+      let data = new FormData();
+      data.append("id", postGetEdit.id);
+      data.append("title", values.title);
+      data.append("content", content);
+      data.append("image", values.image);
 
-            const requestOption = {
-              method: "POST",
-              headers: {
-                Authorization: "Bearer " + auth,
-              },
-              body: data,
-            };
+      const requestOption = {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + auth,
+        },
+        body: data,
+      };
 
-            let url = `${API_SERVER}/api/blog/update/`;
+      let url = `${API_SERVER}/api/blog/update/`;
 
-            fetch(url, requestOption)
-              // HTTP response
-              .then((response) => {
-                //  OK
-                if (response.ok) {
-                  //success
-                  alert("Edit post successfully!");
-                  console.log(response);
-                  return response.json();
-                } else {
-                  //fail
-                  return response.json().then((data) => {
-                    //show error
-                    let errorMessage = "Update blog failed!";
-                    throw new Error(errorMessage);
-                  });
-                }
-              })
-              .then((data) => {
-                console.log(data);
-              })
-              .catch((err) => {
-                alert(err.message);
-              });
-
+      fetch(url, requestOption)
+        // HTTP response
+        .then((response) => {
+          //  OK
+          if (response.ok) {
+            //success
+            alert("Edit post successfully!");
+            console.log(response);
+            return response.json();
+          } else {
+            //fail
+            return response.json().then((data) => {
+              //show error
+              let errorMessage = "Update blog failed!";
+              throw new Error(errorMessage);
+            });
+          }
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     },
   });
 
@@ -156,24 +162,39 @@ export default function EditPost() {
 
   return (
     <>
-      <Box sx={{ width: "100%", typography: "body1"}}>
-        <Box sx={{ textAlign: "center" }}>
-          <FormControl variant="standard" sx={{ m: 1, width: "50%", pb: "5%" }}>
-            <InputLabel variant="outlined"> Select post </InputLabel>
-            <Select
-              name="postId"
-              onChange={handleInputChange}
-              inputProps={{ className: classes.inputSelect }}
-            >
-              {posts &&
-                posts.length > 0 &&
-                posts.map((post) => (
-                  <MenuItem value={post.id} key={post.id}>
-                    {post.title}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
+      <Box sx={{ width: "100%", typography: "body1", pt: "5%" }}>
+        <Box sx={{ textAlign: "center", mb: "5%" }}>
+          <center>
+            {/* <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
+            <div>{`inputValue: '${inputValue}'`}</div> */}
+            <Autocomplete
+              value={value}
+              onChange={(event, newValue) => {
+                if (newValue !== null) {
+                  setValue(newValue.id);
+                  handleInputChange(newValue.id);
+                }
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={posts}
+              sx={{ width: "50%" }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  label="Post"
+                  inputProps={{
+                    ...params.inputProps,
+                    className: classes.input,
+                  }}
+                />
+              )}
+            />
+          </center>
         </Box>
       </Box>
 
@@ -193,7 +214,11 @@ export default function EditPost() {
                 />
               </Box>
 
-              <Button variant="contained" component="label" sx={{mt: '4%', mb: '4%'}}>
+              <Button
+                variant="contained"
+                component="label"
+                sx={{ mt: "4%", mb: "4%" }}
+              >
                 Upload Cover Image
                 <input
                   accept="image/*"
