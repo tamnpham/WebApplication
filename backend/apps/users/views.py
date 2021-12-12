@@ -1,14 +1,15 @@
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
+from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
-from rest_framework import mixins
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from apps.core import responses
+from apps.core.permissions import IsAdminRoleUser
 from apps.core.views import CustomMixin
 from apps.quizzes.models import Result
 from apps.quizzes.views import ScoreboardMixin
@@ -157,7 +158,7 @@ class AdminManagementViewSet(
     serializer_class = UserManagementSerializer
     permission_classes = (
         IsAuthenticated,
-        IsAdminUser,
+        IsAdminRoleUser,
     )
     model = User
 

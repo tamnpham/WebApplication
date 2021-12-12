@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
 from apps.core import responses
-from apps.core.permissions import IsTeacherUser
+from apps.core.permissions import IsAdminOrTeacher, IsAdminRoleUser
 from apps.core.views import CustomMixin
 
 from .filters import CategoryFilter, QuestionFilter
@@ -23,9 +23,9 @@ class QuestionViewSet(
     """ViewSet for viewing questions."""
     permission_classes_map = {
         "default": (IsAuthenticated,),
-        "create": (IsTeacherUser,),
-        "destroy": (IsTeacherUser,),
-        "post_update": (IsTeacherUser,),
+        "create": (IsAuthenticated, IsAdminOrTeacher,),
+        "destroy": (IsAuthenticated, IsAdminOrTeacher,),
+        "post_update": (IsAuthenticated, IsAdminRoleUser,),
     }
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
@@ -59,9 +59,9 @@ class CategoryViewSet(
     serializer_class = CategorySerializer
     permission_classes_map = {
         "default": (IsAuthenticated,),
-        "create": (IsTeacherUser,),
-        "destroy": (IsTeacherUser,),
-        "post_update": (IsTeacherUser,),
+        "create": (IsAuthenticated, IsAdminOrTeacher,),
+        "destroy": (IsAuthenticated, IsAdminOrTeacher,),
+        "post_update": (IsAuthenticated, IsAdminOrTeacher,),
     }
     model = Category
     filterset_class = CategoryFilter
