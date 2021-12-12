@@ -20,8 +20,6 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-
-
 export default function ActionAreaCard() {
   const [posts, setPosts] = useState(null);
 
@@ -42,8 +40,21 @@ export default function ActionAreaCard() {
     fetch(apiUrl, request)
       .then((res) => res.json())
       .then((response) => {
-        setPosts(response);
-        console.log(response);
+        
+        const processedPost = response.map((p) => {
+          const dateParse = new Date(p.created);
+          const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+          const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+          const day = dateParse.getDay();
+          const date = dateParse.getDate();
+          const month = dateParse.getMonth();
+          const year = dateParse.getFullYear();
+          const time = days[day] + ', ' + date + ' ' + months[month] + ' ' + year;
+          console.log(time)
+          return { ...p, created: time};
+        });
+        setPosts(processedPost);
       });
   }, []);
 
