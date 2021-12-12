@@ -42,11 +42,7 @@ const sidebarConfigAdmin = [
     path: '/dashboard/teacher',
     icon: getIcon(fileTextFill)
   },
-  {
-    title: 'Admin',
-    path: '/dashboard/admin',
-    icon: getIcon(fileTextFill)
-  },
+
 ];
 
 export default sidebarConfigAdmin;
