@@ -39,7 +39,7 @@ export default function Router() {
           <Route path="dashboard" element={<DashboardLayout />}>
             <Route path="app" element={<DashboardApp />} />
             <Route path="user" element={<User />} />
-            <Route path="products" element={<Scoreboard />} />
+            <Route path="scoreboard" element={<Scoreboard />} />
             <Route path="blog" element={<Blog />} />
             <Route path="admin" element={<Admin />} />
             <Route path="history" element={<History />} />
