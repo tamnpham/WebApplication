@@ -8,7 +8,17 @@ import { TabPanel, TabList, TabContext } from "@mui/lab";
 import { makeStyles } from "@material-ui/core";
 
 import Page from "../components/Page";
-import {AddPost, AddQuestion, DeleteQuestion, EditQuestion, EditPost, DeletePost, AddCategory, EditCategory, DeleteCategory} from '../components/admin/'
+import {
+  AddPost,
+  AddQuestion,
+  DeleteQuestion,
+  EditQuestion,
+  EditPost,
+  DeletePost,
+  AddCategory,
+  EditCategory,
+  DeleteCategory,
+} from "../components/admin/";
 
 
 //React
@@ -54,48 +64,10 @@ export default function Admin() {
 
   const [valueTab, setValueTab] = useState("1");
 
-  const [categories, setCategories] = useState([]);
-
-  const defaultValues = {
-    categoryId: "",
-    title: "",
-    content: "",
-    answers: [""],
-    trueAnswer: 0,
-    image: "",
-  };
-  const [questionData, setQuestionData] = useState(defaultValues);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setQuestionData({
-      ...questionData,
-      [name]: value,
-    });
-  };
 
   const handleChangeTab = (event, newValue) => {
     setValueTab(newValue);
   };
-
-  useEffect(() => {
-    const apiUrl = `${API_SERVER}/api/category`;
-    const auth = localStorage.getItem("token");
-    const requestOption = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
-    fetch(apiUrl, requestOption)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response.length);
-        setCategories(response);
-      });
-  }, []);
 
   return (
     <Page title="Admin Page">
