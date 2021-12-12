@@ -76,6 +76,7 @@ export default function CenteredTab() {
       const apiUrl = `${API_SERVER}/api/quiz/result/`;
       const auth = localStorage.getItem("token");
 
+      
       const request = {
         method: "POST",
         headers: {

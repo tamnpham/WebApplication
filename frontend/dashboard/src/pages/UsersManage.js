@@ -52,7 +52,7 @@ import {
   
   // ----------------------------------------------------------------------
   
-  export default function Admin() {
+  export default function UsersManage() {
     const classes = useStyles();
   
     const [valueTab, setValueTab] = useState("1");

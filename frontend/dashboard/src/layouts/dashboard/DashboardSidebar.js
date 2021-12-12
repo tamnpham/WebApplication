@@ -12,6 +12,7 @@ import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
 import sidebarConfigAdmin from './SidebarConfigAdmin';
+import sidebarConfigTeacher from './SidebarConfigTeacher';
 import { AuthContext } from "../../store/auth-context";
 // ----------------------------------------------------------------------
 
@@ -87,6 +88,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Box>
         {authCtx.role === "Student" && <NavSection navConfig={sidebarConfig} />}
         {authCtx.role === "Teacher" && (
+          <NavSection navConfig={sidebarConfigTeacher} />
+        )}
+        {authCtx.role === "Admin" && (
           <NavSection navConfig={sidebarConfigAdmin} />
         )}
         <Box sx={{ flexGrow: 1 }} />

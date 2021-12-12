@@ -42,9 +42,9 @@ export default function Router() {
             <Route path="user" element={<User />} />
             <Route path="scoreboard" element={<Scoreboard />} />
             <Route path="blog" element={<Blog />} />
-            <Route path="admin" element={<Admin />} />
+            <Route path="teacher" element={<Admin />} />
             <Route path="history" element={<History />} />
-            <Route path="usersManage" element={<UsersManage />} />
+            <Route path="admin" element={<UsersManage />} />
           </Route>
           <Route path="/" element={<Navigate to="/dashboard/app" />} />
           <Route path="post/:id" element={<Post />} />
