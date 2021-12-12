@@ -51,11 +51,6 @@ export default function DeletePost() {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [postDeleteId, setPostDeleteId] = useState(null);
-
-  
-  function refreshPage() {
-    window.location.reload(false);
-  }
   
   const [value, setValue] = React.useState(posts[0]);
   const [inputValue, setInputValue] = React.useState('');
@@ -86,28 +81,6 @@ export default function DeletePost() {
     return () => clearInterval(interval);
   }, []);
 
-  // useEffect(() => {
-  //   const apiUrl = `${API_SERVER}/api/blog/`;
-  //   const auth = localStorage.getItem("token");
-  //   const requestOption = {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + auth,
-  //     },
-  //   };
-
-  //   fetch(apiUrl, requestOption)
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //       console.log(response);
-  //       setPosts(response);
-  //     });
-  // },[postDeleteId]);
-
-
-
   const handleOnClick = (e) => {
     console.log(postDeleteId);
     const apiUrl = `${API_SERVER}/api/blog/`+postDeleteId+`/`;
@@ -123,7 +96,6 @@ export default function DeletePost() {
       .then((res) => {
         if (res.ok) {
             alert('Delete post '+ postDeleteId + 'successfully!')
-            // refreshPage();
         }
       })
   }
@@ -137,8 +109,8 @@ export default function DeletePost() {
       <Box sx={{ width: "100%", typography: "body1", pt: "5%" }}>
         <Box sx={{ textAlign: "center", mb: "5%" }}>
           <center>
-            <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
-            <div>{`inputValue: '${inputValue}'`}</div>
+            {/* <div>{`value: ${value !== null ? `'${value}'` : "null"}`}</div>
+            <div>{`inputValue: '${inputValue}'`}</div> */}
             <Autocomplete
               value={value}
               onChange={(event, newValue) => {
