@@ -1,34 +1,42 @@
-import { Icon } from '@iconify/react';
-import { useRef, useState, useContext, useEffect} from 'react';
-import homeFill from '@iconify/icons-eva/home-fill';
-import personFill from '@iconify/icons-eva/person-fill';
-import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Icon } from "@iconify/react";
+import { useRef, useState, useContext, useEffect } from "react";
+import homeFill from "@iconify/icons-eva/home-fill";
+import personFill from "@iconify/icons-eva/person-fill";
+import settings2Fill from "@iconify/icons-eva/settings-2-fill";
+import { Link as RouterLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 // material
-import { alpha } from '@mui/material/styles';
-import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@mui/material';
+import { alpha } from "@mui/material/styles";
+import {
+  Button,
+  Box,
+  Divider,
+  MenuItem,
+  Typography,
+  Avatar,
+  IconButton,
+} from "@mui/material";
 // components
-import MenuPopover from '../../components/MenuPopover';
+import MenuPopover from "../../components/MenuPopover";
 //
-import account from '../../_mocks_/account';
-import { AuthContext } from '../../store/auth-context';
+import account from "../../_mocks_/account";
+import { AuthContext } from "../../store/auth-context";
 import dotenv from "dotenv";
 dotenv.config();
-const API_SERVER=process.env.REACT_APP_LSEXAM_API_SERVER; 
+const API_SERVER = process.env.REACT_APP_LSEXAM_API_SERVER;
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: "Home",
     icon: homeFill,
-    linkTo: '/dashboard/app'
+    linkTo: "/dashboard/app",
   },
   {
-    label: 'Profile',
+    label: "Profile",
     icon: personFill,
-    linkTo: '/dashboard/user'
+    linkTo: "/dashboard/user",
   },
   // {
   //   label: 'Settings',
@@ -40,7 +48,6 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-
   const authCtx = useContext(AuthContext);
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -58,36 +65,34 @@ export default function AccountPopover() {
 
   useEffect(() => {
     try {
-          //fetch data from server
-    const apiUrl = `${API_SERVER}/api/user/profile/`;
-    const auth = authCtx.token;
-
-    const request = {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth,
-      },
-    };
-
-    fetch(apiUrl, request)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response.data);
-        setUserState(response.data.user);
-        
-      });
-    }
-    catch(err){
+      //fetch data from server
+      const apiUrl = `${API_SERVER}/api/user/profile/`;
+      const auth = authCtx.token;
+      const request = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      };
+      fetch(apiUrl, request)
+        .then((res) => res.json())
+        .then((response) => {
+          console.log(response.data);
+          setUserState(response.data.user);
+        })
+        .catch((err) => {
+          alert("You're so fast please slowdown :)");
+          navigate("/error");
+        });
+    } catch (err) {
       console.log(err);
-      alert("You're so fast please slowdown :)")
-      navigate("/error")
+      alert("You're so fast please slowdown :)");
+      navigate("/error");
     }
+  }, []);
 
-    },[])
-
-  
   if (userState !== null) {
     return (
       <>
@@ -168,8 +173,6 @@ export default function AccountPopover() {
       </>
     );
   } else {
-    return (
-      <div></div>
-    )
+    return <div></div>;
   }
 }
