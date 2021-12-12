@@ -114,16 +114,23 @@ export default function Post(props) {
         var date = dateCreated.getDate();
         var month = dateCreated.getMonth();
         var year = dateCreated.getFullYear();
-        var timeCreared = days[day] + ", " + date + " " + months[month] + " " + year;
+        var timeCreared =
+          days[day] + ", " + date + " " + months[month] + " " + year;
 
         const dateModified = new Date(response.modified);
         day = dateModified.getDay();
         date = dateModified.getDate();
         month = dateModified.getMonth();
         year = dateModified.getFullYear();
-        var timeModified = days[day] + ", " + date + " " + months[month] + " " + year;
-        setPostState({ ...response, created: timeCreared, modified: timeModified });
-
+        var timeModified =
+          days[day] + ", " + date + " " + months[month] + " " + year;
+        setPostState({
+          ...response,
+          created: timeCreared,
+          modified: timeModified,
+        });
+        console.log("here");
+        console.log(response);
       });
   }, []);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
