@@ -53,6 +53,8 @@
     "@mui/material": "^5.0.0",
     "@mui/styles": "^5.0.2",
     "@mui/utils": "^5.0.0",
+    "@mui/x-data-grid": "^5.2.0",
+    "@mui/x-data-grid-pro": "^5.2.0",
     "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@uiw/react-md-editor": "^3.8.3",

@@ -52,18 +52,14 @@ const useStyles = makeStyles({
   },
 });
 
-const categories = [
-  "An toàn mạng",
-  "An toàn mạng nâng cao",
-  "Lập trình web",
-  "Lập trình mạng cằn bản",
-];
-
 //----------------------------------------------------------------
 
 export default function DashboardApp() {
   const [isQuiz, setIsQuiz] = useState(false);
   const [error, setError] = useState(false);
+  const [ok, setOk] = useState(false);
+  const [categoryId, setCategoryId] = useState(0);
+  const [numberQuestions, setNumberQuestions] = useState(0);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -78,12 +74,37 @@ export default function DashboardApp() {
   const [questionOptions, setQuestionOptions] = useState(defaultValues);
 
   const handleInputChange = (e) => {
+    console.log(e.target)
+    setCategoryId(e.target.value)
     const { name, value } = e.target;
     setQuestionOptions({
       ...questionOptions,
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    try{
+      const apiUrl = `${API_SERVER}/api/category/${categoryId}`;
+      const auth = authCtx.token;
+      const requestOption = {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth,
+        },
+      };
+      fetch(apiUrl, requestOption)
+        .then((res) => res.json())
+        .then((response) => {
+          setNumberQuestions(response.numberQuestions)
+        });
+    }
+    catch(err){
+      console.log(err);
+    }
+  },[categoryId]);
   
   const handleSliderChange = (name) => (e, value) => {
     setQuestionOptions({
@@ -137,7 +158,6 @@ export default function DashboardApp() {
       console.log(err);
       navigate("/login");
     }
-    
   },[]);
 
   if (options.length > 0) {
@@ -162,7 +182,7 @@ export default function DashboardApp() {
               >
                 <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
                   <FormControl variant="standard" sx={{ m: 1, width: "50%" }}>
-                    <InputLabel variant="outlined"> Chọn chủ đề </InputLabel>
+                    <InputLabel variant="outlined"> Choose Category </InputLabel>
                     <Select
                       name="categoryId"
                       value={questionOptions.categoryId}
@@ -187,27 +207,6 @@ export default function DashboardApp() {
                   sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}
                 >
                   <div style={{ textAlign: "center", width: "100%" }}>
-                    Number Questions
-                    <Slider
-                      value={questionOptions.numberQuestion}
-                      onChange={handleSliderChange("numberQuestion")}
-                      defaultValue={1}
-                      step={1}
-                      min={1}
-                      max={100}
-                      valueLabelDisplay="on"
-                      width="100%"
-                    />
-                  </div>
-                </Grid>
-
-                <Grid
-                  item
-                  xs={10}
-                  sm={6}
-                  sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}
-                >
-                  <div style={{ textAlign: "center", width: "100%" }}>
                     Time (minutes)
                     <Slider
                       value={questionOptions.time}
@@ -220,12 +219,33 @@ export default function DashboardApp() {
                     />
                   </div>
                 </Grid>
+                
+                {categoryId && <Grid
+                  item
+                  xs={10}
+                  sm={6}
+                  sx={{ pt: "2%", pb: "2%", ml: "25%", mr: "25%" }}
+                >
+                  <div style={{ textAlign: "center", width: "100%" }}>
+                    Number Questions
+                    <Slider
+                      value={questionOptions.numberQuestion}
+                      onChange={handleSliderChange("numberQuestion")}
+                      defaultValue={1}
+                      step={1}
+                      min={1}
+                      max={numberQuestions}
+                      valueLabelDisplay="on"
+                      width="100%"
+                    />
+                  </div>
+                </Grid>}
+                
                 <Grid item xs={10} sm={6} sx={{ pt: "2%", pb: "2%" }}>
                   <Button
                     variant="contained"
                     color="primary"
                     type="submit"
-                    // onClick={makeQuizHandler}
                   >
                     Submit
                   </Button>
