@@ -33,7 +33,7 @@ class UserManager(DjangoUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("Superuser must have is_superuser=True.")
         # Ensure superuser also has Teacher privilege
-        if extra_fields.get("role") is not User.TEACHER:
+        if extra_fields.get("role") is not User.ADMIN:
             raise ValueError("Superuser must have is_superuser=True.")
 
         return self._create_user(email, password, **extra_fields)
