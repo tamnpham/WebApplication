@@ -95,7 +95,7 @@ export default function LoginForm() {
               data.data.token.access,
               data.data.user.first_name,
               data.data.user.last_name,
-              data.data.user.avatar_url,
+              data.data.user.avatar,
               data.data.user.role
             );
             // console.log(authCtx.isLoggedIn);
