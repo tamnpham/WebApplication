@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from rest_framework import mixins
@@ -60,7 +61,8 @@ class UserLoginAPI(TokenObtainPairView):
 
             avatar = ""
             if user.avatar and user.avatar.url:
-                avatar = "http://13.229.40.64:8888" + user.avatar.url
+                avatar = settings.DOMAIN_URL + user.avatar.url
+
                 # full_domain = 'http://' + request.META['HTTP_HOST']
                 # if request.META["SERVER_PORT"] not in full_domain:
                 #     full_domain += ':' + request.META["SERVER_PORT"]
